@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUBE — 풀어라. 탈출하라.</title>
+<meta name="description" content="방탈출 추리 퍼즐 게임. 단서를 찾고, 퍼즐을 풀고, 탈출하라.">
+<meta property="og:title" content="QUBE — 방탈출 추리 퍼즐 게임">
+<meta property="og:description" content="풀어라. 탈출하라.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://qube.salmonholic.com">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9910139662531641" crossorigin="anonymous"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HWMPYGPHV6"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-HWMPYGPHV6');
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;
+  --text:#e0e0e0;--text2:#888;--text3:#555;
+  --accent:#b44aff;--accent2:#9333ea;--accent-glow:rgba(180,74,255,.15);
+  --cyan:#00e5ff;--danger:#ff4444;--success:#00ff88;
+  --card:rgba(255,255,255,.03);--card-border:rgba(255,255,255,.06);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6;overflow-x:hidden}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:2rem}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(180,74,255,.06) 0%,transparent 70%);pointer-events:none}
+.hero h1{font-size:clamp(3rem,10vw,6rem);font-weight:900;letter-spacing:0.1em;margin-bottom:1rem;background:linear-gradient(135deg,#fff 0%,#b44aff 50%,#00e5ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,3vw,1.3rem);color:var(--text2);max-width:450px;margin-bottom:2.5rem}
+.hero-cta{padding:16px 48px;background:linear-gradient(135deg,var(--accent),var(--cyan));color:#000;font-size:1.1rem;font-weight:700;border:none;border-radius:50px;cursor:pointer;transition:all .3s;letter-spacing:.05em}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(180,74,255,.4)}
+.scroll-hint{position:absolute;bottom:2rem;animation:bounce 2s infinite;color:var(--text3);font-size:1.5rem}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+/* Particles */
+.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.particle{position:absolute;width:3px;height:3px;border-radius:50%;opacity:.4;animation:float linear infinite}
+@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.4}90%{opacity:.4}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+/* Rooms Section */
+.rooms-section{max-width:900px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.rooms-section h2{font-size:1.8rem;margin-bottom:.5rem}
+.rooms-section .subtitle{color:var(--text2);margin-bottom:2rem}
+.room-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem}
+
+/* Room Card */
+.room-card{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:1.5rem;backdrop-filter:blur(10px);transition:all .3s;cursor:default;position:relative;overflow:hidden}
+.room-card:hover{border-color:rgba(180,74,255,.3);background:rgba(255,255,255,.05);transform:translateY(-3px);box-shadow:0 8px 30px rgba(180,74,255,.1)}
+.room-card.cleared{opacity:.4;pointer-events:none}
+.room-card.cleared::after{content:'✓ 탈출 성공';position:absolute;top:1rem;right:1rem;background:var(--success);color:#000;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700}
+.room-card.locked{opacity:.25;pointer-events:none;filter:blur(2px)}
+.room-emoji{font-size:2.5rem;margin-bottom:.8rem}
+.room-title{font-size:1.15rem;font-weight:700;margin-bottom:.4rem}
+.room-meta{display:flex;gap:12px;color:var(--text2);font-size:.85rem;margin-bottom:1rem}
+.room-diff .star{color:var(--accent)}
+.room-diff .star.empty{color:var(--text3)}
+.room-start{width:100%;padding:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:50px;cursor:pointer;font-size:.9rem;font-weight:600;transition:all .3s}
+.room-start:hover{box-shadow:0 4px 15px rgba(180,74,255,.4)}
+
+/* Game Screen */
+.game-screen{display:none;max-width:700px;margin:0 auto;min-height:100vh;padding:1rem;flex-direction:column}
+.game-screen.active{display:flex}
+.game-header{display:flex;align-items:center;padding:1rem 0;border-bottom:1px solid var(--card-border);margin-bottom:1rem;gap:12px}
+.game-back{background:none;border:none;color:var(--text2);font-size:1.3rem;cursor:pointer;padding:4px 8px}
+.game-back:hover{color:var(--text)}
+.game-title{font-size:1.1rem;font-weight:700}
+.game-progress{margin-left:auto;color:var(--text2);font-size:.85rem}
+
+.story-area{flex:1;padding:1rem 0}
+.story-box{background:var(--bg3);border:1px solid var(--card-border);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;line-height:1.8;animation:fadeIn .5s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.story-box .label{color:var(--accent);font-size:.8rem;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em}
+.story-box p{color:var(--text2)}
+
+.puzzle-box{background:rgba(180,74,255,.05);border:1px solid rgba(180,74,255,.15);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+.puzzle-box .puzzle-label{color:var(--cyan);font-size:.8rem;font-weight:700;margin-bottom:8px}
+.puzzle-box .puzzle-question{font-size:1.05rem;line-height:1.7;margin-bottom:1rem}
+.puzzle-box .search-hint{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);border-radius:8px;padding:8px 12px;font-size:.9rem;color:var(--cyan);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.puzzle-box .search-hint .copy-btn{background:none;border:none;color:var(--cyan);cursor:pointer;font-size:.85rem;text-decoration:underline}
+
+.answer-area{display:flex;gap:8px;flex-direction:column}
+.answer-area input{width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--card-border);border-radius:50px;color:var(--text);font-size:.95rem;outline:none;transition:border-color .3s}
+.answer-area input:focus{border-color:var(--accent)}
+.answer-area input::placeholder{color:var(--text3)}
+.answer-btns{display:flex;gap:8px}
+.btn-submit{flex:1;padding:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:50px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-submit:hover{box-shadow:0 4px 15px rgba(180,74,255,.4)}
+.btn-submit:disabled{opacity:.3;cursor:not-allowed}
+.btn-skip{padding:12px 20px;background:transparent;border:1px solid var(--text3);color:var(--text2);border-radius:50px;cursor:pointer;font-size:.85rem}
+
+.feedback{padding:12px 16px;border-radius:12px;margin-bottom:1rem;font-size:.95rem;animation:fadeIn .3s}
+.feedback.correct{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.2);color:var(--success)}
+.feedback.wrong{background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.2);color:var(--danger)}
+
+/* Result Screen */
+.result-screen{display:none;max-width:600px;margin:0 auto;padding:2rem;text-align:center;min-height:100vh;flex-direction:column;align-items:center;justify-content:center}
+.result-screen.active{display:flex}
+.result-screen h2{font-size:2rem;margin-bottom:.5rem}
+.result-emoji{font-size:5rem;margin-bottom:1rem;animation:fadeIn .5s}
+.result-stats{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:1.5rem;width:100%;margin:1.5rem 0;text-align:left}
+.result-stats .stat-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--card-border)}
+.result-stats .stat-row:last-child{border:none}
+.stat-label{color:var(--text2)}
+.stat-value{font-weight:700}
+.result-btns{display:flex;gap:12px}
+.result-btns button{padding:14px 32px;border-radius:50px;font-weight:700;cursor:pointer;border:none;font-size:1rem;transition:all .2s}
+.btn-home{background:var(--bg3);color:var(--text)}
+.btn-home:hover{background:var(--card-border)}
+
+/* Loading */
+.loading-screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center}
+.loading-screen.active{display:flex}
+.loading-spinner{width:50px;height:50px;border:3px solid var(--text3);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:1.5rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:600px){
+  .hero h1{font-size:3rem}
+  .rooms-section{padding:1.5rem 1rem 3rem}
+  .room-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home">
+  <section class="hero">
+    <div class="particles" id="particles"></div>
+    <h1>QUBE</h1>
+    <p>풀어라. 탈출하라.</p>
+    <button class="hero-cta" onclick="scrollToRooms()">방 선택하기</button>
+    <div class="scroll-hint">↓</div>
+  </section>
+
+  <section class="rooms-section" id="rooms-section">
+    <h2>🚪 방 목록</h2>
+    <p class="subtitle" id="rooms-progress"></p>
+    <div class="room-grid" id="room-grid">
+      <p style="color:var(--text2)">방을 불러오는 중...</p>
+    </div>
+  </section>
+</div>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loading-screen">
+  <div class="loading-spinner"></div>
+  <p style="color:var(--text2);font-size:1.1rem">방을 생성하는 중...</p>
+  <p style="color:var(--text3);font-size:.85rem;margin-top:.5rem">AI가 스토리를 만들고 있어요</p>
+</div>
+
+<!-- GAME -->
+<div class="game-screen" id="game-screen">
+  <div class="game-header">
+    <button class="game-back" onclick="confirmExit()" title="나가기">←</button>
+    <span class="game-title" id="game-title"></span>
+    <span class="game-progress" id="game-progress"></span>
+  </div>
+  <div class="story-area" id="story-area"></div>
+</div>
+
+<!-- RESULT -->
+<div class="result-screen" id="result-screen">
+  <div class="result-emoji" id="result-emoji"></div>
+  <h2 id="result-title"></h2>
+  <div class="result-stats" id="result-stats"></div>
+  <div class="result-btns">
+    <button class="btn-home" onclick="goHome()">목록으로</button>
+  </div>
+</div>
+
+<script>
+const API_BASE = 'https://qube-api.harpy922.workers.dev';
+let rooms = [];
+let currentRoom = null;
+let currentPuzzles = [];
+let currentAnswers = {};
+let currentPuzzleIdx = 0;
+let startTime = 0;
+let wrongCount = 0;
+
+function getCleared() {
+  try { return JSON.parse(localStorage.getItem('qube_cleared') || '[]'); } catch { return []; }
+}
+function setCleared(id) {
+  const c = getCleared();
+  if (!c.includes(id)) { c.push(id); localStorage.setItem('qube_cleared', JSON.stringify(c)); }
+}
+
+// Particles
+function createParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = Math.random() * 10 + 's';
+    const size = (2 + Math.random() * 3) + 'px';
+    p.style.width = p.style.height = size;
+    p.style.background = Math.random() > 0.5 ? '#b44aff' : '#00e5ff';
+    p.style.boxShadow = `0 0 6px ${p.style.background}`;
+    container.appendChild(p);
+  }
+}
+
+function scrollToRooms() {
+  document.getElementById('rooms-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Load rooms
+async function loadRooms() {
+  try {
+    const resp = await fetch(API_BASE + '/api/rooms');
+    const data = await resp.json();
+    rooms = data.rooms || [];
+  } catch (e) {
+    console.error('Failed to load rooms:', e);
+    rooms = [];
+  }
+  renderRooms();
+}
+
+function getUnlockedCount() {
+  const cleared = getCleared().length;
+  if (cleared < 2) return 3;
+  return Math.min(rooms.length, 3 + Math.floor(cleared / 2) * 3);
+}
+
+function renderRooms() {
+  const grid = document.getElementById('room-grid');
+  const cleared = getCleared();
+  const unlocked = getUnlockedCount();
+
+  if (rooms.length === 0) {
+    grid.innerHTML = '<p style="color:var(--text2)">현재 이용 가능한 방이 없습니다.</p>';
+    return;
+  }
+
+  const progress = document.getElementById('rooms-progress');
+  progress.textContent = `🔓 ${Math.min(unlocked, rooms.length)}/${rooms.length} 해금 · ✅ ${cleared.length} 탈출`;
+
+  grid.innerHTML = rooms.map((r, idx) => {
+    const isCleared = cleared.includes(r.id);
+    const isLocked = idx >= unlocked && !isCleared;
+    const stars = Array.from({length: 3}, (_, i) =>
+      `<span class="star ${i < r.difficulty ? '' : 'empty'}">${i < r.difficulty ? '★' : '☆'}</span>`
+    ).join('');
+
+    if (isLocked) {
+      return `<div class="room-card locked">
+        <div class="room-emoji">🔒</div>
+        <div class="room-title">???</div>
+        <div class="room-meta"><span>더 많은 방을 클리어하면 해금</span></div>
+      </div>`;
+    }
+
+    return `<div class="room-card ${isCleared ? 'cleared' : ''}">
+      <div class="room-emoji">${r.emoji}</div>
+      <div class="room-title">${r.title}</div>
+      <div class="room-meta">
+        <span class="room-diff">${stars}</span>
+        <span>퍼즐 ${r.puzzleCount}개</span>
+      </div>
+      ${isCleared ? '' : `<button class="room-start" onclick="startRoom('${r.id}')">입장하기 🔑</button>`}
+    </div>`;
+  }).join('');
+}
+
+// Start Room
+async function startRoom(roomId) {
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('loading-screen').classList.add('active');
+
+  try {
+    const resp = await fetch(API_BASE + '/api/room/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roomId })
+    });
+    const data = await resp.json();
+
+    if (data.error) {
+      alert('방 생성 실패: ' + data.error);
+      goHome();
+      return;
+    }
+
+    currentRoom = data.room;
+    currentPuzzles = data.room.puzzles;
+    currentAnswers = data._answers || {};
+    currentPuzzleIdx = 0;
+    wrongCount = 0;
+    startTime = Date.now();
+
+    document.getElementById('loading-screen').classList.remove('active');
+    document.getElementById('game-screen').classList.add('active');
+    document.getElementById('game-title').textContent = currentRoom.emoji + ' ' + currentRoom.title;
+
+    showIntro();
+  } catch (e) {
+    alert('오류 발생: ' + e.message);
+    goHome();
+  }
+}
+
+function showIntro() {
+  const area = document.getElementById('story-area');
+  updateProgress();
+  area.innerHTML = `
+    <div class="story-box">
+      <div class="label">📖 상황</div>
+      <p>${currentRoom.intro}</p>
+    </div>
+    <button class="btn-submit" onclick="showPuzzle()" style="max-width:200px;margin:0 auto;display:block">시작하기 →</button>
+  `;
+}
+
+function updateProgress() {
+  document.getElementById('game-progress').textContent = `${currentPuzzleIdx + 1} / ${currentPuzzles.length}`;
+}
+
+function showPuzzle() {
+  if (currentPuzzleIdx >= currentPuzzles.length) {
+    completeRoom();
+    return;
+  }
+
+  const puzzle = currentPuzzles[currentPuzzleIdx];
+  const area = document.getElementById('story-area');
+  updateProgress();
+
+  let puzzleHtml = '';
+  if (puzzle.type === 'cpq') {
+    puzzleHtml = `
+      <div class="story-box">
+        <div class="label">📖 단서 발견</div>
+        <p>${puzzle.story_text.replace(/\n/g, '<br>')}</p>
+      </div>
+      <div class="puzzle-box">
+        <div class="puzzle-label">🔍 네이버 검색 미션</div>
+        <div class="search-hint">
+          🔎 검색 키워드: <strong>${puzzle.search_hint}</strong>
+          <button class="copy-btn" onclick="copyKeyword('${puzzle.search_hint}')">복사</button>
+        </div>
+        <p class="puzzle-question">위 키워드로 네이버에서 검색한 뒤, 정답을 입력하세요.</p>
+        <div class="answer-area">
+          <input type="text" id="puzzle-input" placeholder="정답을 입력하세요..." autocomplete="off">
+          <div class="answer-btns">
+            <button class="btn-submit" id="btn-check" onclick="checkAnswer()">확인</button>
+          </div>
+        </div>
+        <div id="feedback"></div>
+      </div>
+    `;
+  } else {
+    puzzleHtml = `
+      <div class="story-box">
+        <div class="label">📖 퍼즐</div>
+        <p>${puzzle.story_text}</p>
+      </div>
+      <div class="puzzle-box">
+        <div class="puzzle-label">🧩 일반 퍼즐</div>
+        <p class="puzzle-question">${puzzle.question}</p>
+        <div class="answer-area">
+          <input type="text" id="puzzle-input" placeholder="정답을 입력하세요..." autocomplete="off">
+          <div class="answer-btns">
+            <button class="btn-submit" id="btn-check" onclick="checkAnswer()">확인</button>
+          </div>
+        </div>
+        <div id="feedback"></div>
+      </div>
+    `;
+  }
+
+  area.innerHTML = puzzleHtml;
+  document.getElementById('puzzle-input').focus();
+}
+
+function copyKeyword(keyword) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(keyword).then(() => {
+      const btn = event.target;
+      btn.textContent = '복사됨!';
+      setTimeout(() => btn.textContent = '복사', 1500);
+    });
+  }
+}
+
+async function checkAnswer() {
+  const input = document.getElementById('puzzle-input');
+  const userAnswer = input.value.trim();
+  if (!userAnswer) return;
+
+  const puzzle = currentPuzzles[currentPuzzleIdx];
+  const feedbackEl = document.getElementById('feedback');
+
+  if (puzzle.type === 'general') {
+    // 일반 퍼즐: 클라이언트에서 검증
+    const correct = currentAnswers[puzzle.index];
+    if (userAnswer.toLowerCase() === correct) {
+      feedbackEl.innerHTML = '<div class="feedback correct">✅ 정답! 다음 단서로 이동합니다...</div>';
+      setTimeout(() => { currentPuzzleIdx++; showPuzzle(); }, 1200);
+    } else {
+      wrongCount++;
+      feedbackEl.innerHTML = '<div class="feedback wrong">❌ 틀렸습니다. 다시 시도해보세요.</div>';
+      input.value = '';
+      input.focus();
+    }
+  } else {
+    // CPQ 퍼즐: 서버에서 검증
+    document.getElementById('btn-check').disabled = true;
+    try {
+      const resp = await fetch(API_BASE + '/api/room/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ roomId: currentRoom.id, puzzleIndex: puzzle.index, userAnswer })
+      });
+      const data = await resp.json();
+
+      if (data.result === 'correct') {
+        feedbackEl.innerHTML = '<div class="feedback correct">✅ 정답! 다음 단서로 이동합니다...</div>';
+        setTimeout(() => { currentPuzzleIdx++; showPuzzle(); }, 1200);
+      } else {
+        wrongCount++;
+        feedbackEl.innerHTML = `<div class="feedback wrong">❌ ${data.message || '틀렸습니다.'}</div>`;
+        input.value = '';
+        input.focus();
+      }
+    } catch (e) {
+      feedbackEl.innerHTML = '<div class="feedback wrong">⚠️ 서버 오류. 다시 시도해주세요.</div>';
+    }
+    document.getElementById('btn-check').disabled = false;
+  }
+}
+
+function completeRoom() {
+  const elapsed = Math.round((Date.now() - startTime) / 1000);
+  const min = Math.floor(elapsed / 60);
+  const sec = elapsed % 60;
+
+  setCleared(currentRoom.id);
+
+  document.getElementById('game-screen').classList.remove('active');
+  const rs = document.getElementById('result-screen');
+  rs.classList.add('active');
+
+  document.getElementById('result-emoji').textContent = '🎉';
+  document.getElementById('result-title').textContent = '탈출 성공!';
+
+  document.getElementById('result-stats').innerHTML = `
+    <div class="stat-row"><span class="stat-label">방</span><span class="stat-value">${currentRoom.emoji} ${currentRoom.title}</span></div>
+    <div class="stat-row"><span class="stat-label">소요 시간</span><span class="stat-value">${min}분 ${sec}초</span></div>
+    <div class="stat-row"><span class="stat-label">오답 횟수</span><span class="stat-value">${wrongCount}회</span></div>
+    <div class="stat-row"><span class="stat-label">퍼즐 수</span><span class="stat-value">${currentPuzzles.length}개</span></div>
+  `;
+}
+
+function confirmExit() {
+  if (confirm('정말 나가시겠습니까? 진행 상황이 초기화됩니다.')) goHome();
+}
+
+function goHome() {
+  document.getElementById('game-screen').classList.remove('active');
+  document.getElementById('result-screen').classList.remove('active');
+  document.getElementById('loading-screen').classList.remove('active');
+  document.getElementById('home').style.display = 'block';
+  window.scrollTo(0, 0);
+  loadRooms();
+}
+
+// Enter key
+let isComposing = false;
+document.addEventListener('compositionstart', () => { isComposing = true; });
+document.addEventListener('compositionend', () => { isComposing = false; });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !isComposing && document.getElementById('game-screen').classList.contains('active')) {
+    e.preventDefault();
+    checkAnswer();
+  }
+});
+
+// Init
+createParticles();
+loadRooms();
+</script>
+</body>
+</html>
