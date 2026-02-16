@@ -448,7 +448,7 @@ function dialChange(i,dir){window._dialValues[i]=(window._dialValues[i]+dir+10)%
 function dialCheck(){
   var ok=true;for(var i=0;i<window._dialTarget.length;i++)if(window._dialValues[i]!==window._dialTarget[i])ok=false;
   var res=document.getElementById('dialResult');
-  if(ok){res.innerHTML='<span style="color:var(--success)">🔓 자물쇠가 열렸다!</span>';var inp=document.getElementById('answerInput');if(inp)inp.value=window._dialTarget.join('');}
+  if(ok){res.innerHTML='<span style="color:var(--success)">🔓 자물쇠가 열렸다!</span>';setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);}
   else{res.innerHTML='<span style="color:var(--danger)">딸깍... 열리지 않는다.</span>';setTimeout(function(){res.innerHTML='';},1500);}
 }
 
@@ -469,7 +469,7 @@ function initTiming(cfg){
 function timingHit(){
   var s=window._timingState;if(!s||!s.running)return;
   var inZ=s.pos>=s.zs&&s.pos<=s.ze,pip=document.getElementById('tpip'+s.hits);
-  if(inZ){if(pip)pip.classList.add('hit');s.hits++;if(s.hits>=s.required){s.running=false;document.getElementById('timingBtn').disabled=true;document.getElementById('timingBtn').textContent='✅ 성공!';if(s.revealText){var inp=document.getElementById('answerInput');if(inp)inp.value=s.revealText;}}else s.speed+=0.003;}
+  if(inZ){if(pip)pip.classList.add('hit');s.hits++;if(s.hits>=s.required){s.running=false;document.getElementById('timingBtn').disabled=true;document.getElementById('timingBtn').textContent='✅ 성공!';setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);}else s.speed+=0.003;}
   else{if(pip)pip.classList.add('miss');setTimeout(function(){s.hits=0;document.querySelectorAll('.timing-pip').forEach(function(p){p.classList.remove('hit','miss');});},500);}
 }
 
@@ -528,7 +528,7 @@ function skillCheckHit(){
   if(inZone)s.hits++;
   document.getElementById('scHits').textContent=s.hits;
   document.getElementById('scTries').textContent=s.tries;
-  if(s.hits>=s.required){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--success)">✅ 성공!</span>';var inp=document.getElementById('answerInput');if(inp)inp.value=s.answer;}
+  if(s.hits>=s.required){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--success)">✅ 성공!</span>';setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);}
   else if(s.tries>=s.total){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--danger)">❌ 실패... 다시 시도하세요</span>';setTimeout(function(){var cfg=window._scState;initSkillCheck({total:cfg.total,required:cfg.required,speed:cfg.speed,targetSize:Math.round((cfg.tgtEnd-cfg.tgtStart)/360*100),answer:cfg.answer});},1500);}
 }
 
@@ -554,7 +554,7 @@ function sudokuCheck(){
   });
   if(allFilled&&allCorrect){
     document.getElementById('sudokuStatus').innerHTML='<span style="color:var(--success)">✅ 스도쿠 완성!</span>';
-    var inp=document.getElementById('answerInput');if(inp)inp.value=window._sudokuAnswer;
+    setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);
   }
 }
 
@@ -604,7 +604,7 @@ function pipeRotate(el){
   if(allOk){
     document.getElementById('pipeStatus').innerHTML='<span style="color:var(--success)">✅ 파이프 연결 완료!</span>';
     document.querySelectorAll('.pipe-cell:not(.empty)').forEach(function(c2){c2.style.pointerEvents='none';});
-    var inp=document.getElementById('answerInput');if(inp)inp.value=ps.answer;
+    setTimeout(function(){ showFeedback(true, state.currentPuzzle); }, 800);
   }
 }
 
@@ -632,7 +632,7 @@ function wireCut(idx){
     el.classList.add('cut');s.cutIdx++;
     if(s.cutIdx>=s.correctOrder.length){
       document.getElementById('wireStatus').innerHTML='<span class="success" style="color:var(--success)">✅ 모든 전선 해제 완료!</span>';
-      var inp=document.getElementById('answerInput');if(inp)inp.value=s.answer;
+      setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);
     }
   }else{
     document.getElementById('wireStatus').innerHTML='<span class="error" style="color:var(--danger)">💥 잘못된 순서! 다시 시도...</span>';
@@ -682,7 +682,7 @@ function mmSubmit(){
   if(strike===s.digits){
     document.getElementById('mmBtn').disabled=true;
     document.getElementById('mmStatus').innerHTML='<span style="color:var(--success)">✅ 정답! '+s.attempts+'회 만에 성공!</span>';
-    var inp=document.getElementById('answerInput');if(inp)inp.value=s.answerStr;
+    setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);
   }else if(s.attempts>=s.maxAttempts){
     document.getElementById('mmBtn').disabled=true;
     document.getElementById('mmStatus').innerHTML='<span style="color:var(--danger)">❌ 실패... 정답: '+s.answer.join('')+'</span>';
@@ -719,7 +719,7 @@ function memFlip(el){
       s.matched++;s.flipped=[];s.locked=false;
       if(s.matched>=s.total){
         document.getElementById('memStatus').innerHTML='<span style="color:var(--success)">✅ 모든 짝을 찾았습니다!</span>';
-        var inp=document.getElementById('answerInput');if(inp)inp.value=s.answer;
+        setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);
       }
     }else{
       setTimeout(function(){
@@ -779,7 +779,7 @@ function simonPress(idx){
       if(s.round>=s.sequence.length){
         document.querySelectorAll('.simon-btn').forEach(function(b){b.classList.add('disabled');});
         document.getElementById('simonStatus').innerHTML='<span style="color:var(--success)">✅ 모든 라운드 클리어!</span>';
-        var inp=document.getElementById('answerInput');if(inp)inp.value=s.answer;
+        setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);
       }else{
         s.round++;
         document.getElementById('simonStatus').innerHTML='<span style="color:var(--success)">✓ 성공!</span>';
@@ -1397,7 +1397,10 @@ function renderInteractivePuzzle(idx,puzzle){
   html+='<div id="interactiveArea"></div>';
   html+='<div class="hint-box hidden" id="hintBox">💡 '+puzzle.hint+'</div>';
   html+='<button class="hint-btn" onclick="useHint(this)">💡 힌트 보기 (+30초)</button>';
-  html+='<div class="answer-area"><input type="text" id="answerInput" placeholder="정답을 입력하세요" onkeydown="handleEnter(event,'+idx+')"><button class="btn-submit" onclick="checkGeneral('+idx+')">확인</button></div>';
+  var autoComplete=['pipe-connect','wire-cutting','mini-sudoku','memory-card','simon','skill-check','mastermind','dial','timing'];
+  if(autoComplete.indexOf(puzzle.interactionType)===-1){
+    html+='<div class="answer-area"><input type="text" id="answerInput" placeholder="정답을 입력하세요" onkeydown="handleEnter(event,'+idx+')"><button class="btn-submit" onclick="checkGeneral('+idx+')">확인</button></div>';
+  }
   html+='<div id="feedback"></div></div>';
   document.getElementById('gameContent').innerHTML=html;
 
