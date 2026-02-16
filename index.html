@@ -689,8 +689,7 @@ function mmSubmit(){
     setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);
   }else if(s.attempts>=s.maxAttempts){
     document.getElementById('mmBtn').disabled=true;
-    document.getElementById('mmStatus').innerHTML='<span style="color:var(--danger)">❌ 실패... 정답: '+s.answer.join('')+'</span>';
-    setTimeout(function(){initMastermind({answer:s.answer,digits:s.digits,maxAttempts:s.maxAttempts,maxNum:s.maxNum,answerStr:s.answerStr});},2500);
+    document.getElementById('mmStatus').innerHTML='<span style="color:var(--danger)">❌ 실패... 정답: '+s.answer.join('')+'</span><br><button class="btn-submit" style="margin-top:12px" onclick="initMastermind({answer:['+s.answer.join(',')+'],digits:'+s.digits+',maxAttempts:'+s.maxAttempts+',maxNum:'+s.maxNum+',answerStr:\''+s.answerStr+'\'})">🔄 재시도</button>';
   }else{
     document.getElementById('mmStatus').textContent='남은 시도: '+(s.maxAttempts-s.attempts)+'회';
   }
