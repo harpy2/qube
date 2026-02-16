@@ -264,6 +264,62 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 @keyframes penaltyFade{0%{opacity:1;transform:translateX(-50%) translateY(0)}70%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-30px)}}
 .hint-bonus{color:var(--success);font-weight:700;font-size:1rem;margin-top:8px}
 
+/* Trivia */
+.trivia-area{margin-bottom:16px}
+.trivia-question{font-size:1.1rem;color:var(--text);line-height:1.8;margin-bottom:16px;font-weight:700}
+.trivia-options{display:flex;flex-direction:column;gap:10px}
+.trivia-option{padding:14px 18px;background:var(--bg3);border:1px solid var(--card-border);border-radius:12px;cursor:pointer;font-size:.95rem;color:var(--text);transition:all .2s;text-align:left}
+.trivia-option:hover{border-color:var(--accent);background:rgba(180,74,255,.08)}
+.trivia-option.selected{border-color:var(--accent);background:rgba(180,74,255,.15)}
+/* Caesar */
+.caesar-area{margin-bottom:16px}
+.caesar-cipher{font-size:1.4rem;font-weight:900;letter-spacing:.2em;color:var(--cyan);text-align:center;padding:20px;background:var(--bg2);border-radius:12px;margin-bottom:12px;font-family:monospace}
+.caesar-shift{text-align:center;color:var(--text2);font-size:.9rem;margin-bottom:12px}
+.caesar-table{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:16px;font-size:.7rem;color:var(--text3)}
+.caesar-table span{padding:2px 5px;background:var(--bg3);border-radius:4px}
+/* Morse */
+.morse-area{margin-bottom:16px}
+.morse-code{font-size:1.6rem;font-weight:900;letter-spacing:.15em;color:var(--cyan);text-align:center;padding:20px;background:var(--bg2);border-radius:12px;margin-bottom:12px;font-family:monospace;word-break:break-all;line-height:2}
+.morse-play-btn{display:block;margin:0 auto 16px;padding:12px 32px;background:linear-gradient(135deg,var(--accent),var(--cyan));color:#000;border:none;border-radius:50px;cursor:pointer;font-weight:700;font-size:.95rem;transition:all .2s}
+.morse-play-btn:hover{box-shadow:0 4px 15px rgba(180,74,255,.4)}
+.morse-ref{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:4px;margin-bottom:16px;font-size:.7rem}
+.morse-ref span{padding:3px 5px;background:var(--bg3);border-radius:4px;text-align:center;color:var(--text2)}
+/* Konami */
+.konami-area{margin-bottom:16px;text-align:center}
+.konami-sequence{font-size:1.8rem;letter-spacing:.4em;color:var(--cyan);padding:16px;background:var(--bg2);border-radius:12px;margin-bottom:16px;line-height:1.6}
+.konami-buttons{display:grid;grid-template-columns:repeat(3,64px);gap:8px;justify-content:center;margin-bottom:16px}
+.konami-buttons button{width:64px;height:64px;background:var(--bg3);border:2px solid var(--card-border);border-radius:12px;color:var(--text);font-size:1.5rem;cursor:pointer;transition:all .15s}
+.konami-buttons button:hover{border-color:var(--accent)}
+.konami-buttons button:active{background:var(--accent);color:#000;transform:scale(.95)}
+.konami-progress{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.konami-pip{width:28px;height:28px;border-radius:50%;border:2px solid var(--text3);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--text3)}
+.konami-pip.hit{border-color:var(--success);color:var(--success);background:rgba(0,255,136,.1)}
+.konami-pip.miss{border-color:var(--danger);color:var(--danger);background:rgba(255,68,68,.1)}
+/* Acrostic */
+.acrostic-area{margin-bottom:16px}
+.acrostic-text{padding:20px;background:var(--bg2);border-radius:12px;line-height:2.4;font-size:.95rem;color:var(--text2)}
+.acrostic-text .first-char{color:var(--accent);font-weight:900;font-size:1.15em}
+.acrostic-hint{text-align:center;color:var(--text3);font-size:.85rem;margin-top:12px;margin-bottom:16px;font-style:italic}
+/* Logic */
+.logic-area{margin-bottom:16px}
+.logic-scenario{padding:20px;background:var(--bg2);border-radius:12px;line-height:2;font-size:.95rem;color:var(--text2);margin-bottom:16px}
+.logic-scenario b{color:var(--text)}
+.logic-choices{display:flex;flex-direction:column;gap:10px}
+.logic-choice{padding:14px 18px;background:var(--bg3);border:1px solid var(--card-border);border-radius:12px;cursor:pointer;font-size:.95rem;color:var(--text);transition:all .2s}
+.logic-choice:hover{border-color:var(--accent);background:rgba(180,74,255,.08)}
+.logic-choice.selected{border-color:var(--cyan);background:rgba(0,229,255,.1)}
+/* Book Cipher */
+.book-area{margin-bottom:16px}
+.book-text{padding:20px;background:var(--bg2);border-radius:12px;line-height:2.2;font-size:.85rem;color:var(--text2);font-family:monospace;white-space:pre-wrap;margin-bottom:12px}
+.book-coords{text-align:center;color:var(--cyan);font-size:1rem;font-weight:700;margin-bottom:16px;line-height:2}
+/* Hidden Interaction */
+.hidden-int-area{margin-bottom:16px;text-align:center}
+.hidden-int-target{width:180px;height:180px;margin:0 auto 16px;background:var(--bg3);border:2px solid var(--card-border);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:3rem;cursor:pointer;user-select:none;transition:all .3s}
+.hidden-int-target:hover{border-color:var(--accent)}
+.hidden-int-target.active{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,229,255,.3);background:rgba(0,229,255,.05)}
+.hidden-int-instruction{color:var(--text2);font-size:.9rem;margin-bottom:16px}
+.hidden-int-reveal{color:var(--cyan);font-size:1.1rem;font-weight:700;animation:fadeIn .5s;margin-top:12px}
+
 @media(max-width:600px){
   .hero h1{letter-spacing:.05em}
   .stats-bar{gap:24px}
@@ -770,6 +826,201 @@ function doShake() {
     document.removeEventListener('keydown', shakeKeyHandler);
     var btn = document.getElementById('shakeBtn');
     if(btn) btn.disabled = true;
+  }
+}
+
+// ── Trivia ──
+function initTrivia(cfg) {
+  var area = document.getElementById('interactiveArea');
+  var html = '<div class="trivia-area"><div class="trivia-question">'+cfg.question+'</div><div class="trivia-options">';
+  cfg.options.forEach(function(opt, i) {
+    html += '<div class="trivia-option" onclick="triviaSelect(this)">'+opt+'</div>';
+  });
+  html += '</div></div>';
+  area.innerHTML = html;
+}
+function triviaSelect(el) {
+  document.querySelectorAll('.trivia-option').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  var inp = document.getElementById('answerInput');
+  if(inp) inp.value = el.textContent.trim();
+}
+
+// ── Caesar ──
+function initCaesar(cfg) {
+  var area = document.getElementById('interactiveArea');
+  var alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var tableHtml = '<div class="caesar-table">';
+  for(var i=0;i<26;i++) tableHtml += '<span>'+alpha[i]+'→'+alpha[(i+26-cfg.shift)%26]+'</span>';
+  tableHtml += '</div>';
+  area.innerHTML = '<div class="caesar-area">' +
+    '<div class="caesar-cipher">'+cfg.cipherText+'</div>' +
+    '<div class="caesar-shift">🔑 힌트: 알파벳을 '+cfg.shift+'칸 뒤로 밀어라 ('+cfg.shiftHint+')</div>' +
+    tableHtml + '</div>';
+}
+
+// ── Morse ──
+var MORSE_MAP = {A:'·—',B:'—···',C:'—·—·',D:'—··',E:'·',F:'··—·',G:'——·',H:'····',I:'··',J:'·———',K:'—·—',L:'·—··',M:'——',N:'—·',O:'———',P:'·——·',Q:'——·—',R:'·—·',S:'···',T:'—',U:'··—',V:'···—',W:'·——',X:'—··—',Y:'—·——',Z:'——··','0':'—————','1':'·————','2':'··———','3':'···——','4':'····—','5':'·····','6':'—····','7':'——···','8':'———··','9':'————·'};
+function initMorse(cfg) {
+  var area = document.getElementById('interactiveArea');
+  var refHtml = '<div class="morse-ref">';
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('').forEach(function(c){refHtml+='<span>'+c+' '+MORSE_MAP[c]+'</span>';});
+  refHtml += '</div>';
+  area.innerHTML = '<div class="morse-area">' +
+    '<div class="morse-code">'+cfg.code+'</div>' +
+    '<button class="morse-play-btn" onclick="playMorse(\''+cfg.answer+'\')">🔊 소리 재생</button>' +
+    refHtml + '</div>';
+}
+function playMorse(text) {
+  try {
+    var ctx = new (window.AudioContext||window.webkitAudioContext)();
+    var t = ctx.currentTime + 0.1;
+    var unit = 0.08;
+    text.toUpperCase().split('').forEach(function(ch) {
+      var code = MORSE_MAP[ch];
+      if(!code) { t += unit * 7; return; }
+      code.split('').forEach(function(sym) {
+        var dur = sym === '—' ? unit*3 : unit;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.frequency.value = 700; osc.type = 'sine';
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.setValueAtTime(0, t+dur);
+        osc.start(t); osc.stop(t+dur+0.01);
+        t += dur + unit;
+      });
+      t += unit * 2;
+    });
+  } catch(e){}
+}
+
+// ── Konami (Arrow Sequence) ──
+function initKonami(cfg) {
+  var area = document.getElementById('interactiveArea');
+  var arrows = {up:'↑',down:'↓',left:'←',right:'→'};
+  var seqDisplay = cfg.sequence.map(function(s){return arrows[s]||s;}).join(' ');
+  var html = '<div class="konami-area">';
+  html += '<div class="konami-sequence">'+seqDisplay+'</div>';
+  html += '<div class="konami-progress" id="konamiPips">';
+  cfg.sequence.forEach(function(_,i){html+='<div class="konami-pip" id="kpip'+i+'">'+(i+1)+'</div>';});
+  html += '</div>';
+  html += '<div class="konami-buttons">';
+  html += '<div></div><button onclick="konamiPress(\'up\')">↑</button><div></div>';
+  html += '<button onclick="konamiPress(\'left\')">←</button><button onclick="konamiPress(\'down\')">↓</button><button onclick="konamiPress(\'right\')">→</button>';
+  html += '</div></div>';
+  area.innerHTML = html;
+  window._konamiState = {sequence:cfg.sequence, pos:0, failed:false, answer:cfg.answer||''};
+  document.addEventListener('keydown', konamiKeyHandler);
+}
+function konamiKeyHandler(e) {
+  var map = {ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'};
+  if(map[e.key]) { e.preventDefault(); konamiPress(map[e.key]); }
+}
+function konamiPress(dir) {
+  var s = window._konamiState;
+  if(!s || s.done) return;
+  if(s.failed) return;
+  var expected = s.sequence[s.pos];
+  var pip = document.getElementById('kpip'+s.pos);
+  if(dir === expected) {
+    if(pip) pip.classList.add('hit');
+    s.pos++;
+    if(s.pos >= s.sequence.length) {
+      s.done = true;
+      document.removeEventListener('keydown', konamiKeyHandler);
+      var inp = document.getElementById('answerInput');
+      if(inp) inp.value = s.answer;
+    }
+  } else {
+    if(pip) pip.classList.add('miss');
+    s.failed = true;
+    setTimeout(function(){
+      s.pos = 0; s.failed = false;
+      document.querySelectorAll('.konami-pip').forEach(function(p){p.classList.remove('hit','miss');});
+    }, 600);
+  }
+}
+
+// ── Acrostic ──
+function initAcrostic(cfg) {
+  var area = document.getElementById('interactiveArea');
+  var html = '<div class="acrostic-area"><div class="acrostic-text">';
+  cfg.lines.forEach(function(line) {
+    html += '<div><span class="first-char">'+line.charAt(0)+'</span>'+line.substring(1)+'</div>';
+  });
+  html += '</div><div class="acrostic-hint">💡 각 줄의 첫 글자를 모아 읽어보세요</div></div>';
+  area.innerHTML = html;
+}
+
+// ── Logic ──
+function initLogic(cfg) {
+  var area = document.getElementById('interactiveArea');
+  var html = '<div class="logic-area"><div class="logic-scenario">'+cfg.scenario+'</div><div class="logic-choices">';
+  cfg.choices.forEach(function(ch) {
+    html += '<div class="logic-choice" onclick="logicSelect(this)">'+ch+'</div>';
+  });
+  html += '</div></div>';
+  area.innerHTML = html;
+}
+function logicSelect(el) {
+  document.querySelectorAll('.logic-choice').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  var inp = document.getElementById('answerInput');
+  if(inp) inp.value = el.textContent.trim();
+}
+
+// ── Book Cipher ──
+function initBookCipher(cfg) {
+  var area = document.getElementById('interactiveArea');
+  var lines = cfg.text.split('\n');
+  var numberedText = lines.map(function(l,i){return '<span style="color:var(--accent);font-size:.75rem">'+(i+1)+'│</span> '+l;}).join('\n');
+  area.innerHTML = '<div class="book-area">' +
+    '<div class="book-text">'+numberedText+'</div>' +
+    '<div class="book-coords">📍 좌표: '+cfg.coordsText+'</div></div>';
+}
+
+// ── Hidden Interaction ──
+function initHiddenInteraction(cfg) {
+  var area = document.getElementById('interactiveArea');
+  var html = '<div class="hidden-int-area">';
+  html += '<div class="hidden-int-instruction">'+cfg.instruction+'</div>';
+  html += '<div class="hidden-int-target" id="hidIntTarget">'+cfg.icon+'</div>';
+  html += '<div id="hidIntReveal"></div></div>';
+  area.innerHTML = html;
+  var el = document.getElementById('hidIntTarget');
+  if(cfg.type === 'longpress') {
+    var timer = null;
+    function startPress(e) {
+      e.preventDefault();
+      el.classList.add('active');
+      timer = setTimeout(function(){
+        document.getElementById('hidIntReveal').innerHTML = '<div class="hidden-int-reveal">💡 '+cfg.revealText+'</div>';
+        var inp = document.getElementById('answerInput');
+        if(inp) inp.value = cfg.answer;
+      }, cfg.duration || 3000);
+    }
+    function endPress() { el.classList.remove('active'); if(timer) clearTimeout(timer); }
+    el.addEventListener('mousedown', startPress);
+    el.addEventListener('mouseup', endPress);
+    el.addEventListener('mouseleave', endPress);
+    el.addEventListener('touchstart', startPress, {passive:false});
+    el.addEventListener('touchend', endPress);
+    el.addEventListener('touchcancel', endPress);
+  } else if(cfg.type === 'doubleclick') {
+    var clickCount = 0, clickTimer = null;
+    el.addEventListener('click', function() {
+      clickCount++;
+      if(clickCount === 1) {
+        clickTimer = setTimeout(function(){ clickCount = 0; }, 400);
+      } else if(clickCount >= 2) {
+        clearTimeout(clickTimer); clickCount = 0;
+        el.classList.add('active');
+        document.getElementById('hidIntReveal').innerHTML = '<div class="hidden-int-reveal">💡 '+cfg.revealText+'</div>';
+        var inp = document.getElementById('answerInput');
+        if(inp) inp.value = cfg.answer;
+      }
+    });
   }
 }
 
@@ -1428,6 +1679,14 @@ function renderInteractivePuzzle(idx,puzzle){
     case 'color-code': initColorCode(puzzle.config); break;
     case 'mirror': initMirror(puzzle.config); break;
     case 'shake': initShake(puzzle.config); break;
+    case 'trivia': initTrivia(puzzle.config); break;
+    case 'caesar': initCaesar(puzzle.config); break;
+    case 'morse': initMorse(puzzle.config); break;
+    case 'konami': initKonami(puzzle.config); break;
+    case 'acrostic': initAcrostic(puzzle.config); break;
+    case 'logic': initLogic(puzzle.config); break;
+    case 'book-cipher': initBookCipher(puzzle.config); break;
+    case 'hidden-interaction': initHiddenInteraction(puzzle.config); break;
   }
   setTimeout(function(){document.getElementById('gameContent').scrollIntoView({behavior:'smooth'});},100);
 }
