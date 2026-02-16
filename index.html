@@ -1434,25 +1434,62 @@ function renderInteractivePuzzle(idx,puzzle){
 function renderCpqPuzzle(idx,puzzle){
   var camp=state.cpqCampaigns[puzzle.cpqIndex];
   if(!camp){nextPuzzle(idx);return;}
-  var desc=camp.join_desc||'',keyword=camp.search_keyword||'';
-  var placeMatch=desc.match(/\[([^\]]*X[^\]]*)\]/),placeHint=placeMatch?placeMatch[1]:'해당 장소';
-  var startMatch=desc.match(/출발지를\s*\[([^\]]+)\]/),startPlace=startMatch?startMatch[1]:'지정된 출발지';
-  document.getElementById('gameContent').innerHTML=
-    '<div class="story-box"><div class="label">📖 단서 발견</div><p>'+puzzle.story.replace(/\n/g,'<br>')+'</p></div>'+
-    '<div class="puzzle-box"><div class="puzzle-label">🔍 퍼즐 '+(idx+1)+': 장소 추적 미션</div>'+
-    '<div class="puzzle-question">단서에 적힌 장소를 찾아야 한다. 네이버에서 검색하여 걸음 수를 확인하라.</div>'+
-    '<div class="cpq-mission"><div class="mission-title">📋 미션 순서</div>'+
-    '<ol class="cpq-steps"><li>아래 키워드를 복사하여 <b>네이버</b>에서 검색</li>'+
-    '<li>검색 결과에서 <b>'+placeHint+'</b> 클릭</li>'+
-    '<li>플레이스에서 <b>지도</b> 탭 → <b>지도앱으로 보기</b></li>'+
-    '<li><b>도착</b> 버튼 클릭</li>'+
-    '<li>출발지를 <b>'+startPlace+'</b>(으)로 설정</li>'+
-    '<li><b>도보</b> → <b>가장 빠른</b> 경로의 걸음 수 확인</li></ol>'+
-    '<div class="cpq-keyword-box"><span class="cpq-keyword" onclick="copyKeyword(this)" title="클릭하여 복사">🔎 '+keyword+'</span></div></div>'+
-    '<div class="answer-area" style="margin-top:16px"><input type="number" id="answerInput" placeholder="걸음 수를 입력하세요" onkeydown="handleEnter(event,'+idx+',\'cpq\')">'+
-    '<button class="btn-submit" onclick="checkCpq('+idx+')">확인</button></div>'+
-    '<div id="feedback"></div></div>';
+  var desc=camp.join_desc||'',keyword=camp.search_keyword||'',campType=camp.type||'';
+  var isQuiz=campType==='cpc_detail_place_quiz';
+
+  var storyHtml='<div class="story-box"><div class="label">📖 단서 발견</div><p>'+puzzle.story.replace(/\n/g,'<br>')+'</p></div>';
+  var missionHtml='';
+
+  if(isQuiz){
+    var steps=parseQuizSteps(desc);
+    missionHtml='<div class="puzzle-box"><div class="puzzle-label">🔍 퍼즐 '+(idx+1)+': 상품 조사 미션</div>'+
+      '<div class="puzzle-question">단서에 적힌 상품을 찾아 정보를 확인하라.</div>'+
+      '<div class="cpq-mission"><div class="mission-title">📋 미션 순서</div>'+
+      '<ol class="cpq-steps">'+steps+'</ol>'+
+      '<div class="cpq-keyword-box"><span class="cpq-keyword" onclick="copyKeyword(this)" title="클릭하여 복사">🔎 '+keyword+'</span></div></div>'+
+      '<div class="answer-area" style="margin-top:16px"><input type="text" id="answerInput" placeholder="정답을 입력하세요" onkeydown="handleEnter(event,'+idx+',\'cpq\')">'+
+      '<button class="btn-submit" onclick="checkCpq('+idx+')">확인</button></div>'+
+      '<div id="feedback"></div></div>';
+  }else{
+    var placeMatch=desc.match(/\[([^\]]*X[^\]]*)\]/),placeHint=placeMatch?placeMatch[1]:'해당 장소';
+    var startMatch=desc.match(/출발지를\s*\[([^\]]+)\]/),startPlace=startMatch?startMatch[1]:'지정된 출발지';
+    missionHtml='<div class="puzzle-box"><div class="puzzle-label">🔍 퍼즐 '+(idx+1)+': 장소 추적 미션</div>'+
+      '<div class="puzzle-question">단서에 적힌 장소를 찾아야 한다. 네이버에서 검색하여 걸음 수를 확인하라.</div>'+
+      '<div class="cpq-mission"><div class="mission-title">📋 미션 순서</div>'+
+      '<ol class="cpq-steps"><li>아래 키워드를 복사하여 <b>네이버</b>에서 검색</li>'+
+      '<li>검색 결과에서 <b>'+placeHint+'</b> 클릭</li>'+
+      '<li>플레이스에서 <b>지도</b> 탭 → <b>지도앱으로 보기</b></li>'+
+      '<li><b>도착</b> 버튼 클릭</li>'+
+      '<li>출발지를 <b>'+startPlace+'</b>(으)로 설정</li>'+
+      '<li><b>도보</b> → <b>가장 빠른</b> 경로의 걸음 수 확인</li></ol>'+
+      '<div class="cpq-keyword-box"><span class="cpq-keyword" onclick="copyKeyword(this)" title="클릭하여 복사">🔎 '+keyword+'</span></div></div>'+
+      '<div class="answer-area" style="margin-top:16px"><input type="number" id="answerInput" placeholder="걸음 수를 입력하세요" onkeydown="handleEnter(event,'+idx+',\'cpq\')">'+
+      '<button class="btn-submit" onclick="checkCpq('+idx+')">확인</button></div>'+
+      '<div id="feedback"></div></div>';
+  }
+
+  document.getElementById('gameContent').innerHTML=storyHtml+missionHtml;
   setTimeout(function(){document.getElementById('gameContent').scrollIntoView({behavior:'smooth'});},100);
+}
+
+function parseQuizSteps(desc){
+  var lines=desc.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');
+  var steps=[],inSteps=false;
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i].trim();
+    if(!line)continue;
+    if(line.indexOf('[참여방법]')>=0){inSteps=true;continue;}
+    if(line.indexOf('[주의사항]')>=0)break;
+    if(inSteps&&/^\d+\./.test(line)){
+      var stepText=line.replace(/^\d+\.\s*/,'');
+      stepText=stepText.replace(/검색$/,'<b>검색</b>');
+      stepText=stepText.replace(/클릭하기$/,'<b>클릭</b>');
+      stepText=stepText.replace(/확인하기$/,'<b>확인</b>');
+      steps.push('<li>'+stepText+'</li>');
+    }
+  }
+  if(steps.length===0)steps.push('<li>참여 방법을 확인하고 미션을 수행하세요</li>');
+  return steps.join('');
 }
 
 var isComposing=false;
