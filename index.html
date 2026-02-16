@@ -508,7 +508,7 @@ function initSkillCheck(cfg){
   h+='<button class="skillcheck-btn" id="scBtn" onclick="skillCheckHit()">⚡ 클릭!</button>';
   h+='<div class="skillcheck-info" id="scStatus"></div></div>';
   area.innerHTML=h;
-  window._scState={total:total,required:req,speed:speed,tgtStart:tgtStart,tgtEnd:tgtStart+arcDeg,angle:0,hits:0,tries:0,running:true,answer:cfg.answer||''};
+  window._scState={total:total,required:req,speed:speed,baseSpeed:speed,baseTgtSize:tgtSize,tgtStart:tgtStart,tgtEnd:tgtStart+arcDeg,angle:0,hits:0,tries:0,running:true,answer:cfg.answer||''};
   var needle=document.getElementById('scNeedle');
   function anim(){if(!window._scState.running)return;var s=window._scState;s.angle=(s.angle+s.speed)%360;needle.setAttribute('transform','rotate('+s.angle+',100,100)');_activeSkillAnim=requestAnimationFrame(anim);}
   anim();
@@ -529,7 +529,13 @@ function skillCheckHit(){
   document.getElementById('scHits').textContent=s.hits;
   document.getElementById('scTries').textContent=s.tries;
   if(s.hits>=s.required){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--success)">✅ 성공!</span>';setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);}
-  else if(s.tries>=s.total){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--danger)">❌ 실패... 다시 시도하세요</span>';setTimeout(function(){var cfg=window._scState;initSkillCheck({total:cfg.total,required:cfg.required,speed:cfg.speed,targetSize:Math.round((cfg.tgtEnd-cfg.tgtStart)/360*100),answer:cfg.answer});},1500);}
+  else if(s.tries>=s.total){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--danger)">❌ 실패...<br><button class="btn-submit" style="margin-top:12px" onclick="initSkillCheck({total:'+s.total+',required:'+s.required+',speed:'+s.baseSpeed+',targetSize:'+s.baseTgtSize+',answer:\''+s.answer+'\'})">🔄 재시도</button></span>';}
+  else{
+    s.speed+=0.15;
+    var arcDeg=s.baseTgtSize/100*360;
+    var newStart=Math.floor(Math.random()*360);s.tgtStart=newStart;s.tgtEnd=newStart+arcDeg;
+    var gauge=document.getElementById('scGauge');if(gauge){var svg=gauge.querySelector('svg');var oldPath=svg.querySelectorAll('path');oldPath.forEach(function(p){p.remove();});var np=document.createElementNS('http://www.w3.org/2000/svg','path');np.setAttribute('d',describeArc(100,100,85,newStart,newStart+arcDeg));np.setAttribute('fill','none');np.setAttribute('stroke','rgba(0,255,136,.4)');np.setAttribute('stroke-width','14');np.setAttribute('stroke-linecap','round');svg.insertBefore(np,svg.querySelector('line'));}
+  }
 }
 
 /* ═══ Mini Sudoku ═══ */
