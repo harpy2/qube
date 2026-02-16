@@ -260,6 +260,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .shake-reveal{font-size:1.1rem;color:var(--cyan);font-weight:700;margin-top:16px;animation:fadeIn .5s}
 .shake-spacebar{padding:14px 32px;background:var(--bg3);border:2px solid var(--accent);color:var(--text);border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .1s;font-family:inherit;margin-top:8px}
 .shake-spacebar:active{background:var(--accent);color:#000;transform:scale(.97)}
+.hint-penalty-notice{position:fixed;top:20%;left:50%;transform:translateX(-50%);background:rgba(255,68,68,.95);color:#fff;padding:14px 28px;border-radius:12px;font-size:1.1rem;font-weight:700;z-index:1000;animation:penaltyFade 2s ease forwards;pointer-events:none;text-align:center}
+@keyframes penaltyFade{0%{opacity:1;transform:translateX(-50%) translateY(0)}70%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-30px)}}
+.hint-bonus{color:var(--success);font-weight:700;font-size:1rem;margin-top:8px}
 
 @media(max-width:600px){
   .hero h1{letter-spacing:.05em}
@@ -945,8 +948,8 @@ var SERIES = [
             validate:function(i){return i.trim() === '11'} },
           { type:'interactive', interactionType:'timing', title:'🎩 퍼즐 4: 마술 도구 목록',
             story:'거울이 회전한다. 타이밍에 맞춰 버튼을 눌러야 비밀 서랍이 열린다.\n마술 도구: 실크7 + 카드12 + 지팡이3 + 거울5 + 동전20',
-            config:{ zoneStart:0.35, zoneEnd:0.55, required:3, speed:0.008, revealText:'47' },
-            hint:'7+12+3+5+20=47. 초록 구간에 맞춰 3번 연속 성공하세요.',
+            config:{ zoneStart:0.38, zoneEnd:0.52, required:4, speed:0.011, revealText:'47' },
+            hint:'7+12+3+5+20=47. 초록 구간에 맞춰 4번 연속 성공하세요.',
             validate:function(i){return i.trim() === '47'} },
           { type:'cpq', cpqIndex:0,
             story:'"대탈출은 공연이 아니었다."\n최현우가 마지막으로 향하려던 장소의 단서.',
@@ -966,14 +969,14 @@ var SERIES = [
             validate:function(i){return i.replace(/\s/g,'') === '4205'} },
           { type:'interactive', interactionType:'timing', title:'📝 퍼즐 2: 학습 계획표',
             story:'"오늘 밤 지하실에서 만나." 서랍에서 발견한 쪽지.\n자습 시간표 앞에 타이머 자물쇠가 걸려있다.',
-            config:{ zoneStart:0.3, zoneEnd:0.5, required:3, speed:0.01, revealText:'20' },
-            hint:'월3+화5+수2+목4+금6=20. 타이밍에 맞춰 3번 성공하세요.',
+            config:{ zoneStart:0.33, zoneEnd:0.47, required:4, speed:0.013, revealText:'20' },
+            hint:'월3+화5+수2+목4+금6=20. 타이밍에 맞춰 4번 성공하세요.',
             validate:function(i){return i.trim() === '20'} },
           { type:'interactive', interactionType:'dial', title:'📐 퍼즐 3: 칠판의 수학 문제',
-            story:'"진짜 비밀은 칠판 뒤에 있다."\n칠판에 다이얼 자물쇠. (n-2)×180° 공식으로 육각형 내각의 합을 구하라.',
-            config:{ combination:[7,2,0], labels:['백','십','일'] },
-            hint:'(6-2)×180=720. 다이얼을 720으로 맞추세요.',
-            validate:function(i){return i.trim() === '720'} },
+            story:'"진짜 비밀은 칠판 뒤에 있다."\n칠판에 다이얼 자물쇠. 정팔각형의 내각의 합을 구하라. 공식: (n-2)×180°',
+            config:{ combination:[1,0,8,0], labels:['천','백','십','일'] },
+            hint:'(8-2)×180=1080. 다이얼을 1080으로 맞추세요.',
+            validate:function(i){return i.trim() === '1080'} },
           { type:'interactive', interactionType:'piano', title:'📰 퍼즐 4: 비밀 자료실',
             story:'칠판이 움직인다. 뒤편 자료실의 잠금장치. 음계 순서를 맞춰야 열린다.\n세종고 사건 기록: 95년1건+03년2건+10년1건+18년3건+23년3건',
             config:{ keys:['C','D','E','F','G','A','B'], sequence:['C','D','C','E','E'], display:'도 레 도 미 미 (1,2,1,3,3)' },
@@ -1001,8 +1004,8 @@ var SERIES = [
             validate:function(i){return i.trim() === '31'} },
           { type:'interactive', interactionType:'timing', title:'🎻 퍼즐 3: 오케스트라 배치 패턴',
             story:'지하 악기 보관소. 무대 장치의 타이밍에 맞춰 버튼을 누르면 답이 드러난다.\n패턴: 8→6→4→2→?',
-            config:{ zoneStart:0.4, zoneEnd:0.6, required:3, speed:0.012, revealText:'0' },
-            hint:'-2씩 감소: 8,6,4,2,0. 타이밍 3번 성공시 답이 나타남.',
+            config:{ zoneStart:0.40, zoneEnd:0.55, required:4, speed:0.015, revealText:'0' },
+            hint:'-2씩 감소: 8,6,4,2,0. 타이밍 4번 성공시 답이 나타남.',
             validate:function(i){return i.trim() === '0'} },
           { type:'interactive', interactionType:'jigsaw', title:'🚪 퍼즐 4: 무대 기계실',
             story:'기계실. 100년 된 장치들 사이에 퍼즐 조각이 흩어져 있다.',
@@ -1037,7 +1040,7 @@ var SERIES = [
             validate:function(i){return i.trim() === '6'} },
           { type:'interactive', interactionType:'shake', title:'📋 퍼즐 2: 의사의 진료 기록',
             story:'침대 아래 금고. 먼지가 두껍게 쌓여있다. 흔들어서 먼지를 털어내야 한다.',
-            config:{ required:15, revealText:'주간 진료: 12+8+15+6+9 = 50' },
+            config:{ required:25, revealText:'주간 진료: 12+8+15+6+9 = 50' },
             hint:'기기를 흔들거나 스페이스바를 연타! 답: 50',
             validate:function(i){return i.trim() === '50'} },
           { type:'interactive', interactionType:'flashlight', title:'🔬 퍼즐 3: 창가의 화학 공식',
@@ -1048,15 +1051,17 @@ var SERIES = [
               {x:30, y:65, text:'C₆H₁₂O₆'},
               {x:75, y:30, text:'원소 첫글자:'},
               {x:70, y:55, text:'H,O,Na,Cl,C'},
-              {x:45, y:85, text:'→ HONCC'}
+              {x:45, y:85, text:'→ HONCC'},
+              {x:88, y:10, text:'Fe₂O₃(함정)'},
+              {x:15, y:90, text:'KMnO₄(함정)'}
             ]},
             hint:'원소 첫 글자: H,O,N,C,C → HONCC',
             validate:function(i){return i.toUpperCase().replace(/\s/g,'') === 'HONCC'} },
           { type:'interactive', interactionType:'dial', title:'🗂️ 퍼즐 4: 병원 총 인원',
-            story:'비밀 서랍의 다이얼 잠금. 병원 전체 인원수로 열린다.\n입원45+외래128+의료진23+관리14',
-            config:{ combination:[2,1,0], labels:['백','십','일'] },
-            hint:'45+128+23+14=210. 다이얼을 210으로.',
-            validate:function(i){return i.trim() === '210'} },
+            story:'비밀 서랍의 다이얼 잠금. 병원 전체 인원수 × 10으로 열린다.\n입원45+외래128+의료진23+관리14',
+            config:{ combination:[2,1,0,0], labels:['천','백','십','일'] },
+            hint:'입원45+외래128+의료진23+관리14=210. ×10=2100. 다이얼을 2100으로.',
+            validate:function(i){return i.trim() === '2100'} },
           { type:'cpq', cpqIndex:0,
             story:'"304호의 진짜 비밀. 더 큰 음모가 있다."\n김 의사가 목숨 걸고 추적한 장소.',
             storyAfter:'보고서의 마지막 장이 해독됐다.' }
@@ -1090,13 +1095,13 @@ var SERIES = [
             validate:function(i){return i.trim() === '17'} },
           { type:'interactive', interactionType:'shake', title:'🧸 퍼즐 3: 놀이방의 이진법',
             story:'2층 놀이방. 칠판이 먼지로 덮여있다. 흔들어서 먼지를 털어내야 한다.',
-            config:{ required:20, revealText:'10101001(이진법) = 128+32+8+1 = 169' },
+            config:{ required:35, revealText:'10101001(이진법) = 128+32+8+1 = 169' },
             hint:'기기를 흔들거나 버튼 연타! 답: 169',
             validate:function(i){return i.trim() === '169'} },
           { type:'interactive', interactionType:'timing', title:'🚪 퍼즐 4: 지하실의 연수 계산',
             story:'지하실 문의 타이머 잠금장치. 정확한 타이밍에 맞춰야 열린다.\n화재: 1994년, 현재: 2024년',
-            config:{ zoneStart:0.35, zoneEnd:0.5, required:3, speed:0.012, revealText:'30' },
-            hint:'2024-1994=30. 타이밍 3번 성공하세요.',
+            config:{ zoneStart:0.37, zoneEnd:0.48, required:4, speed:0.016, revealText:'30' },
+            hint:'2024-1994=30. 타이밍 4번 성공하세요.',
             validate:function(i){return i.trim() === '30'} },
           { type:'cpq', cpqIndex:0,
             story:'지하실 벽 뒤 숨겨진 방.\n"아이들은 여기서 실험당했다." 증거가 숨겨진 마지막 장소.',
@@ -1110,12 +1115,12 @@ var SERIES = [
         puzzles:[
           { type:'interactive', interactionType:'timing', title:'🗺️ 퍼즐 1: 노선도의 환승역',
             story:'벽면 노선도 앞에 타이밍 잠금장치. 환승역 개수가 답이다.\n홍대입구(환승), 신촌(X), 이대(X), 충정로(환승)',
-            config:{ zoneStart:0.3, zoneEnd:0.5, required:3, speed:0.015, revealText:'2' },
-            hint:'환승역: 홍대입구, 충정로 = 2개. 타이밍 3번!',
+            config:{ zoneStart:0.33, zoneEnd:0.45, required:4, speed:0.018, revealText:'2' },
+            hint:'환승역: 홍대입구, 충정로 = 2개. 타이밍 4번!',
             validate:function(i){return i.trim() === '2'} },
           { type:'interactive', interactionType:'shake', title:'📋 퍼즐 2: 실종자 기록',
             story:'관제실 서랍이 잠겨있다. 힘으로 흔들어 열어야 한다.',
-            config:{ required:18, revealText:'실종자: 2+3+5+2 = 12명' },
+            config:{ required:30, revealText:'실종자: 2+3+5+2 = 12명' },
             hint:'A동2+B동3+C동5+D동2=12. 흔들어서 서랍을 열어라!',
             validate:function(i){return i.trim() === '12'} },
           { type:'interactive', interactionType:'piano', title:'⏰ 퍼즐 3: 운행 시간 계산',
@@ -1168,7 +1173,7 @@ var SERIES = [
             validate:function(i){return i.replace(/\s/g,'') === '5123'} },
           { type:'interactive', interactionType:'shake', title:'🚪 퍼즐 4: 황제의 재위 기간',
             story:'로마관 해시계가 먼지로 덮여있다. 흔들어서 닦아내야 한다.\n아우구스투스45, 트라야누스19, 하드리아누스21, 마르쿠스19',
-            config:{ required:15, revealText:'최대 재위: 아우구스투스 45년' },
+            config:{ required:30, revealText:'최대 재위: 아우구스투스 45년' },
             hint:'45,19,21,19 중 최대값은 45',
             validate:function(i){return i.trim() === '45'} },
           { type:'cpq', cpqIndex:0,
@@ -1189,18 +1194,18 @@ var SERIES = [
         puzzles:[
           { type:'interactive', interactionType:'timing', title:'⏰ 퍼즐 1: 시계바늘 각도',
             story:'거대한 시계 기계장치. 3시 33분에 멈춰있다.\n타이밍에 맞춰 기어를 맞추면 각도가 계산된다.\n분침198°-시침106.5°=91.5°',
-            config:{ zoneStart:0.38, zoneEnd:0.52, required:3, speed:0.014, revealText:'91.5' },
-            hint:'|198-106.5|=91.5. 타이밍 3번 성공!',
+            config:{ zoneStart:0.40, zoneEnd:0.50, required:5, speed:0.018, revealText:'91.5' },
+            hint:'|198-106.5|=91.5. 타이밍 5번 성공!',
             validate:function(i){return i.trim()==='91.5'||i.trim()==='91'} },
           { type:'interactive', interactionType:'mirror', title:'📒 퍼즐 2: 시계 오차 패턴',
-            story:'작업 일지가 거울에 반사되어 보인다.\n오차: 2→4→8→16→?',
-            config:{ text:'2 3', direction:'horizontal' },
-            hint:'매일 2배: 16×2=32. 거울 반전된 32를 읽으면 32',
-            validate:function(i){return i.trim() === '32'} },
+            story:'작업 일지가 거울에 반사되어 보인다. 좌우+상하 모두 뒤집혔다.\n오차: 2→4→8→16→?→?',
+            config:{ text:'3 2 6 4', direction:'both' },
+            hint:'매일 2배: 16→32→64. 거울에 좌우+상하 반전된 숫자를 해독하면 3264',
+            validate:function(i){return i.replace(/\s/g,'') === '3264'} },
           { type:'interactive', interactionType:'piano', title:'🔔 퍼즐 3: 종의 진동 주파수',
             story:'종루의 음성 잠금. 올바른 음계로 종을 울려야 한다.\nf = 1500 ÷ 4 = 375',
-            config:{ keys:['C','D','E','F','G','A','B'], sequence:['E','G','A','G','E'], display:'미 솔 라 솔 미 (공명 주파수 코드)' },
-            hint:'1500÷4=375. 음계를 맞추면 답이 나타남.',
+            config:{ keys:['C','D','E','F','G','A','B'], sequence:['E','G','A','B','A','G','E'], display:'미 솔 라 시 라 솔 미 (공명 주파수 코드 — 7음)' },
+            hint:'1500÷4=375. 7개 음계를 정확한 순서로 연주하세요.',
             validate:function(i){return i.trim() === '375'} },
           { type:'interactive', interactionType:'connect-dots', title:'🚪 퍼즐 4: 시계탑 연수',
             story:'기계 내부에 숨겨진 점들. 연결하면 건설 연도가 드러난다.',
@@ -1238,14 +1243,14 @@ var SERIES = [
             validate:function(i){return i.trim() === '60'} },
           { type:'interactive', interactionType:'shake', title:'💰 퍼즐 3: 재단 자금 추적',
             story:'장혜린의 금고가 녹슬어 있다. 힘으로 흔들어 열어야 한다.\n아들1/2+딸1/3+손자1/6=1. 자선단체=0',
-            config:{ required:20, revealText:'3/6+2/6+1/6=6/6 → 자선단체: 0' },
+            config:{ required:35, revealText:'3/6+2/6+1/6=6/6 → 자선단체: 0' },
             hint:'전부 분배됨. 자선단체 몫 = 0',
             validate:function(i){return i.trim()==='0'||i.trim()==='0/6'} },
           { type:'interactive', interactionType:'dial', title:'📋 퍼즐 4: 접촉 횟수 합산',
-            story:'수사 노트의 다이얼 잠금. 총 접촉 횟수로 열린다.\n김7+박12+최5+이9+변호사6',
-            config:{ combination:[3,9], labels:['십','일'] },
-            hint:'7+12+5+9+6=39',
-            validate:function(i){return i.trim() === '39'} },
+            story:'수사 노트의 다이얼 잠금. 총 접촉 횟수의 제곱근 × 접촉 횟수로 열린다.\n김7+박12+최5+이9+변호사6. 합의 제곱근(반올림)을 앞에 붙여라.',
+            config:{ combination:[6,3,9], labels:['백','십','일'] },
+            hint:'합=39, √39≈6.24→6. 답: 639',
+            validate:function(i){return i.trim() === '639'} },
           { type:'cpq', cpqIndex:0,
             story:'"진범을 찾았다. 감시당하고 있다."\n장혜린이 마지막으로 향하려던 장소.',
             storyAfter:'장혜린의 마지막 녹음이 재생됐다.' }
@@ -1263,7 +1268,10 @@ var SERIES = [
               {x:50, y:40, text:'10m당 +1기압'},
               {x:30, y:65, text:'수심=1000m'},
               {x:75, y:55, text:'1+100='},
-              {x:80, y:80, text:'101기압'}
+              {x:80, y:80, text:'101기압'},
+              {x:5, y:85, text:'온도=2°C(함정)'},
+              {x:90, y:15, text:'염도=35‰(함정)'},
+              {x:60, y:10, text:'산소=0%(함정)'}
             ]},
             hint:'1+(1000÷10)=101',
             validate:function(i){return i.trim() === '101'} },
@@ -1283,8 +1291,8 @@ var SERIES = [
             validate:function(i){return i.replace(/[\s-]/g,'') === '1234213443211243'} },
           { type:'interactive', interactionType:'piano', title:'🚪 퍼즐 4: 비상 탈출 코드',
             story:'비상 탈출 시스템의 음성 인증. 올바른 순서로 키를 눌러야 한다.\n2019+2015=4034',
-            config:{ keys:['C','D','E','F','G','A','B'], sequence:['F','A','E','G','F'], display:'파 라 미 솔 파 (탈출 인증 코드)' },
-            hint:'연도 합: 2019+2015=4034. 음계를 맞추면 답이 나타남.',
+            config:{ keys:['C','D','E','F','G','A','B'], sequence:['F','A','E','G','F','D','B','A'], display:'파 라 미 솔 파 레 시 라 (8음 탈출 인증 코드)' },
+            hint:'연도 합: 2019+2015=4034. 8개 음계를 정확히 연주하세요.',
             validate:function(i){return i.trim() === '4034'} },
           { type:'cpq', cpqIndex:0,
             story:'"이 생명체들은 지구 생명체가 아니다."\n최종 좌표. 마지막 장소의 거리를 측정하라.',
@@ -1299,7 +1307,7 @@ var SERIES = [
 /* ═══════════════════════════════════════
    Game State & Logic
    ═══════════════════════════════════════ */
-var state = { currentSeries:null, currentChapter:null, currentPuzzle:0, cpqCampaigns:[], startTime:null, attempts:0 };
+var state = { currentSeries:null, currentChapter:null, currentPuzzle:0, cpqCampaigns:[], startTime:null, attempts:0, hintCount:0, hintPenalty:0 };
 
 function getProgress() { try{return JSON.parse(localStorage.getItem('qube_progress')||'{}');}catch(e){return {};} }
 function saveProgressData(p) { localStorage.setItem('qube_progress', JSON.stringify(p)); }
@@ -1369,7 +1377,7 @@ function openSeries(si){
 
 async function startChapter(si,ci){
   var s=SERIES[si],ch=s.chapters[ci];
-  state.currentSeries=s;state.currentChapter=ch;state.currentSeriesIdx=si;state.currentChapIdx=ci;state.currentPuzzle=0;state.startTime=Date.now();state.attempts=0;
+  state.currentSeries=s;state.currentChapter=ch;state.currentSeriesIdx=si;state.currentChapIdx=ci;state.currentPuzzle=0;state.startTime=Date.now();state.attempts=0;state.hintCount=0;state.hintPenalty=0;
   document.getElementById('loadingScreen').classList.add('active');
   try{var cpqCount=ch.puzzles.filter(function(p){return p.type==='cpq';}).length;var res=await fetch(API+'/api/random?count='+cpqCount);var data=await res.json();state.cpqCampaigns=data.campaigns||[];}catch(e){state.cpqCampaigns=[];}
   showScreen('game');document.getElementById('gameTitle').textContent=ch.title;renderIntro();
@@ -1401,7 +1409,7 @@ function renderInteractivePuzzle(idx,puzzle){
   html+='<div class="puzzle-box"><div class="puzzle-label">'+puzzle.title+'</div>';
   html+='<div id="interactiveArea"></div>';
   html+='<div class="hint-box hidden" id="hintBox">💡 '+puzzle.hint+'</div>';
-  html+='<button class="hint-btn" onclick="document.getElementById(\'hintBox\').classList.remove(\'hidden\');this.remove()">💡 힌트 보기</button>';
+  html+='<button class="hint-btn" onclick="useHint(this)">💡 힌트 보기 (+30초)</button>';
   html+='<div class="answer-area"><input type="text" id="answerInput" placeholder="정답을 입력하세요" onkeydown="handleEnter(event,'+idx+')"><button class="btn-submit" onclick="checkGeneral('+idx+')">확인</button></div>';
   html+='<div id="feedback"></div></div>';
   document.getElementById('gameContent').innerHTML=html;
@@ -1430,7 +1438,7 @@ function renderGeneralPuzzle(idx,puzzle){
     '<div class="puzzle-box"><div class="puzzle-label">'+puzzle.title+'</div>'+
     '<div class="puzzle-question">'+puzzle.question.replace(/\n/g,'<br>')+'</div>'+
     '<div class="hint-box hidden" id="hintBox">💡 '+puzzle.hint+'</div>'+
-    '<button class="hint-btn" onclick="document.getElementById(\'hintBox\').classList.remove(\'hidden\');this.remove()">💡 힌트 보기</button>'+
+    '<button class="hint-btn" onclick="useHint(this)">💡 힌트 보기 (+30초)</button>'+
     '<div class="answer-area"><input type="text" id="answerInput" placeholder="정답을 입력하세요" onkeydown="handleEnter(event,'+idx+')">'+
     '<button class="btn-submit" onclick="checkGeneral('+idx+')">확인</button></div>'+
     '<div id="feedback"></div></div>';
@@ -1466,6 +1474,14 @@ document.addEventListener('compositionstart',function(){isComposing=true;});
 document.addEventListener('compositionend',function(){isComposing=false;});
 function handleEnter(e,idx,type){if(e.key==='Enter'&&!isComposing){e.preventDefault();type==='cpq'?checkCpq(idx):checkGeneral(idx);}}
 
+function useHint(btn){
+  if(!confirm('힌트를 사용하면 30초가 추가됩니다. 사용하시겠습니까?')) return;
+  state.hintCount++;state.hintPenalty+=30;
+  document.getElementById('hintBox').classList.remove('hidden');
+  btn.remove();
+  var notice=document.createElement('div');notice.className='hint-penalty-notice';notice.textContent='⏱️ +30초 패널티!';document.body.appendChild(notice);
+  setTimeout(function(){notice.remove();},2200);
+}
 function checkGeneral(idx){var input=document.getElementById('answerInput').value.trim();if(!input)return;state.attempts++;showFeedback(state.currentChapter.puzzles[idx].validate(input),idx);}
 async function checkCpq(idx){var input=document.getElementById('answerInput').value.trim();if(!input)return;state.attempts++;var camp=state.cpqCampaigns[state.currentChapter.puzzles[idx].cpqIndex];try{var res=await fetch(API+'/api/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({campaign_id:camp.id,user_answer:input})});var data=await res.json();showFeedback(data.correct,idx);}catch(e){showFeedback(false,idx);}}
 
@@ -1484,8 +1500,8 @@ function nextPuzzle(cur){cleanupInteractive();if(cur+1>=state.currentChapter.puz
 function showCliffhanger(){
   cleanupInteractive();
   var ch=state.currentChapter,s=state.currentSeries,si=state.currentSeriesIdx,ci=state.currentChapIdx;
-  var elapsed=Math.floor((Date.now()-state.startTime)/1000);
-  var p=getProgress();if(!p[s.id])p[s.id]={};p[s.id][ch.id]={cleared:true,bestTime:elapsed,lastPlayed:Date.now()};saveProgressData(p);
+  var elapsed=Math.floor((Date.now()-state.startTime)/1000)+state.hintPenalty;
+  var p=getProgress();if(!p[s.id])p[s.id]={};p[s.id][ch.id]={cleared:true,bestTime:elapsed,lastPlayed:Date.now(),hints:state.hintCount};saveProgressData(p);
   var isLastChapter=ci>=s.chapters.length-1,isLastSeries=si>=SERIES.length-1,isFinalClear=isLastChapter&&isLastSeries;
   var gameGrade='S';if(elapsed>600)gameGrade='C';else if(elapsed>300)gameGrade='B';else if(elapsed>180)gameGrade='A';
   showScreen('result');var html='';
@@ -1493,8 +1509,9 @@ function showCliffhanger(){
   else if(isLastChapter){spawnConfetti();html+='<div class="result-emoji">🎊</div><div class="result-title">시리즈 클리어!</div><div class="result-sub">"'+s.title+'" 완료!</div>';}
   else{html+='<div class="result-emoji">🎉</div><div class="result-title">챕터 클리어!</div><div class="result-sub">'+ch.title+' 완료</div>';}
   html+='<div class="result-grade">'+gameGrade+' RANK</div><div class="result-stats">';
-  html+='<div class="result-stat"><div class="result-stat-val">'+formatTime(elapsed)+'</div><div class="result-stat-label">소요시간</div></div>';
+  html+='<div class="result-stat"><div class="result-stat-val">'+formatTime(elapsed)+'</div><div class="result-stat-label">소요시간'+(state.hintPenalty>0?' (패널티 +'+state.hintPenalty+'초)':'')+'</div></div>';
   html+='<div class="result-stat"><div class="result-stat-val">'+state.attempts+'</div><div class="result-stat-label">시도횟수</div></div>';
+  html+='<div class="result-stat"><div class="result-stat-val">'+(state.hintCount>0?state.hintCount+'회':'🏅')+'</div><div class="result-stat-label">'+(state.hintCount>0?'힌트 사용':'힌트 없이 클리어!')+'</div></div>';
   var totalCleared=getTotalCleared(),grade=getGrade(totalCleared);
   html+='<div class="result-stat"><div class="result-stat-val">'+grade.split(' ')[0]+'</div><div class="result-stat-label">'+(grade.split(' ')[1]||'')+'</div></div></div>';
   if(ch.cliffhanger)html+='<div class="cliffhanger-box"><div class="label">📖 TO BE CONTINUED...</div><p>'+ch.cliffhanger.replace(/\n/g,'<br>')+'</p></div>';
