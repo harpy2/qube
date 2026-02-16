@@ -544,8 +544,10 @@ function initSudoku(cfg){
   area.innerHTML=h;
   window._sudokuSolution=cfg.solution;
   window._sudokuAnswer=cfg.answer||'';
+  window._sudokuSolved=false;
 }
 function sudokuCheck(){
+  if(window._sudokuSolved) return;
   var sol=window._sudokuSolution,allCorrect=true,allFilled=true;
   document.querySelectorAll('.sudoku-cell input').forEach(function(inp){
     var v=parseInt(inp.value),r=parseInt(inp.dataset.r),c=parseInt(inp.dataset.c);
@@ -553,7 +555,9 @@ function sudokuCheck(){
     if(v===sol[r][c]){inp.className='correct';}else{inp.className='wrong';allCorrect=false;}
   });
   if(allFilled&&allCorrect){
+    window._sudokuSolved=true;
     document.getElementById('sudokuStatus').innerHTML='<span style="color:var(--success)">✅ 스도쿠 완성!</span>';
+    document.querySelectorAll('.sudoku-cell input').forEach(function(inp){inp.disabled=true;});
     setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);
   }
 }
@@ -1467,9 +1471,11 @@ function showFeedback(correct,idx){
   if(correct){
     var after=puzzle.storyAfter||'';
     fb.innerHTML='<div class="feedback correct">✅ 정답!'+(after?' '+after:'')+'</div><button class="btn-next" onclick="nextPuzzle('+idx+')">'+(isLast?'🚪 챕터 완료!':'다음 퍼즐 →')+'</button>';
+    fb.scrollIntoView({behavior:'smooth',block:'center'});
   }else{
     fb.innerHTML='<div class="feedback wrong">❌ 오답. 다시 시도해보세요.</div>';
-    document.getElementById('answerInput').value='';fb.scrollIntoView({behavior:'smooth',block:'center'});
+    var inp=document.getElementById('answerInput');if(inp)inp.value='';
+    fb.scrollIntoView({behavior:'smooth',block:'center'});
   }
 }
 function nextPuzzle(cur){cleanupInteractive();if(cur+1>=state.currentChapter.puzzles.length)showCliffhanger();else renderPuzzle(cur+1);}
