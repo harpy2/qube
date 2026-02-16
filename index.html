@@ -609,7 +609,7 @@ function initPipe(cfg){
   }
   h+='</div><div class="pipe-status" id="pipeStatus">파이프를 클릭하여 회전시키세요. 입구→출구를 연결!</div></div>';
   area.innerHTML=h;
-  window._pipeState={pipes:cfg.pipes.map(function(p){return{r:p.r,c:p.c,type:p.type,rotation:p.initial,correct:p.correct};}),answer:cfg.answer||''};
+  window._pipeState={pipes:cfg.pipes.map(function(p){return{r:p.r,c:p.c,type:p.type,rotation:p.initial,correct:p.correct};}),answer:cfg.answer||'',startCell:cfg.start||{r:0,c:0},endCell:cfg.end||{r:cfg.size-1,c:cfg.size-1}};
 }
 function getPipeOpenings(type,rot){
   var r=rot%4;
@@ -630,13 +630,35 @@ function getPipeHtml(type,rot){
 function pipeRotate(el){
   var r=parseInt(el.dataset.r),c=parseInt(el.dataset.c),ps=window._pipeState;
   ps.pipes.forEach(function(p){if(p.r===r&&p.c===c){p.rotation=(p.rotation+1)%4;el.innerHTML=getPipeHtml(p.type,p.rotation);}});
-  var allOk=true;
-  ps.pipes.forEach(function(p){if(p.rotation!==p.correct)allOk=false;});
-  if(allOk){
+  if(checkPipeConnected(ps)){
     document.getElementById('pipeStatus').innerHTML='<span style="color:var(--success)">✅ 파이프 연결 완료!</span>';
     document.querySelectorAll('.pipe-cell:not(.empty)').forEach(function(c2){c2.style.pointerEvents='none';});
     setTimeout(function(){ showFeedback(true, state.currentPuzzle); }, 800);
   }
+}
+function checkPipeConnected(ps){
+  var pipeMap={};
+  ps.pipes.forEach(function(p){pipeMap[p.r+','+p.c]=p;});
+  var start=ps.startCell,end=ps.endCell;
+  if(!start||!end)return false;
+  var visited={},queue=[start.r+','+start.c];
+  visited[start.r+','+start.c]=true;
+  while(queue.length>0){
+    var key=queue.shift(),parts=key.split(','),cr=parseInt(parts[0]),cc=parseInt(parts[1]);
+    if(cr===end.r&&cc===end.c)return true;
+    var cur=pipeMap[key];if(!cur)continue;
+    var opens=getPipeOpenings(cur.type,cur.rotation);
+    var dirs=[{dir:'top',dr:-1,dc:0,opp:'bottom'},{dir:'right',dr:0,dc:1,opp:'left'},{dir:'bottom',dr:1,dc:0,opp:'top'},{dir:'left',dr:0,dc:-1,opp:'right'}];
+    dirs.forEach(function(d){
+      if(!opens[d.dir])return;
+      var nr=cr+d.dr,nc=cc+d.dc,nk=nr+','+nc;
+      if(visited[nk])return;
+      var nb=pipeMap[nk];if(!nb)return;
+      var nbOpens=getPipeOpenings(nb.type,nb.rotation);
+      if(nbOpens[d.opp]){visited[nk]=true;queue.push(nk);}
+    });
+  }
+  return false;
 }
 
 /* ═══ Wire Cutting ═══ */
