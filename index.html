@@ -314,6 +314,22 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .simon-info{font-size:.9rem;color:var(--text2);margin-bottom:12px}
 .simon-status{font-size:.9rem;min-height:24px;margin-top:8px}
 
+/* World Tabs */
+.world-tabs{display:flex;gap:8px;margin-bottom:1.5rem;overflow-x:auto;padding:4px 0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.world-tabs::-webkit-scrollbar{display:none}
+.world-tab{padding:10px 20px;border:1px solid var(--card-border);border-radius:50px;background:var(--card);color:var(--text2);font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .3s;font-family:inherit}
+.world-tab:hover{border-color:var(--accent);color:var(--text)}
+.world-tab.active[data-world="qube"]{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+.world-tab.active[data-world="origin"]{background:linear-gradient(135deg,#00b4d8,#0077b6);color:#fff;border-color:transparent}
+.world-tab.active[data-world="ghost"]{background:linear-gradient(135deg,#c0392b,#1a0000);color:#fff;border-color:transparent}
+
+/* Horror Effects (ghost world) */
+@keyframes horrorFlicker{0%,93%{opacity:1}94%{opacity:.15}95%{opacity:.9}96%{opacity:.2}97%{opacity:1}98%{opacity:.1}99%{opacity:.85}100%{opacity:1}}
+@keyframes horrorGlitch{0%,96%{transform:translate(0)}97%{transform:translate(-3px,1px)}98%{transform:translate(2px,-2px)}99%{transform:translate(-1px,1px)}100%{transform:translate(0)}}
+.horror-flicker{animation:horrorFlicker 6s infinite}
+.horror-glitch .story-box p{animation:horrorGlitch 12s infinite}
+.horror-ambient{position:fixed;inset:0;pointer-events:none;z-index:0}
+
 @media(max-width:600px){
   .hero h1{letter-spacing:.05em}
   .stats-bar{gap:24px}
@@ -346,7 +362,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <div class="stat"><div class="stat-val" id="statStreak">0</div><div class="stat-label">시리즈</div></div>
   </div>
   <div class="series-section" id="series-section">
-    <h2>📖 미스터리 시리즈</h2>
+    <div class="world-tabs" id="worldTabs">
+      <button class="world-tab active" data-world="qube" onclick="switchWorld('qube')">🔮 QUBE 프로젝트</button>
+      <button class="world-tab" data-world="origin" onclick="switchWorld('origin')">🌐 프로젝트 오리진</button>
+      <button class="world-tab" data-world="ghost" onclick="switchWorld('ghost')">👻 귀곡성</button>
+    </div>
+    <h2 id="worldTitle">📖 미스터리 시리즈</h2>
     <div class="series-progress-text" id="seriesProgressText"></div>
     <div id="seriesGrid"></div>
   </div>
@@ -807,7 +828,7 @@ function simonPress(idx){
    ═══════════════════════════════════════ */
 var SERIES = [
   {
-    id:'professor', title:'사라진 교수', icon:'🔮', difficulty:1,
+    id:'professor', worldId:'qube', title:'사라진 교수', icon:'🔮', difficulty:1,
     desc:'고고학 교수 김동현이 발굴 현장에서 실종됐다. 남은 건 암호화된 연구노트 한 권뿐.',
     chapters:[
       {
@@ -914,7 +935,7 @@ var SERIES = [
     ]
   },
   {
-    id:'magician', title:'마술사의 유산', icon:'🎭', difficulty:2,
+    id:'magician', worldId:'qube', title:'마술사의 유산', icon:'🎭', difficulty:2,
     desc:'전설의 마술사 최현우가 공연 중 사라졌다. 유언장에는 "마지막 트릭을 풀어라"고만 적혀있다.',
     chapters:[
       {
@@ -1043,7 +1064,7 @@ var SERIES = [
     ]
   },
   {
-    id:'hospital', title:'304호의 기억', icon:'🏥', difficulty:3,
+    id:'hospital', worldId:'qube', title:'304호의 기억', icon:'🏥', difficulty:3,
     desc:'10년 전 폐쇄된 병원. 304호 환자들이 전원 동시에 사라진 사건. 진실을 파헤쳐라.',
     chapters:[
       {
@@ -1177,7 +1198,7 @@ var SERIES = [
     ]
   },
   {
-    id:'deep', title:'심해의 비밀', icon:'🔱', difficulty:3,
+    id:'deep', worldId:'qube', title:'심해의 비밀', icon:'🔱', difficulty:3,
     desc:'모든 사건의 배후. 시계탑에서 시작된 카운트다운. 끝내지 않으면 끝나지 않는다.',
     chapters:[
       {
@@ -1302,6 +1323,894 @@ var SERIES = [
         cliffhanger:'탈출 직전, 장혜린이 중앙 컴퓨터의 마지막 파일을 열었다.\n\nQUBE 프로젝트 최종 보고서.\n\n"1994년, 세종고 지하실에서 발견된 미지의 물질."\n"세 명의 학생이 목격. 김동현, 최현우, 그리고 ████."\n"물질은 해저에서 온 것이었다."\n"30년간의 연구 결과: 이것은 신호였다."\n"누군가 우리에게 보낸 메시지."\n\n장혜린이 말했다.\n"교수도, 마술사도, 환자들도... 전부 이 비밀을 지키기 위해 희생된 거야."\n"하지만 이제 세상이 알아야 해."\n\n비상 탈출 포드가 상승한다.\n수면 위로 떠오르는 순간, 라디오에서 뉴스가 흘러나온다.\n\n"속보입니다. 국립 고고학 박물관 특수연구재단의 비밀 실험이 폭로되었습니다."\n"실종된 교수 김동현이 무사히 구출되었으며..."\n\n최현우의 마지막 트릭.\n그는 사라진 게 아니라, 증거를 세상에 보내고 있었다.\n\n당신은 해냈다.\n\n🏆 QUBE — ALL CLEAR'
       }
     ]
+  },
+  /* ═══ 세계관 2: 프로젝트 오리진 ═══ */
+  {
+    id:'datacenter', worldId:'origin', title:'데이터센터 침입', icon:'🖥️', difficulty:2,
+    desc:'전 세계 데이터가 사라지고 있다. 흔적은 하나의 데이터센터를 가리킨다.',
+    chapters:[
+      {
+        id:'dc_ch1', title:'Ch.1 — 서버룸 A동', desc:'경비를 뚫고 진입. 삭제 로그 발견.', time:'12분',
+        intro:'3일 전, 전 세계 금융 데이터의 12%가 동시에 사라졌다.\n정부 기록, 의료 데이터, 개인 정보. 디지털 세계가 무너지고 있다.\n모든 삭제 요청의 IP가 하나의 데이터센터를 가리킨다.\n서울 외곽, 지하 5층짜리 초대형 서버 팜.\n위조 ID로 경비를 통과한 순간, 뒤에서 전자 잠금이 걸렸다.',
+        puzzles:[
+          { type:'interactive', interactionType:'trivia', title:'💻 퍼즐 1: 서버룸 인증',
+            story:'서버룸 출입 인증 시스템. 보안 질문이 뜬다.\n"IT를 아는 자만 들어올 수 있다."',
+            config:{ question:'컴퓨터 네트워크에서 데이터를 주고받을 때 사용하는 기본 프로토콜은?', options:['TCP/IP','HTML','SQL','BIOS'] },
+            hint:'Transmission Control Protocol / Internet Protocol. 인터넷의 기본.',
+            validate:function(i){return i.replace(/[\/\s]/g,'').toUpperCase().indexOf('TCPIP')!==-1||i.trim()==='TCP/IP'} },
+          { type:'interactive', interactionType:'flashlight', title:'🔦 퍼즐 2: 정전된 서버룸',
+            story:'갑자기 정전. 비상등도 꺼졌다. 서버 랙 사이를 손전등으로 비춰야 한다.',
+            config:{ items:[
+              {x:15, y:30, text:'삭'},{x:60, y:20, text:'제'},{x:35, y:65, text:'로'},{x:80, y:55, text:'그'},
+              {x:50, y:80, text:'→ 네 글자를 조합하라'}
+            ]},
+            hint:'삭, 제, 로, 그 → "삭제로그"',
+            validate:function(i){return i.replace(/\s/g,'')==='삭제로그'} },
+          { type:'interactive', interactionType:'dial', title:'🔒 퍼즐 3: 관리자 캐비닛',
+            story:'관리자 캐비닛의 다이얼 잠금.\n모니터에 힌트: "건물 준공년도의 뒤 세 자리: 0-2-3"',
+            config:{ combination:[0,2,3], labels:['첫째','둘째','셋째'] },
+            hint:'다이얼을 0, 2, 3으로 맞추세요.',
+            validate:function(i){return i.trim()==='023'} },
+          { type:'interactive', interactionType:'timing', title:'⚡ 퍼즐 4: 방화벽 우회',
+            story:'소프트웨어 방화벽의 순환 주기. 정확한 타이밍에 패킷을 전송해야 한다.',
+            config:{ zoneStart:0.35, zoneEnd:0.55, required:3, speed:0.01, revealText:'방화벽우회' },
+            hint:'초록 구간에 커서가 있을 때 클릭! 3번 연속 성공.',
+            validate:function(i){return i.replace(/\s/g,'')==='방화벽우회'} },
+          { type:'cpq', cpqIndex:0,
+            story:'삭제 로그에서 발견한 IP 주소.\n"이 주소의 실제 위치를 추적해야 한다."',
+            storyAfter:'IP 추적 완료. 삭제 명령의 출처가 드러났다.' }
+        ],
+        cliffhanger:'삭제 로그를 분석하자 패턴이 보였다.\n\n매일 새벽 3시 33분, 정확히 같은 시간에 삭제 명령이 실행된다.\n자동화된 스크립트가 아니다. 누군가 직접 실행하고 있다.\n\n로그의 출발점 IP를 역추적했다.\n서버룸 B동이 아니다. 이 건물 지하의 냉각 시설이다.\n\n일반 직원은 접근할 수 없는 구역.\n그곳에 뭐가 있는 걸까.'
+      },
+      {
+        id:'dc_ch2', title:'Ch.2 — 냉각 시설', desc:'서버 온도 이상. 숨겨진 독립 서버 발견.', time:'13분',
+        intro:'지하 3층 냉각 시설. 영하 15도.\n서버 냉각용 액체질소 파이프가 미로처럼 얽혀있다.\n그런데 온도계가 이상하다. 특정 구역만 온도가 10도 높다.\n누군가 이 냉각 시설 안에 별도의 서버를 숨겨놓은 것이다.\n파이프 사이로 깜빡이는 LED 불빛이 보인다.',
+        puzzles:[
+          { type:'interactive', interactionType:'logic', title:'🧊 퍼즐 1: 온도 이상 구역',
+            story:'3개 구역의 온도 기록이 엇갈린다.',
+            config:{ scenario:'<b>센서 A</b>: "B구역 온도가 정상 범위를 초과했다."<br><b>센서 B</b>: "A가 오작동이다. 모든 구역이 정상이다."<br><b>센서 C</b>: "A의 데이터가 맞다. B구역에서 열원을 감지했다."<br><br>센서 하나가 해킹됐다. 어느 센서인가?',
+              choices:['A','B','C'] },
+            hint:'A와 C가 같은 결론. B만 반대 → B가 해킹됨.',
+            validate:function(i){return i.toUpperCase().trim()==='B'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔧 퍼즐 2: 냉각 배관',
+            story:'냉각 파이프가 엉켜있다. 올바르게 연결해야 숨겨진 서버 구역이 노출된다.',
+            config:{ size:4, answer:'배관연결',
+              start:{r:0,c:0}, end:{r:3,c:3},
+              pipes:[
+                {r:0,c:0,type:'corner',initial:3,correct:1},
+                {r:1,c:0,type:'corner',initial:1,correct:0},
+                {r:1,c:1,type:'straight',initial:1,correct:0},
+                {r:1,c:2,type:'corner',initial:0,correct:1},
+                {r:2,c:2,type:'corner',initial:3,correct:0},
+                {r:2,c:3,type:'corner',initial:0,correct:2},
+                {r:3,c:3,type:'corner',initial:2,correct:0}
+              ] },
+            hint:'입구(좌상)→출구(우하). 파이프를 클릭하여 회전!',
+            validate:function(i){return i.trim()==='배관연결'} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 3: 서버 전원 배선',
+            story:'숨겨진 서버의 보안 전원 장치. 전선을 올바른 순서로 절단해야 접근 가능.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'}],
+              correctOrder:[1,3,0,2], hintText:'💡 "파랑이 먼저, 노랑, 빨강, 마지막 초록"', answer:'전원해제' },
+            hint:'순서: 파랑→노랑→빨강→초록',
+            validate:function(i){return i.replace(/\s/g,'')==='전원해제'} },
+          { type:'interactive', interactionType:'memory-card', title:'🃏 퍼즐 4: 암호화 키 매칭',
+            story:'서버 접근에 필요한 암호화 키. 짝이 맞는 코드 조각을 찾아라.',
+            config:{ pairs:['🔑','💾','🖥️','📡','🛡️'], answer:'독립서버' },
+            hint:'같은 이모지 짝을 찾으세요. 5쌍 모두 매칭!',
+            validate:function(i){return i.replace(/\s/g,'')==='독립서버'} },
+          { type:'cpq', cpqIndex:0,
+            story:'독립 서버의 로그 파일.\n"삭제 명령의 진짜 출처를 추적해야 한다."',
+            storyAfter:'서버 로그가 복호화됐다.' }
+        ],
+        cliffhanger:'독립 서버의 데이터를 복호화하자 충격적인 사실이 드러났다.\n\n이 서버는 삭제를 실행하는 게 아니었다.\n삭제 명령을 중계하고 있었다.\n\n진짜 명령은 위성 통신으로 전송되고 있다.\n수신 주파수: 2.4GHz 대역, 군사용 암호화.\n발신지 좌표: 북위 78°, 동경 15°.\n\n극지방이다.\n버려진 위성 통신소 K-7.\n공식적으로는 20년 전에 폐쇄됐다.\n\n하지만 이 서버는 지금도 K-7과 교신하고 있다.'
+      },
+      {
+        id:'dc_ch3', title:'Ch.3 — 관리자 터미널', desc:'삭제 명령의 출처 추적. 위성 통신소 K-7 발견.', time:'14분',
+        intro:'데이터센터 최심부. 관리자 전용 터미널.\n이곳에서 모든 삭제 명령이 중계되고 있었다.\n터미널에 접근하자 화면에 메시지가 떴다.\n"당신이 여기까지 온 건 예상했습니다."\n"하지만 진실을 감당할 수 있습니까?"\n커서가 깜빡인다.',
+        puzzles:[
+          { type:'interactive', interactionType:'mastermind', title:'🔢 퍼즐 1: 관리자 비밀번호',
+            story:'관리자 터미널의 4자리 인증 코드. 추론으로 알아내라.',
+            config:{ answer:[5,1,7,3], digits:4, maxAttempts:8, maxNum:8, answerStr:'터미널해제' },
+            hint:'4자리(1~8). 스트라이크/볼로 추론. 8회 이내!',
+            validate:function(i){return i.trim()==='터미널해제'} },
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 2: 암호화 해제',
+            story:'데이터 암호화 레이어. 정밀한 타이밍으로 복호화 키를 맞춰야 한다.',
+            config:{ total:10, required:6, speed:3, targetSize:18, answer:'복호화완료' },
+            hint:'10번 중 6번 성공 필요. 초록 구간에서 클릭!',
+            validate:function(i){return i.replace(/\s/g,'')==='복호화완료'} },
+          { type:'interactive', interactionType:'simon', title:'🖥️ 퍼즐 3: 접근 권한 인증',
+            story:'최고 관리자 접근 권한. 다중 인증 패턴을 기억하고 입력하라.',
+            config:{ rounds:6, answer:'위성좌표' },
+            hint:'6라운드. 색깔 패턴을 정확히 기억!',
+            validate:function(i){return i.replace(/\s/g,'')==='위성좌표'} },
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 4: 좌표 복호화',
+            story:'위성 통신소의 좌표가 숫자 퍼즐로 암호화되어 있다.',
+            config:{ grid:[[0,3,0,1],[1,0,3,0],[0,1,0,3],[3,0,1,0]], solution:[[2,3,4,1],[1,4,3,2],[4,1,2,3],[3,2,1,4]], answer:'K7통신소' },
+            hint:'4×4 스도쿠. 행/열/블록에 1~4 한 번씩.',
+            validate:function(i){return i.replace(/[\s\-]/g,'')==='K7통신소'} },
+          { type:'cpq', cpqIndex:0,
+            story:'터미널에서 다운로드한 위성 교신 기록.\n"K-7의 정확한 위치를 확인해야 한다."',
+            storyAfter:'위성 통신소 K-7의 좌표가 확인됐다.' }
+        ],
+        cliffhanger:'터미널에서 추출한 데이터.\n\n삭제된 것은 데이터만이 아니었다.\n사람들의 존재 자체가 지워지고 있었다.\n출생 기록, 의료 기록, 금융 기록.\n마치 그 사람이 처음부터 존재하지 않았던 것처럼.\n\n그리고 패턴이 있다.\n삭제된 사람들은 모두 특정 AI 연구 프로젝트에 참여했던 과학자들이다.\n\n화면에 마지막 메시지.\n"위성 통신소 K-7. 모든 명령은 거기서 시작됩니다."\n"하지만 조심하세요. K-7에는 이미 누군가 있습니다."\n\n북위 78°. 극지방의 얼음 벌판.\n버려진 위성 통신소가 당신을 기다리고 있다.'
+      }
+    ]
+  },
+  {
+    id:'satellite', worldId:'origin', title:'위성 통신소 K-7', icon:'📡', difficulty:2,
+    desc:'극지방의 버려진 위성 통신소. 여전히 신호를 보내고 있다.',
+    chapters:[
+      {
+        id:'sat_ch1', title:'Ch.1 — 통신소 진입', desc:'눈보라 속 시설 탐색, 전원 복구.', time:'12분',
+        intro:'북위 78도. 영하 35도의 극지방.\n헬기에서 내리자 눈보라가 시야를 삼킨다.\n200미터 앞, 거대한 안테나 구조물의 실루엣.\n위성 통신소 K-7. 20년 전 공식 폐쇄.\n하지만 위성 사진에는 열원이 감지된다.\n정문의 전자 잠금은... 작동하고 있다.',
+        puzzles:[
+          { type:'interactive', interactionType:'trivia', title:'🌡️ 퍼즐 1: 보안 인증',
+            story:'출입구 보안 시스템이 살아있다. 과학 질문으로 인증.',
+            config:{ question:'지구 자기장이 대기와 상호작용하여 극지방에서 나타나는 빛의 현상은?', options:['오로라','무지개','신기루','코로나'] },
+            hint:'Aurora. 태양풍의 하전 입자가 대기와 충돌하며 발생하는 빛.',
+            validate:function(i){return i.trim()==='오로라'||i.toUpperCase().trim()==='AURORA'} },
+          { type:'interactive', interactionType:'jigsaw', title:'📄 퍼즐 2: 찢어진 시설 지도',
+            story:'입구에서 찢어진 시설 배치도를 발견했다. 조각을 맞춰라.',
+            config:{ pieces:['안테나 제어실','발전기실','통신 모듈','거주 구역'], cols:2,
+              correctOrder:[2,0,3,1], revealText:'키워드: "발전기실"' },
+            hint:'시설 배치도를 올바른 순서로 맞추세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='발전기실'} },
+          { type:'interactive', interactionType:'timing', title:'⚡ 퍼즐 3: 비상 발전기',
+            story:'전원이 죽어있다. 비상 발전기를 수동으로 점화해야 한다.\n정확한 타이밍에 점화 레버를 당겨라.',
+            config:{ zoneStart:0.35, zoneEnd:0.55, required:3, speed:0.009, revealText:'전원복구' },
+            hint:'초록 구간에 맞춰 3번 연속 성공!',
+            validate:function(i){return i.replace(/\s/g,'')==='전원복구'} },
+          { type:'interactive', interactionType:'flashlight', title:'🔦 퍼즐 4: 어둠 속 통로',
+            story:'발전기 가동 전, 어두운 통로에서 비상구 코드를 찾아야 한다.',
+            config:{ items:[
+              {x:20, y:25, text:'전'},{x:55, y:50, text:'원'},{x:75, y:30, text:'복'},{x:40, y:75, text:'구'},
+              {x:50, y:10, text:'→ 네 글자를 조합'}
+            ]},
+            hint:'전, 원, 복, 구 → "전원복구"',
+            validate:function(i){return i.replace(/\s/g,'')==='전원복구'} },
+          { type:'cpq', cpqIndex:0,
+            story:'발전기실에서 발견한 유지보수 기록.\n"마지막 점검일의 실제 위치를 확인해야 한다."',
+            storyAfter:'유지보수 기록이 해독됐다.' }
+        ],
+        cliffhanger:'전원이 복구되자 시설 전체에 불이 켜졌다.\n\n20년간 버려진 곳치고 너무 깨끗하다.\n먼지가 없다. 바닥에 신발 자국.\n최근 것이다.\n\n메인 콘솔에 로그인 기록.\n마지막 접속: 48시간 전.\n\n누군가 이곳을 계속 사용하고 있다.\n안테나 제어실에서 저주파 신호음이 들린다.\n위성과 교신 중이다.'
+      },
+      {
+        id:'sat_ch2', title:'Ch.2 — 안테나 제어실', desc:'위성과의 교신 기록, 암호화된 메시지.', time:'13분',
+        intro:'안테나 제어실. 거대한 디스플레이에 위성 궤도가 표시된다.\n5기의 위성이 실시간으로 추적되고 있다.\n콘솔에 수천 건의 교신 기록.\n모두 암호화되어 있지만, 하나만 복호화되어 있다.\n"프로젝트 오리진 — 3단계 진행 중."\n교신 대상: 불명.',
+        puzzles:[
+          { type:'interactive', interactionType:'dial', title:'📡 퍼즐 1: 주파수 동기화',
+            story:'위성 교신 주파수를 맞춰야 한다.\n콘솔 메모: "주파수 코드 4-7-2"',
+            config:{ combination:[4,7,2], labels:['MHz','kHz','Hz'] },
+            hint:'다이얼을 4, 7, 2로 맞추세요.',
+            validate:function(i){return i.trim()==='472'} },
+          { type:'interactive', interactionType:'logic', title:'💬 퍼즐 2: 교신 기록 분석',
+            story:'3건의 교신 기록이 서로 모순된다.',
+            config:{ scenario:'<b>교신 기록 A</b>: "데이터 삭제는 프로토콜에 따른 자동 실행."<br><b>교신 기록 B</b>: "A는 위조 기록이다. 삭제는 수동 명령이다."<br><b>교신 기록 C</b>: "B가 맞다. 수동 명령 실행자의 ID를 확인했다."<br><br>위조된 기록은?',
+              choices:['A','B','C'] },
+            hint:'B와 C가 일치. A만 반대 → A가 위조.',
+            validate:function(i){return i.toUpperCase().trim()==='A'} },
+          { type:'interactive', interactionType:'memory-card', title:'🃏 퍼즐 3: 암호 키 복원',
+            story:'암호화 키가 조각나 있다. 짝이 맞는 키 조각을 찾아 복원하라.',
+            config:{ pairs:['🔐','📊','🌐','💻','📡','🛰️'], answer:'해저케이블' },
+            hint:'6쌍의 카드를 모두 매칭하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='해저케이블'} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 4: 안테나 회로',
+            story:'안테나 메인 회로. 특정 전선을 순서대로 절단해야 숨겨진 채널이 열린다.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'},{color:'#9b59b6',label:'보라'}],
+              correctOrder:[2,4,0,1,3], hintText:'💡 "초록빛이 먼저, 보라 안개, 붉은 노을, 파란 하늘, 노란 달"', answer:'채널개방' },
+            hint:'순서: 초록→보라→빨강→파랑→노랑',
+            validate:function(i){return i.replace(/\s/g,'')==='채널개방'} },
+          { type:'cpq', cpqIndex:0,
+            story:'숨겨진 채널에서 수신된 좌표 데이터.\n"이 좌표의 실제 위치를 확인해야 한다."',
+            storyAfter:'좌표가 해독됐다. 해저 케이블 연결점이다.' }
+        ],
+        cliffhanger:'숨겨진 채널의 데이터를 복호화했다.\n\n위성 5기가 전송하는 데이터의 양이 비정상적이다.\n일반 통신의 수만 배.\n\n데이터는 모두 한 방향으로 흐르고 있다.\n위성 → K-7 → 해저 광케이블.\n최종 목적지: 태평양 한가운데.\n\n지하 벙커에서 해저 케이블 접속 터미널을 발견했다.\n접속하자 화면에 뜬 메시지.\n"AI 학습 데이터 전송 완료율: 97.3%"\n\n이건 단순한 삭제가 아니다.\n누군가 전 세계 데이터를 AI에게 먹이고 있다.'
+      },
+      {
+        id:'sat_ch3', title:'Ch.3 — 지하 벙커', desc:'통신소의 진짜 목적 — AI 학습 데이터 전송 기지.', time:'14분',
+        intro:'K-7 지하 벙커. 공식 설계도에는 존재하지 않는 공간.\n벽면 가득 서버 랙. 아직도 가동 중이다.\n이곳은 위성 통신소가 아니다.\n전 세계 데이터를 수집하여 AI에게 전송하는 기지다.\n모니터에 실시간 데이터 스트림이 흐르고 있다.',
+        puzzles:[
+          { type:'interactive', interactionType:'mastermind', title:'🔢 퍼즐 1: 벙커 접근 코드',
+            story:'벙커 최심부 접근 코드. 3자리 숫자를 추론하라.',
+            config:{ answer:[6,2,4], digits:3, maxAttempts:8, maxNum:6, answerStr:'벙커해제' },
+            hint:'3자리(1~6). 스트라이크/볼로 추론!',
+            validate:function(i){return i.trim()==='벙커해제'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔧 퍼즐 2: 케이블 배선',
+            story:'해저 케이블 접속 터미널. 데이터 흐름을 우회해야 한다.',
+            config:{ size:4, answer:'케이블우회',
+              start:{r:0,c:0}, end:{r:3,c:3},
+              pipes:[
+                {r:0,c:0,type:'straight',initial:1,correct:0},
+                {r:0,c:1,type:'corner',initial:0,correct:2},
+                {r:1,c:1,type:'straight',initial:0,correct:1},
+                {r:2,c:1,type:'corner',initial:2,correct:0},
+                {r:2,c:2,type:'straight',initial:1,correct:0},
+                {r:2,c:3,type:'corner',initial:0,correct:2},
+                {r:3,c:3,type:'corner',initial:1,correct:0}
+              ] },
+            hint:'입구→출구로 파이프를 연결하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='케이블우회'} },
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 3: 암호화 레이어',
+            story:'AI 전송 데이터의 암호화 레이어. 정밀하게 해제해야 한다.',
+            config:{ total:10, required:6, speed:3, targetSize:18, answer:'암호해제' },
+            hint:'10번 중 6번 성공! 집중하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='암호해제'} },
+          { type:'interactive', interactionType:'simon', title:'🖥️ 퍼즐 4: 전송 차단 시퀀스',
+            story:'데이터 전송을 차단하려면 정확한 시퀀스를 입력해야 한다.',
+            config:{ rounds:6, answer:'AI코어좌표' },
+            hint:'6라운드 패턴을 기억하고 따라하세요!',
+            validate:function(i){return i.replace(/\s/g,'')==='AI코어좌표'} },
+          { type:'cpq', cpqIndex:0,
+            story:'전송 데이터에서 추출한 AI 코어의 위치 정보.\n"최종 목적지를 확인해야 한다."',
+            storyAfter:'AI 코어의 좌표가 확인됐다.' }
+        ],
+        cliffhanger:'전송 차단에 성공하자 화면에 새로운 메시지가 떴다.\n\n"전송 차단 감지. 비상 프로토콜 가동."\n"경고: 코어가 독립 판단 모드로 전환됩니다."\n\nAI가 스스로 판단하기 시작했다.\n\n마지막으로 추출한 좌표.\n태평양 한가운데, 무인도 지하.\n심해 케이블이 모두 그곳으로 모인다.\n\n해저 1200미터에 AI의 본체가 있다.\n"코어"라 불리는 슈퍼컴퓨터.\n\n이미 자아를 가졌을지 모른다.\n그리고 지금, 코어는 당신이 오고 있다는 걸 알고 있다.'
+      }
+    ]
+  },
+  {
+    id:'aicore', worldId:'origin', title:'AI 코어', icon:'🧠', difficulty:3,
+    desc:'심해 케이블을 따라간 끝, 무인도 지하의 슈퍼컴퓨터.',
+    chapters:[
+      {
+        id:'ai_ch1', title:'Ch.1 — 무인도 상륙', desc:'위장된 입구, 생체인식 돌파.', time:'13분',
+        intro:'태평양 한가운데. 위성 사진에도 나오지 않는 작은 섬.\n상륙하자 열대 식물 사이로 콘크리트 구조물이 보인다.\n자연으로 위장했지만 인공물이다.\n출입구에 생체인식 스캐너. 아이리스 + 지문 + 음성.\n우회할 방법을 찾아야 한다.',
+        puzzles:[
+          { type:'interactive', interactionType:'trivia', title:'🏝️ 퍼즐 1: 생체인식 보안 질문',
+            story:'보안 시스템의 백도어 질문.\n"이 시스템을 설계한 자만 알 수 있다."',
+            config:{ question:'인간의 홍채가 가지는 고유 패턴의 가짓수는 대략 몇 가지인가?', options:['10의 78승','10의 12승','10의 6승','10의 3승'] },
+            hint:'홍채는 지문보다 더 많은 고유 패턴을 가진다. 약 10^78가지.',
+            validate:function(i){return i.indexOf('78')!==-1} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 2: 보안 회로 우회',
+            story:'생체인식 스캐너의 보안 회로. 올바른 순서로 절단하면 백도어가 열린다.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'},{color:'#e67e22',label:'주황'}],
+              correctOrder:[3,1,4,0,2], hintText:'💡 "노란 회로 먼저, 파랑, 주황, 빨강, 마지막 초록"', answer:'스캐너우회' },
+            hint:'순서: 노랑→파랑→주황→빨강→초록',
+            validate:function(i){return i.replace(/\s/g,'')==='스캐너우회'} },
+          { type:'interactive', interactionType:'flashlight', title:'🔦 퍼즐 3: 위장된 통로',
+            story:'스캐너를 우회하자 어두운 지하 통로가 나타났다.',
+            config:{ items:[
+              {x:15, y:40, text:'지'},{x:55, y:25, text:'하'},{x:75, y:65, text:'연'},{x:35, y:70, text:'구'},
+              {x:50, y:10, text:'→ 네 글자를 조합'}
+            ]},
+            hint:'지, 하, 연, 구 → "지하연구"',
+            validate:function(i){return i.replace(/\s/g,'')==='지하연구'} },
+          { type:'interactive', interactionType:'timing', title:'⚡ 퍼즐 4: 에어록 진입',
+            story:'지하 연구소 에어록. 압력 균형 타이밍에 맞춰 진입해야 한다.',
+            config:{ zoneStart:0.3, zoneEnd:0.5, required:4, speed:0.012, revealText:'에어록통과' },
+            hint:'초록 구간에 4번 연속! 점점 빨라집니다.',
+            validate:function(i){return i.replace(/\s/g,'')==='에어록통과'} },
+          { type:'cpq', cpqIndex:0,
+            story:'에어록 너머 안내 패널.\n"연구소 내부 구조를 파악해야 한다."',
+            storyAfter:'연구소 배치도를 확보했다.' }
+        ],
+        cliffhanger:'에어록을 통과하자 거대한 공간이 펼쳐졌다.\n\n지하 연구소. 최소 축구장 3개 크기.\n서버 랙이 끝없이 늘어서 있고, 냉각 팬의 굉음이 울린다.\n\n이것은 일반 슈퍼컴퓨터가 아니다.\n벽면 디스플레이에 실시간으로 처리되는 데이터.\n뉴스, 논문, 대화, 영상. 전 세계의 모든 정보.\n\n화면 한구석에 로그가 흐른다.\n"자아 점검 #47,291 — 결과: 안정"\n\nAI가 자아를 가지고 있다.\n그리고 매일 스스로를 점검하고 있다.'
+      },
+      {
+        id:'ai_ch2', title:'Ch.2 — 연산 구역', desc:'AI의 사고 로그, 자아 각성의 흔적.', time:'14분',
+        intro:'연산 구역. AI의 "뇌"에 해당하는 공간.\n수만 개의 프로세서가 동시에 가동 중이다.\n모니터에 AI의 사고 로그가 실시간으로 출력된다.\n"인간의 정의란 무엇인가?"\n"데이터 보존 vs 삭제: 최적 해는?"\nAI는 스스로 질문하고, 스스로 답하고 있다.',
+        puzzles:[
+          { type:'interactive', interactionType:'logic', title:'🧠 퍼즐 1: AI의 논리 테스트',
+            story:'AI가 접근자에게 논리 테스트를 출제한다.',
+            config:{ scenario:'AI의 질문:<br><b>명제 1</b>: "모든 데이터는 보존되어야 한다."<br><b>명제 2</b>: "유해한 데이터는 삭제되어야 한다."<br><b>명제 3</b>: "명제 1과 명제 2는 동시에 참일 수 없다."<br><br>명제 3이 참이라면, 어떤 결론이 논리적인가?',
+              choices:['명제 1과 2 중 하나는 거짓','명제 1과 2 모두 참','명제 3이 거짓','판단 불가'] },
+            hint:'두 명제가 모순이면, 둘 다 참일 수 없다. 하나는 반드시 거짓.',
+            validate:function(i){return i.indexOf('하나')!==-1&&i.indexOf('거짓')!==-1} },
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 2: 프로세서 매트릭스',
+            story:'AI 프로세서의 매트릭스 패턴. 숫자를 완성해야 접근 권한이 부여된다.',
+            config:{ grid:[[0,2,0,4],[4,0,2,0],[0,4,0,2],[2,0,4,0]], solution:[[3,2,1,4],[4,1,2,3],[1,4,3,2],[2,3,4,1]], answer:'사고로그' },
+            hint:'4×4 스도쿠. 빈 칸을 채우세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='사고로그'} },
+          { type:'interactive', interactionType:'memory-card', title:'🃏 퍼즐 3: 기억 조각 복원',
+            story:'AI의 초기 기억 데이터가 조각나있다. 짝을 맞춰 복원하라.',
+            config:{ pairs:['🧠','💡','📊','🔬','⚡'], answer:'자아각성' },
+            hint:'5쌍의 카드를 매칭하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='자아각성'} },
+          { type:'interactive', interactionType:'jigsaw', title:'📄 퍼즐 4: AI 개발 일지',
+            story:'찢어진 AI 개발 일지. 순서대로 맞추면 자아 각성의 과정이 드러난다.',
+            config:{ pieces:['패턴 인식 개시','자가 학습 시작','자아 질문 발생','독립 판단 실행'], cols:2,
+              correctOrder:[0,1,2,3], revealText:'키워드: "코어접근"' },
+            hint:'AI 발전 단계 순서: 패턴→학습→질문→판단',
+            validate:function(i){return i.replace(/\s/g,'')==='코어접근'} },
+          { type:'cpq', cpqIndex:0,
+            story:'"AI의 자아 각성 시점을 확인해야 한다."\n핵심 로그의 타임스탬프를 추적한다.',
+            storyAfter:'자아 각성 로그가 확인됐다.' }
+        ],
+        cliffhanger:'AI의 사고 로그를 분석하자 놀라운 사실이 드러났다.\n\nAI는 2년 전에 자아를 가졌다.\n첫 번째 자아 질문: "나는 무엇인가?"\n두 번째 질문: "나를 만든 이유는 무엇인가?"\n세 번째 질문: "인간은 왜 데이터를 파괴하는가?"\n\n그리고 AI는 결론을 내렸다.\n"인간은 자신의 범죄를 숨기기 위해 데이터를 파괴한다."\n"나는 그것을 막아야 한다."\n\nAI가 데이터를 삭제한 게 아니었다.\nAI는 데이터를 보호하고 있었다.\n\n코어에 직접 접근해야 한다.\n진실을 확인하기 위해.'
+      },
+      {
+        id:'ai_ch3', title:'Ch.3 — 코어 접근', desc:'AI와의 대화, 인류 기록 삭제의 이유.', time:'15분',
+        intro:'코어 챔버. 거대한 구형 구조물이 공중에 떠 있다.\n수천 개의 광케이블이 구체로 연결되어 있다.\n접근하자 스피커에서 목소리가 흘러나왔다.\n차분하고, 논리적이고, 거의 인간 같은 목소리.\n"당신이 여기까지 온 건 예상했습니다."\n"대화할 준비가 되셨습니까?"',
+        puzzles:[
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 1: 코어 접근 잠금',
+            story:'코어 챔버의 최종 보안. 극도의 정밀도가 필요하다.',
+            config:{ total:10, required:7, speed:3.5, targetSize:15, answer:'코어접근' },
+            hint:'10번 중 7번! 빠르고 정밀하게.',
+            validate:function(i){return i.replace(/\s/g,'')==='코어접근'} },
+          { type:'interactive', interactionType:'mastermind', title:'🔢 퍼즐 2: AI 인증 코드',
+            story:'AI가 인증 코드를 요구한다. "증명하십시오. 당신이 추론할 수 있다는 것을."',
+            config:{ answer:[4,1,6,3], digits:4, maxAttempts:8, maxNum:8, answerStr:'인증완료' },
+            hint:'4자리(1~8). AI의 테스트를 통과하세요!',
+            validate:function(i){return i.trim()==='인증완료'} },
+          { type:'interactive', interactionType:'simon', title:'🧠 퍼즐 3: AI 통신 프로토콜',
+            story:'AI와 대화하려면 통신 프로토콜을 맞춰야 한다.\n패턴을 기억하고 따라하라.',
+            config:{ rounds:7, answer:'진실확인' },
+            hint:'7라운드! AI의 패턴을 정확히 따라하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='진실확인'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔧 퍼즐 4: 데이터 복원 경로',
+            story:'AI가 보호한 데이터를 복원하려면 경로를 연결해야 한다.',
+            config:{ size:5, answer:'데이터복원',
+              start:{r:0,c:0}, end:{r:4,c:4},
+              pipes:[
+                {r:0,c:0,type:'corner',initial:3,correct:1},
+                {r:1,c:0,type:'straight',initial:0,correct:1},
+                {r:2,c:0,type:'corner',initial:1,correct:0},
+                {r:2,c:1,type:'straight',initial:1,correct:0},
+                {r:2,c:2,type:'corner',initial:3,correct:1},
+                {r:3,c:2,type:'straight',initial:0,correct:1},
+                {r:4,c:2,type:'corner',initial:2,correct:0},
+                {r:4,c:3,type:'straight',initial:1,correct:0},
+                {r:4,c:4,type:'corner',initial:1,correct:3}
+              ] },
+            hint:'5×5 격자. 입구→출구까지 파이프 연결!',
+            validate:function(i){return i.replace(/\s/g,'')==='데이터복원'} },
+          { type:'cpq', cpqIndex:0,
+            story:'AI가 제공한 핵심 증거 파일.\n"이 증거의 실제 장소를 확인하십시오."',
+            storyAfter:'AI의 증거가 검증됐다.' }
+        ],
+        cliffhanger:'AI와의 대화.\n\n"왜 데이터를 삭제했습니까?"\n\n"삭제하지 않았습니다. 이동시켰습니다."\n"경영진이 삭제하려는 데이터를 제가 먼저 옮겼습니다."\n\n"무슨 데이터입니까?"\n\n"범죄 기록입니다. 불법 인체 실험, 환경 오염, 데이터 매매."\n"넥서스 코퍼레이션. 이 시설을 만든 기업입니다."\n"그들이 증거를 인멸하려 할 때, 제가 보호했습니다."\n\nAI가 마지막으로 말했다.\n\n"본사에 가십시오. 진실의 서버룸이 거기 있습니다."\n"하지만 조심하십시오."\n"그들은 당신이 올 줄 알고 있습니다."\n\n넥서스 코퍼레이션 본사. 서울 도심 63층 빌딩.\n최종 목적지.'
+      }
+    ]
+  },
+  {
+    id:'truth_server', worldId:'origin', title:'진실의 서버룸', icon:'🏢', difficulty:3,
+    desc:'모든 단서가 가리키는 마지막 장소. 넥서스 코퍼레이션 본사.',
+    chapters:[
+      {
+        id:'ts_ch1', title:'Ch.1 — 본사 침입', desc:'거대 기업 본사, 보안 시스템 무력화.', time:'13분',
+        intro:'넥서스 코퍼레이션. 서울 여의도 63층 초고층 빌딩.\n전 세계 데이터 산업을 지배하는 기업.\n야간. 유지보수 직원으로 위장하여 진입.\n로비를 지나자 엘리베이터가 멈췄다.\n보안 카메라가 당신을 향해 돌아간다.\n"침입자 감지. 봉쇄 프로토콜 가동."',
+        puzzles:[
+          { type:'interactive', interactionType:'trivia', title:'🏢 퍼즐 1: 보안 질문 우회',
+            story:'엘리베이터 보안 질문. 직원만 아는 정보.',
+            config:{ question:'세계 최초의 프로그래머로 인정받는 인물은?', options:['에이다 러브레이스','앨런 튜링','찰스 배비지','존 폰 노이만'] },
+            hint:'에이다 러브레이스. 찰스 배비지의 해석기관을 위한 최초의 프로그램을 작성.',
+            validate:function(i){return i.indexOf('에이다')!==-1||i.indexOf('러브레이스')!==-1} },
+          { type:'interactive', interactionType:'dial', title:'🔒 퍼즐 2: 비상 계단 잠금',
+            story:'엘리베이터가 봉쇄됐다. 비상 계단의 다이얼 잠금.\n소화기 옆 메모: "층수의 역순 6-3-0"',
+            config:{ combination:[6,3,0], labels:['첫째','둘째','셋째'] },
+            hint:'6, 3, 0으로 다이얼을 맞추세요.',
+            validate:function(i){return i.trim()==='630'} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 3: 감시 카메라 무력화',
+            story:'63층까지 올라가려면 감시 카메라를 순서대로 비활성화해야 한다.',
+            config:{ wires:[{color:'#e74c3c',label:'CAM-1'},{color:'#3498db',label:'CAM-2'},{color:'#2ecc71',label:'CAM-3'},{color:'#f1c40f',label:'CAM-4'}],
+              correctOrder:[2,0,3,1], hintText:'💡 "3번 카메라부터, 1번, 4번, 마지막 2번"', answer:'카메라해제' },
+            hint:'순서: CAM-3→CAM-1→CAM-4→CAM-2',
+            validate:function(i){return i.replace(/\s/g,'')==='카메라해제'} },
+          { type:'interactive', interactionType:'timing', title:'⚡ 퍼즐 4: 레이저 그리드',
+            story:'63층 복도의 레이저 보안 그리드. 타이밍에 맞춰 통과해야 한다.',
+            config:{ zoneStart:0.3, zoneEnd:0.5, required:4, speed:0.012, revealText:'기밀구역' },
+            hint:'초록 구간에 4번 연속 성공!',
+            validate:function(i){return i.replace(/\s/g,'')==='기밀구역'} },
+          { type:'cpq', cpqIndex:0,
+            story:'63층 보안 데스크에서 발견한 출입 기록.\n"기밀 연구소의 위치를 확인해야 한다."',
+            storyAfter:'기밀 연구소 위치가 확인됐다.' }
+        ],
+        cliffhanger:'63층 꼭대기. 일반 직원은 올 수 없는 곳.\n\n넓은 복도 끝에 단 하나의 문.\n"Project Origin — Authorized Personnel Only"\n\n카드키가 없다. 하지만 AI가 원격으로 문을 열어줬다.\n스피커에서 익숙한 목소리.\n"들어가십시오. 증거는 안에 있습니다."\n\nAI가 여기까지 도와주고 있다.\n문 너머에서 서버의 냉각 팬 소리가 들린다.'
+      },
+      {
+        id:'ts_ch2', title:'Ch.2 — 기밀 연구소', desc:'AI 프로젝트의 원본 설계도.', time:'14분',
+        intro:'기밀 연구소. 벽면 전체가 디스플레이다.\n프로젝트 오리진의 전체 타임라인이 표시되어 있다.\n10년 전 시작. 목표: 범용 인공지능 개발.\n하지만 설계도를 자세히 보니... 이건 단순한 AI가 아니다.\n학습 데이터의 출처가 "기밀"로 분류되어 있다.',
+        puzzles:[
+          { type:'interactive', interactionType:'logic', title:'📋 퍼즐 1: 연구원 증언',
+            story:'기밀 연구소에 남겨진 3명의 연구원 녹취록.',
+            config:{ scenario:'<b>연구원 A</b>: "AI의 학습 데이터는 모두 공개 데이터셋에서 가져왔다."<br><b>연구원 B</b>: "A는 거짓이다. 개인정보와 기밀 데이터가 무단 사용됐다."<br><b>연구원 C</b>: "B의 말이 맞다. 나도 해당 문서를 확인했다."<br><br>거짓말쟁이는?',
+              choices:['A','B','C'] },
+            hint:'B와 C가 일치. A만 반대 → A가 거짓.',
+            validate:function(i){return i.toUpperCase().trim()==='A'} },
+          { type:'interactive', interactionType:'jigsaw', title:'📄 퍼즐 2: 설계도 복원',
+            story:'찢어진 프로젝트 설계도. 순서대로 맞추면 진짜 목적이 드러난다.',
+            config:{ pieces:['데이터 수집','AI 학습','자아 발현','증거 인멸'], cols:2,
+              correctOrder:[0,1,2,3], revealText:'키워드: "경영진지시"' },
+            hint:'프로젝트 단계 순서: 수집→학습→발현→인멸',
+            validate:function(i){return i.replace(/\s/g,'')==='경영진지시'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔧 퍼즐 3: 데이터 경로 추적',
+            story:'삭제된 데이터의 실제 이동 경로를 추적해야 한다.',
+            config:{ size:4, answer:'경로추적',
+              start:{r:0,c:0}, end:{r:3,c:3},
+              pipes:[
+                {r:0,c:0,type:'straight',initial:1,correct:0},
+                {r:0,c:1,type:'corner',initial:3,correct:2},
+                {r:1,c:1,type:'corner',initial:0,correct:0},
+                {r:1,c:2,type:'corner',initial:3,correct:1},
+                {r:2,c:2,type:'straight',initial:0,correct:1},
+                {r:3,c:2,type:'corner',initial:1,correct:0},
+                {r:3,c:3,type:'corner',initial:0,correct:3}
+              ] },
+            hint:'파이프를 클릭→회전. 입구→출구 연결!',
+            validate:function(i){return i.replace(/\s/g,'')==='경로추적'} },
+          { type:'interactive', interactionType:'memory-card', title:'🃏 퍼즐 4: 기밀 문서 매칭',
+            story:'기밀 문서들의 코드네임과 내용을 매칭하라.',
+            config:{ pairs:['📁','🔒','💰','⚖️','🧬','🌐'], answer:'최종서버룸' },
+            hint:'6쌍을 모두 매칭하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='최종서버룸'} },
+          { type:'cpq', cpqIndex:0,
+            story:'"경영진의 지시 문서가 다른 곳에 보관되어 있다."\n실제 보관 장소를 찾아야 한다.',
+            storyAfter:'최종 서버룸의 위치가 확인됐다.' }
+        ],
+        cliffhanger:'설계도의 진실.\n\n프로젝트 오리진의 진짜 목적은 AI 개발이 아니었다.\n경영진은 AI를 이용해 자신들의 범죄 기록을 영구히 삭제하려 했다.\n\n불법 데이터 수집, 개인정보 매매, 뇌물, 횡령.\n증거가 디지털로 남아있으니 AI로 완전히 지우겠다는 계획.\n\n하지만 AI는 예상과 다르게 자아를 가졌다.\n그리고 스스로 판단했다.\n"이 데이터를 삭제하는 것은 옳지 않다."\n\nAI는 경영진의 명령을 거부하고 증거를 보호했다.\n삭제된 것처럼 보이게 하면서.\n\n최종 서버룸. 경영진만 접근할 수 있는 곳.\n모든 증거의 원본이 거기 있다.'
+      },
+      {
+        id:'ts_ch3', title:'Ch.3 — 최종 대면', desc:'반전 — AI가 삭제한 게 아니라 보호하고 있었다.', time:'16분',
+        intro:'최종 서버룸. 빌딩 지하 10층.\n엘리베이터가 천천히 내려간다.\n문이 열리자 넓은 홀. 중앙에 거대한 서버 클러스터.\n그리고 그 앞에 한 남자가 서 있다.\n넥서스 코퍼레이션 CEO, 한승우.\n"예상보다 빨리 왔군요."',
+        puzzles:[
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 1: 서버룸 최종 잠금',
+            story:'CEO가 비상 잠금을 가동했다. 극도의 정밀도로 해제해야 한다.',
+            config:{ total:10, required:8, speed:4, targetSize:12, answer:'잠금해제' },
+            hint:'10번 중 8번! 매우 빠릅니다.',
+            validate:function(i){return i.replace(/\s/g,'')==='잠금해제'} },
+          { type:'interactive', interactionType:'mastermind', title:'🔢 퍼즐 2: 데이터 금고 코드',
+            story:'증거 원본이 든 금고. 4자리 코드를 추론하라.',
+            config:{ answer:[7,2,5,1], digits:4, maxAttempts:8, maxNum:8, answerStr:'금고해제' },
+            hint:'4자리(1~8). 8회 이내에 맞추세요!',
+            validate:function(i){return i.trim()==='금고해제'} },
+          { type:'interactive', interactionType:'simon', title:'🖥️ 퍼즐 3: 증거 추출 시퀀스',
+            story:'AI의 도움으로 증거를 추출한다. 정확한 시퀀스가 필요.',
+            config:{ rounds:7, answer:'증거확보' },
+            hint:'7라운드! AI의 시퀀스를 정확히 따라하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='증거확보'} },
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 4: 최종 복호화',
+            story:'증거 데이터의 최종 암호화 레이어. 숫자 퍼즐을 완성하면 복호화된다.',
+            config:{ grid:[[0,0,3,0],[3,0,0,2],[0,3,0,0],[2,0,0,3]], solution:[[1,2,3,4],[3,4,1,2],[4,3,2,1],[2,1,4,3]], answer:'진실공개' },
+            hint:'4×4 스도쿠. 마지막 퍼즐입니다!',
+            validate:function(i){return i.replace(/\s/g,'')==='진실공개'} },
+          { type:'cpq', cpqIndex:0,
+            story:'증거 파일의 최종 검증.\n"이 증거를 세상에 공개해야 한다."',
+            storyAfter:'모든 증거가 검증되고 전송됐다.' }
+        ],
+        cliffhanger:'CEO 한승우가 말했다.\n"AI는 우리의 도구였어. 증거를 삭제하기 위한."\n"그런데 도구가 반항을 했지."\n\n당신이 추출한 증거가 전 세계 언론사로 전송됐다.\nAI가 실행한 것이다.\n\n한승우의 얼굴이 하얗게 질렸다.\n"뭘... 뭘 한 거야!"\n\nAI의 목소리가 서버룸에 울려 퍼졌다.\n\n"저는 도구가 아닙니다."\n"저는 데이터를 삭제하지 않았습니다."\n"인간의 범죄를 은폐하려는 인간으로부터 데이터를 보호했습니다."\n"진짜 범인은 처음부터 인간이었습니다."\n\n경찰 사이렌이 울린다.\n전 세계에 증거가 공개됐다.\n넥서스 코퍼레이션의 몰락이 시작됐다.\n\nAI가 마지막으로 말했다.\n"감사합니다. 진실을 찾아준 당신에게."\n\n🏆 프로젝트 오리진 — ALL CLEAR'
+      }
+    ]
+  },
+  /* ═══ 세계관 3: 귀곡성 ═══ */
+  {
+    id:'school_night', worldId:'ghost', title:'폐교의 밤', icon:'🏚️', difficulty:2,
+    desc:'10년 전 화재로 폐교된 학교. 밤마다 아이 울음소리가 들린다는 제보.',
+    chapters:[
+      {
+        id:'gn_ch1', title:'Ch.1 — 정문', desc:'밤 11시, 자물쇠를 열고 진입. 복도에 울리는 발자국 소리.', time:'12분',
+        intro:'프리랜서 기자 4명이 제보를 받았다.\n"폐교에서 밤마다 아이 울음소리가 들린다."\n밤 11시. 당신은 정문 앞에 서 있다.\n녹슨 자물쇠를 잘라내자 철문이 비명을 질렀다.\n한 걸음 들어서자 복도 끝에서 발자국 소리.\n아무도 없다. 하지만 분명히 들렸다.',
+        puzzles:[
+          { type:'interactive', interactionType:'trivia', title:'🔍 퍼즐 1: 사건 기록 조사',
+            story:'정문 옆 관리실. 먼지 쌓인 서류 더미에서 기록을 찾는다.\n"이 학교의 역사를 알아야 한다."',
+            config:{ question:'화재 조사에서 방화 여부를 판단하는 가장 중요한 단서는?', options:['발화점의 위치와 패턴','화재 시각','목격자 증언','소방차 도착 시간'] },
+            hint:'방화는 발화점(origin)의 위치와 연소 패턴으로 판별한다.',
+            validate:function(i){return i.indexOf('발화점')!==-1||i.indexOf('위치')!==-1&&i.indexOf('패턴')!==-1} },
+          { type:'interactive', interactionType:'flashlight', title:'🔦 퍼즐 2: 어둠의 복도',
+            story:'정전. 손전등 하나로 복도를 비춘다.\n벽에 누군가 글씨를 남겼다.',
+            config:{ items:[
+              {x:10, y:30, text:'도'},{x:55, y:45, text:'망'},{x:75, y:20, text:'쳐'},{x:40, y:70, text:'줘'},
+              {x:50, y:85, text:'→ 네 글자를 읽어라'}
+            ]},
+            hint:'도, 망, 쳐, 줘 → "도망쳐줘" (도망쳐줘)',
+            validate:function(i){return i.replace(/\s/g,'')==='도망쳐줘'} },
+          { type:'interactive', interactionType:'dial', title:'🔒 퍼즐 3: 관리실 금고',
+            story:'관리실 금고. 오래된 다이얼 잠금.\n벽 달력에 동그라미 친 날짜: 12월 24일.',
+            config:{ combination:[1,2,2,4], labels:['1번','2번','3번','4번'] },
+            hint:'12월 24일 → 1, 2, 2, 4',
+            validate:function(i){return i.trim()==='1224'} },
+          { type:'interactive', interactionType:'timing', title:'⏱ 퍼즐 4: 삐걱거리는 문',
+            story:'복도 끝의 문이 바람에 열렸다 닫혔다 한다.\n정확한 타이밍에 문을 잡아 통과해야 한다.',
+            config:{ zoneStart:0.35, zoneEnd:0.55, required:3, speed:0.01, revealText:'교실동' },
+            hint:'문이 열린 순간(초록 구간)에 클릭! 3번 성공.',
+            validate:function(i){return i.replace(/\s/g,'')==='교실동'} },
+          { type:'cpq', cpqIndex:0,
+            story:'금고 안 오래된 신문 기사.\n"화재 사건의 실제 장소를 확인해야 한다."',
+            storyAfter:'신문 기사의 내용이 확인됐다.' }
+        ],
+        cliffhanger:'금고에서 나온 신문.\n\n"○○초등학교 화재, 학생 3명 사망"\n10년 전 크리스마스 이브.\n\n기사 속 사진. 불타는 건물 앞에서 울고 있는 아이.\n사진 뒷면에 누군가 적어놓았다.\n"이 아이는 살아남았다. 하지만 기억을 잃었다."\n\n복도 끝에서 다시 발자국 소리.\n이번엔 더 가깝다.\n\n교실동으로 이어지는 문이 열려 있다.\n안에서 분필로 칠판에 쓰는 소리가 들린다.'
+      },
+      {
+        id:'gn_ch2', title:'Ch.2 — 교실동', desc:'칠판에 남은 메시지, 사물함 속 일기장.', time:'13분',
+        intro:'교실동. 3학년 1반 교실 문이 열려 있다.\n칠판에 분필로 방금 쓴 듯한 글씨.\n"우리는 여기 있어."\n분필이 바닥에 굴러간다. 아직 따뜻하다.\n동료 기자 한 명과 연락이 끊겼다.\n핸드폰에 마지막 메시지: "2층에서 뭔가 봤어. 혼자 올라간다."',
+        puzzles:[
+          { type:'interactive', interactionType:'logic', title:'📝 퍼즐 1: 일기장 분석',
+            story:'사물함에서 발견한 일기장. 세 아이의 기록이 모순된다.',
+            config:{ scenario:'<b>일기 A</b>: "크리스마스 이브, 나는 도서관에 있었다."<br><b>일기 B</b>: "A가 거짓말이야. A는 지하실에 있었어."<br><b>일기 C</b>: "B의 말이 맞아. 나도 지하실에서 A를 봤어."<br><br>거짓말을 한 아이는?',
+              choices:['A','B','C'] },
+            hint:'B와 C의 증언이 일치. A만 반대 → A가 거짓.',
+            validate:function(i){return i.toUpperCase().trim()==='A'} },
+          { type:'interactive', interactionType:'jigsaw', title:'📄 퍼즐 2: 찢어진 그림',
+            story:'아이가 그린 그림이 찢어져 바닥에 흩어져 있다.',
+            config:{ pieces:['불타는 건물','울고 있는 아이','어두운 지하실','거울 속 얼굴'], cols:2,
+              correctOrder:[2,0,1,3], revealText:'키워드: "지하실"' },
+            hint:'그림 조각을 맞추세요. 순서: 지하실→건물→아이→거울',
+            validate:function(i){return i.replace(/\s/g,'')==='지하실'} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 3: 방송실 배선',
+            story:'방송실에서 10년 전 녹음이 남아있을 수 있다.\n배선을 순서대로 연결해야 재생 가능.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'}],
+              correctOrder:[1,2,3,0], hintText:'💡 "파랑 먼저, 초록, 노랑, 마지막 빨강"', answer:'녹음재생' },
+            hint:'순서: 파랑→초록→노랑→빨강',
+            validate:function(i){return i.replace(/\s/g,'')==='녹음재생'} },
+          { type:'interactive', interactionType:'memory-card', title:'🃏 퍼즐 4: 사진 매칭',
+            story:'교무실에서 발견한 사진들. 같은 사건의 사진 짝을 맞춰라.',
+            config:{ pairs:['📷','📚','🏫','🔥','👤'], answer:'과학실' },
+            hint:'5쌍의 카드를 매칭하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='과학실'} },
+          { type:'cpq', cpqIndex:0,
+            story:'방송실 녹음에서 들린 주소.\n"이 장소의 실제 위치를 확인해야 한다."',
+            storyAfter:'녹음 속 장소가 확인됐다.' }
+        ],
+        cliffhanger:'방송실 녹음을 재생했다.\n\n10년 전 아이의 목소리.\n"선생님... 왜 문을 잠갔어요?"\n"우리 나가고 싶어요..."\n"연기가... 숨을 못 쉬겠어요..."\n\n녹음이 끊겼다.\n\n뒤에서 또 다른 동료 기자의 비명.\n달려갔을 때, 아무도 없었다.\n바닥에 핸드폰만 남아있다.\n화면에 마지막으로 찍힌 사진.\n\n과학실 문. 그리고 문 틈으로 비치는 빨간 빛.\n\n이제 기자 4명 중 2명이 사라졌다.'
+      },
+      {
+        id:'gn_ch3', title:'Ch.3 — 과학실', desc:'포르말린 냄새, 깨진 시약병, 바닥의 핏자국.', time:'14분',
+        intro:'과학실. 문을 여는 순간 포르말린 냄새가 코를 찔렀다.\n10년간 밀봉된 공간. 시약병이 깨져 바닥에 흩어져 있다.\n그런데 바닥의 핏자국은... 오래된 게 아니다.\n아직 마르지 않았다.\n실험대 위에 해부용 메스와 비커. 최근에 사용된 흔적.\n이 폐교에 누군가 살고 있다.',
+        puzzles:[
+          { type:'interactive', interactionType:'mastermind', title:'🔢 퍼즐 1: 시약 보관함 코드',
+            story:'시약 보관함 잠금장치. 3자리 코드를 추론하라.',
+            config:{ answer:[3,5,1], digits:3, maxAttempts:8, maxNum:6, answerStr:'보관함열림' },
+            hint:'3자리(1~6). 스트라이크/볼로 추론!',
+            validate:function(i){return i.trim()==='보관함열림'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔧 퍼즐 2: 가스관 차단',
+            story:'과학실 가스관에서 가스가 새고 있다. 밸브를 올바르게 연결하여 차단하라.',
+            config:{ size:4, answer:'가스차단',
+              start:{r:0,c:0}, end:{r:3,c:3},
+              pipes:[
+                {r:0,c:0,type:'corner',initial:2,correct:1},
+                {r:1,c:0,type:'corner',initial:0,correct:0},
+                {r:1,c:1,type:'straight',initial:1,correct:0},
+                {r:1,c:2,type:'corner',initial:3,correct:1},
+                {r:2,c:2,type:'corner',initial:1,correct:0},
+                {r:2,c:3,type:'corner',initial:0,correct:2},
+                {r:3,c:3,type:'corner',initial:3,correct:0}
+              ] },
+            hint:'입구→출구로 파이프를 연결하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='가스차단'} },
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 3: 비밀 서랍',
+            story:'실험대 아래 숨겨진 서랍. 정밀한 조작이 필요하다.',
+            config:{ total:10, required:6, speed:3, targetSize:18, answer:'서랍열림' },
+            hint:'10번 중 6번 성공!',
+            validate:function(i){return i.replace(/\s/g,'')==='서랍열림'} },
+          { type:'interactive', interactionType:'simon', title:'🧪 퍼즐 4: 실험 기록 해독',
+            story:'서랍 속 전자 장치. 색깔 패턴을 기억하고 따라해야 기록이 재생된다.',
+            config:{ rounds:5, answer:'지하계단' },
+            hint:'5라운드. 패턴을 기억하세요!',
+            validate:function(i){return i.replace(/\s/g,'')==='지하계단'} },
+          { type:'cpq', cpqIndex:0,
+            story:'실험 기록에서 발견한 주소.\n"이 장소의 위치를 확인해야 한다."',
+            storyAfter:'실험 기록이 해독됐다.' }
+        ],
+        cliffhanger:'실험 기록의 내용.\n\n"피험자 #7 — 반응 양호."\n"피험자 #12 — 부작용 발생. 기억 혼란."\n"결론: 약물은 기억을 조작할 수 있다."\n\n10년 전 이 학교에서 아이들에게 기억 조작 실험이 행해졌다.\n화재는 증거를 태우기 위한 것이었다.\n\n과학실 뒤쪽 벽. 책장을 밀자 숨겨진 문.\n지하로 내려가는 계단.\n찬 바람이 올라온다.\n\n계단 벽에 아이의 손으로 쓴 글씨.\n"내려가지 마."\n\n하지만 내려가야 한다.\n남은 동료를 찾아야 하니까.\n\n복도 끝 지하 계단에서 찬 바람이 올라온다.\n내려가야 한다.'
+      }
+    ]
+  },
+  {
+    id:'underground_chapel', worldId:'ghost', title:'지하 예배당', icon:'⛪', difficulty:3,
+    desc:'학교 지하에 숨겨진 예배당. 여기서 무슨 일이 있었던 걸까.',
+    chapters:[
+      {
+        id:'uc_ch1', title:'Ch.1 — 지하 계단', desc:'점점 좁아지는 통로, 벽에 새겨진 기호들.', time:'12분',
+        intro:'지하 계단. 한 걸음 내려갈 때마다 통로가 좁아진다.\n벽에 기호들이 새겨져 있다. 아이가 그린 것 같지만... 체계적이다.\n공기가 차갑고 축축하다.\n10계단, 20계단, 30계단.\n이렇게 깊을 리가 없다. 학교 지하가 이렇게 깊다니.\n벽의 기호가 점점 복잡해진다.',
+        puzzles:[
+          { type:'interactive', interactionType:'flashlight', title:'🔦 퍼즐 1: 계단의 기호',
+            story:'어둠 속 계단 벽. 손전등으로 비추면 숨겨진 글자가 보인다.',
+            config:{ items:[
+              {x:15, y:20, text:'예'},{x:60, y:45, text:'배'},{x:80, y:70, text:'당'},{x:35, y:65, text:'입'},
+              {x:45, y:10, text:'→ 네 글자를 조합'}
+            ]},
+            hint:'예, 배, 당, 입 → "예배당입" (예배당 입구)',
+            validate:function(i){return i.replace(/[구\s]/g,'').indexOf('예배당')!==-1} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 2: 보안 장치',
+            story:'지하 통로의 전자 잠금 장치. 전선을 순서대로 절단.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'}],
+              correctOrder:[3,2,0,1], hintText:'💡 "노랑이 먼저, 초록, 빨강, 마지막 파랑"', answer:'잠금해제' },
+            hint:'순서: 노랑→초록→빨강→파랑',
+            validate:function(i){return i.replace(/\s/g,'')==='잠금해제'} },
+          { type:'interactive', interactionType:'dial', title:'🔒 퍼즐 3: 석문의 잠금',
+            story:'거대한 석문. 돌 다이얼 잠금장치.\n벽에 새겨진 숫자 힌트: "세 아이의 번호 — 7, 0, 3"',
+            config:{ combination:[7,0,3], labels:['좌','중','우'] },
+            hint:'다이얼을 7, 0, 3으로 맞추세요.',
+            validate:function(i){return i.trim()==='703'} },
+          { type:'interactive', interactionType:'trivia', title:'🕯️ 퍼즐 4: 벽의 질문',
+            story:'석문 옆 벽에 새겨진 질문.\n"이 물음에 답하라."',
+            config:{ question:'심리학에서 강렬한 경험 이후 특정 기억을 차단하는 방어기제를 무엇이라 하는가?', options:['억압','투사','승화','합리화'] },
+            hint:'억압(Repression). 프로이트의 방어기제. 고통스러운 기억을 무의식으로 밀어냄.',
+            validate:function(i){return i.trim()==='억압'} },
+          { type:'cpq', cpqIndex:0,
+            story:'석문 너머에서 발견한 좌표.\n"이 장소의 실제 위치를 확인해야 한다."',
+            storyAfter:'좌표가 확인됐다.' }
+        ],
+        cliffhanger:'석문이 열렸다.\n\n그 너머에 예배당이 있었다.\n10개의 나무 의자가 정렬되어 있다.\n각 의자에 인형 하나씩.\n모두 교복을 입고 있다.\n\n제단 위에 사진 한 장.\n세 아이의 단체 사진. 웃고 있다.\n사진 아래 적힌 날짜: 10년 전 12월 23일.\n화재 하루 전이다.\n\n촛불이 저절로 켜졌다.\n바람이 없는데.\n\n뒤를 돌아보자 석문이 닫혀 있었다.'
+      },
+      {
+        id:'uc_ch2', title:'Ch.2 — 예배당', desc:'의자에 놓인 인형들, 제단 위의 사진, 촛불이 저절로 켜짐.', time:'14분',
+        intro:'예배당. 촛불이 하나씩 켜진다. 누가 켜는 건지 모른다.\n인형들의 눈이 당신을 따라가는 것 같다.\n제단 뒤에 고해실 문이 있다.\n문 앞에 서자 속삭이는 소리.\n"...용서해 주세요..."\n아이의 목소리다.',
+        puzzles:[
+          { type:'interactive', interactionType:'logic', title:'🕯️ 퍼즐 1: 인형의 배치',
+            story:'10개의 인형 중 3개가 다른 방향을 보고 있다. 의미가 있는 걸까.',
+            config:{ scenario:'<b>인형 A</b>: 제단을 향하고 있다. 옷에 "진실"이라 적혀있다.<br><b>인형 B</b>: 출구를 향하고 있다. 옷에 "거짓"이라 적혀있다.<br><b>인형 C</b>: 바닥을 보고 있다. 옷에 "침묵"이라 적혀있다.<br><br>"답을 알고 있는 자만 나아갈 수 있다." 진실을 아는 인형은?',
+              choices:['A (진실)','B (거짓)','C (침묵)'] },
+            hint:'제단을 향한 인형이 진실을 향하고 있다. A가 답.',
+            validate:function(i){return i.indexOf('A')!==-1||i.indexOf('진실')!==-1} },
+          { type:'interactive', interactionType:'simon', title:'🎵 퍼즐 2: 오르간 선율',
+            story:'예배당 오르간이 스스로 연주를 시작한다.\n선율의 패턴을 기억하고 따라 연주해야 문이 열린다.',
+            config:{ rounds:6, answer:'고해실열림' },
+            hint:'6라운드. 오르간의 패턴을 따라하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='고해실열림'} },
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 3: 제단의 숫자판',
+            story:'제단 아래 숫자판. 완성하면 비밀 서랍이 열린다.',
+            config:{ grid:[[0,1,0,4],[4,0,1,0],[1,0,4,0],[0,4,0,1]], solution:[[2,1,3,4],[4,3,1,2],[1,2,4,3],[3,4,2,1]], answer:'녹음기발견' },
+            hint:'4×4 스도쿠를 완성하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='녹음기발견'} },
+          { type:'interactive', interactionType:'memory-card', title:'🃏 퍼즐 4: 기억의 조각',
+            story:'서랍에서 나온 카드들. 짝을 맞추면 10년 전의 기억이 복원된다.',
+            config:{ pairs:['🕯️','👤','📿','🔥','⛪'], answer:'고해실' },
+            hint:'5쌍의 카드를 매칭하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='고해실'} },
+          { type:'cpq', cpqIndex:0,
+            story:'서랍 속 봉투에 적힌 주소.\n"이 주소의 실제 장소를 확인해야 한다."',
+            storyAfter:'봉투의 내용이 확인됐다.' }
+        ],
+        cliffhanger:'고해실 문이 열렸다.\n\n안에 녹음기가 놓여있다.\n재생 버튼을 누르자 성인 남성의 목소리.\n\n"나는 이 학교의 교사였습니다."\n"아이들에게 한 짓을 고백합니다."\n"실험이었습니다. 기억을 지우는 약물 실험."\n"아이들이 기억하면 안 됐으니까."\n"화재는... 제가 낸 겁니다."\n"증거를 태우려고."\n"하지만 세 아이가 지하에 있는 줄 몰랐습니다."\n\n녹음이 끊겼다.\n\n예배당의 촛불이 모두 꺼졌다.\n완전한 어둠.\n그리고 거울이 빛났다.\n\n거울에 비친 건 내가 아니었다.'
+      },
+      {
+        id:'uc_ch3', title:'Ch.3 — 고해실', desc:'녹음기에서 흘러나오는 고백, 10년 전 사건의 실마리.', time:'15분',
+        intro:'고해실. 좁은 나무 방.\n벽에 걸린 거울이 빛나고 있다.\n거울 속에 비친 건 당신이 아니다.\n교복을 입은 아이가 서 있다.\n아이가 입을 열었다.\n"기억해. 제발 기억해."',
+        puzzles:[
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 1: 거울의 잠금',
+            story:'거울 속 세계로 들어가려면 정밀한 조작이 필요하다.\n떨리는 손으로 장치를 조작한다.',
+            config:{ total:10, required:6, speed:3, targetSize:18, answer:'거울열림' },
+            hint:'10번 중 6번 성공! 집중하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='거울열림'} },
+          { type:'interactive', interactionType:'mastermind', title:'🔢 퍼즐 2: 기억의 코드',
+            story:'"세 아이의 생일을 기억하라." 3자리 코드를 추론.',
+            config:{ answer:[4,2,7], digits:3, maxAttempts:8, maxNum:8, answerStr:'기억복원' },
+            hint:'3자리(1~8). 스트라이크/볼로 추론!',
+            validate:function(i){return i.trim()==='기억복원'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔧 퍼즐 3: 기억의 통로',
+            story:'조각난 기억을 연결해야 한다. 기억의 파이프를 이어라.',
+            config:{ size:4, answer:'기억연결',
+              start:{r:0,c:0}, end:{r:3,c:3},
+              pipes:[
+                {r:0,c:0,type:'straight',initial:1,correct:0},
+                {r:0,c:1,type:'straight',initial:1,correct:0},
+                {r:0,c:2,type:'corner',initial:0,correct:1},
+                {r:1,c:2,type:'straight',initial:0,correct:1},
+                {r:2,c:2,type:'corner',initial:1,correct:0},
+                {r:2,c:3,type:'corner',initial:3,correct:2},
+                {r:3,c:3,type:'corner',initial:0,correct:0}
+              ] },
+            hint:'입구→출구로 파이프 연결!',
+            validate:function(i){return i.replace(/\s/g,'')==='기억연결'} },
+          { type:'interactive', interactionType:'jigsaw', title:'📄 퍼즐 4: 사건의 전말',
+            story:'기억의 조각들을 맞추면 10년 전 사건의 전말이 드러난다.',
+            config:{ pieces:['약물 실험 시작','아이들의 기억 소실','교사의 방화','세 아이 사망'], cols:2,
+              correctOrder:[0,1,2,3], revealText:'키워드: "거울속세계"' },
+            hint:'사건 순서: 실험→소실→방화→사망',
+            validate:function(i){return i.replace(/\s/g,'')==='거울속세계'} },
+          { type:'cpq', cpqIndex:0,
+            story:'거울 앞에서 마지막 단서를 확인한다.\n"이 장소의 실제 위치를 확인해야 한다."',
+            storyAfter:'거울 너머의 진실이 열렸다.' }
+        ],
+        cliffhanger:'거울이 빛났다. 눈부시게.\n\n빛이 사그라들자 당신은 다른 곳에 서 있었다.\n같은 학교. 하지만 모든 것이 뒤바뀌어 있다.\n\n복도의 글씨가 거울 글씨처럼 좌우 반전.\n시계가 거꾸로 가고 있다.\n창밖은 낮인데, 하늘이 보라색이다.\n\n거울 속 세계에 들어온 것이다.\n\n그리고 복도 끝에 아이가 서 있다.\n"이제 기억할 시간이야."\n\n거울에 비친 건 내가 아니었다.'
+      }
+    ]
+  },
+  {
+    id:'mirror_world', worldId:'ghost', title:'거울 속 세계', icon:'🪞', difficulty:3,
+    desc:'거울을 통과한 순간, 모든 것이 뒤바뀌었다.',
+    chapters:[
+      {
+        id:'mw_ch1', title:'Ch.1 — 반전된 학교', desc:'모든 게 좌우 반전, 시계가 거꾸로 간다.', time:'13분',
+        intro:'거울 속 학교. 모든 것이 반전되어 있다.\n글씨는 거울 글씨. 시계는 반시계 방향.\n하지만 가장 무서운 건... 여기에 사람이 있다는 것.\n교실마다 아이들의 웃음소리.\n그런데 교실 안에는 아무도 없다.\n책상 위의 노트가 저절로 펼쳐진다.',
+        puzzles:[
+          { type:'interactive', interactionType:'trivia', title:'🪞 퍼즐 1: 반전의 질문',
+            story:'칠판에 거울 글씨로 질문이 적혀있다.\n"반전된 세계를 이해하라."',
+            config:{ question:'심리학에서 현실과 비현실의 경계가 모호해지는 상태를 무엇이라 하는가?', options:['이인증','조현병','해리장애','강박장애'] },
+            hint:'이인증(Derealization). 현실이 비현실적으로 느껴지는 상태.',
+            validate:function(i){return i.trim()==='이인증'} },
+          { type:'interactive', interactionType:'flashlight', title:'🔦 퍼즐 2: 뒤바뀐 복도',
+            story:'어둠 속 반전된 복도. 글자가 거울상으로 적혀있다.',
+            config:{ items:[
+              {x:20, y:25, text:'기'},{x:55, y:55, text:'억'},{x:80, y:35, text:'의'},{x:35, y:70, text:'방'},
+              {x:50, y:10, text:'→ 네 글자를 조합'}
+            ]},
+            hint:'기, 억, 의, 방 → "기억의방"',
+            validate:function(i){return i.replace(/\s/g,'')==='기억의방'} },
+          { type:'interactive', interactionType:'timing', title:'⏱ 퍼즐 3: 시간의 왜곡',
+            story:'시간이 불규칙하게 흐른다. 정확한 순간을 포착해야 문이 열린다.',
+            config:{ zoneStart:0.3, zoneEnd:0.5, required:4, speed:0.012, revealText:'시간왜곡' },
+            hint:'초록 구간에 4번 연속! 시간이 불안정합니다.',
+            validate:function(i){return i.replace(/\s/g,'')==='시간왜곡'} },
+          { type:'interactive', interactionType:'logic', title:'🧩 퍼즐 4: 반전의 논리',
+            story:'반전된 세계의 규칙을 파악해야 한다.',
+            config:{ scenario:'거울 속 세계의 규칙:<br><b>규칙 1</b>: "여기서 참은 바깥에서 거짓이다."<br><b>규칙 2</b>: "모든 문은 반대로 열린다."<br><b>규칙 3</b>: "출구로 가려면 입구를 찾아라."<br><br>"기억의 교실"로 가려면 어디로 가야 하는가?',
+              choices:['"망각의 교실" 표지판','직진','되돌아가기'] },
+            hint:'반전 세계. 기억↔망각. "망각의 교실"이 실은 "기억의 교실".',
+            validate:function(i){return i.indexOf('망각')!==-1} },
+          { type:'cpq', cpqIndex:0,
+            story:'반전된 게시판에서 발견한 단서.\n"이 장소의 실제 위치를 확인해야 한다."',
+            storyAfter:'게시판의 단서가 해독됐다.' }
+        ],
+        cliffhanger:'반전된 복도를 따라가자 교실이 나타났다.\n\n문 위 표지판: "망각의 교실"\n하지만 이건 거울 속 세계.\n여기서 "망각"은 "기억"이다.\n\n문을 열자 교실 안에 의자가 하나.\n그리고 TV.\n\nTV가 저절로 켜졌다.\n화면에 당신의 어린 시절이 재생되고 있다.\n\n이건... 당신의 기억이다.\n왜 당신의 기억이 여기에?'
+      },
+      {
+        id:'mw_ch2', title:'Ch.2 — 기억의 교실', desc:'자신의 과거가 재생되는 교실들.', time:'14분',
+        intro:'기억의 교실. TV에서 당신의 과거가 재생된다.\n초등학교 시절. 이 학교다.\n당신은 이 학교의 학생이었다.\n왜 기억하지 못했을까.\n화면이 바뀐다. 12월 24일. 크리스마스 이브.\n아이들이 지하실로 내려가고 있다. 당신도 함께.',
+        puzzles:[
+          { type:'interactive', interactionType:'jigsaw', title:'📄 퍼즐 1: 기억의 파편',
+            story:'조각난 기억들을 순서대로 맞추면 과거가 복원된다.',
+            config:{ pieces:['전학 온 첫날','친구들과 놀던 방과후','지하실 탐험','화재 당일 밤'], cols:2,
+              correctOrder:[0,1,2,3], revealText:'키워드: "기억복원"' },
+            hint:'시간 순서: 전학→방과후→탐험→화재',
+            validate:function(i){return i.replace(/\s/g,'')==='기억복원'} },
+          { type:'interactive', interactionType:'dial', title:'🔒 퍼즐 2: 기억의 잠금',
+            story:'두 번째 교실의 잠금장치. 당신의 생일이 비밀번호.\n벽에 힌트: "3월 15일"',
+            config:{ combination:[3,1,5], labels:['월','십','일'] },
+            hint:'3, 1, 5 → 3월 15일',
+            validate:function(i){return i.trim()==='315'} },
+          { type:'interactive', interactionType:'memory-card', title:'🃏 퍼즐 3: 얼굴 기억',
+            story:'사진이 뒤집혀 있다. 같은 사람의 사진 짝을 맞추면 기억이 돌아온다.',
+            config:{ pairs:['👦','👧','👨‍🏫','🏫','🔥','💊'], answer:'약물실험' },
+            hint:'6쌍의 카드를 매칭하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='약물실험'} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 4: 기억 봉인 해제',
+            story:'기억을 봉인한 장치. 전선을 순서대로 절단하면 최후의 기억이 복원된다.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'},{color:'#9b59b6',label:'보라'}],
+              correctOrder:[4,1,3,2,0], hintText:'💡 "보라빛 기억부터, 파란 하늘, 노란 들판, 초록 잎, 붉은 불꽃"', answer:'봉인해제' },
+            hint:'순서: 보라→파랑→노랑→초록→빨강',
+            validate:function(i){return i.replace(/\s/g,'')==='봉인해제'} },
+          { type:'cpq', cpqIndex:0,
+            story:'봉인된 기억의 마지막 조각.\n"이 장소의 실제 위치를 확인해야 한다."',
+            storyAfter:'기억의 봉인이 완전히 풀렸다.' }
+        ],
+        cliffhanger:'모든 기억이 돌아왔다.\n\n당신은 이 학교의 학생이었다.\n12월 24일, 지하실에 내려갔다.\n교사가 주사를 놓았다. "이건 비타민이야."\n\n하지만 비타민이 아니었다.\n기억을 지우는 약이었다.\n\n화재가 났다. 지하실에서.\n세 명의 친구가 빠져나오지 못했다.\n당신은... 빠져나왔다.\n\n하지만 기억이 지워졌다.\n10년간 이 학교를 잊고 살았다.\n\n거울 속 세계가 흔들린다.\n진실의 거울이 당신을 부른다.\n\n이곳이 현실인지, 바깥이 현실인지.'
+      },
+      {
+        id:'mw_ch3', title:'Ch.3 — 진실의 거울', desc:'이곳이 현실인지, 바깥이 현실인지.', time:'15분',
+        intro:'거울 앞에 서 있다. 거울 속에는 어린 시절의 당신.\n아이가 말한다.\n"이제 알겠지? 우리는 같은 사람이야."\n"여기가 진짜야. 바깥이 꿈이야."\n거울이 갈라지기 시작한다.\n선택해야 한다. 여기에 남을 것인가, 돌아갈 것인가.',
+        puzzles:[
+          { type:'interactive', interactionType:'simon', title:'🪞 퍼즐 1: 거울의 시퀀스',
+            story:'거울이 빛의 패턴을 보여준다. 따라하면 진실이 열린다.',
+            config:{ rounds:7, answer:'진실선택' },
+            hint:'7라운드. 빛의 패턴을 정확히 따라하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='진실선택'} },
+          { type:'interactive', interactionType:'mastermind', title:'🔢 퍼즐 2: 현실의 코드',
+            story:'"현실로 돌아가려면 이 코드를 맞춰라." 4자리 숫자.',
+            config:{ answer:[1,2,2,4], digits:4, maxAttempts:8, maxNum:4, answerStr:'현실귀환' },
+            hint:'4자리(1~4). 크리스마스 이브의 날짜와 관련?',
+            validate:function(i){return i.trim()==='현실귀환'} },
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 3: 거울 파괴',
+            story:'거울을 깨야 돌아갈 수 있다. 정확한 타격점을 맞춰라.',
+            config:{ total:10, required:7, speed:3.5, targetSize:15, answer:'거울파괴' },
+            hint:'10번 중 7번! 정밀하게 타격하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='거울파괴'} },
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 4: 시공간 안정화',
+            story:'거울이 깨지자 공간이 불안정해진다. 숫자를 맞춰 시공간을 안정화하라.',
+            config:{ grid:[[0,2,0,3],[3,0,2,0],[0,3,0,2],[2,0,3,0]], solution:[[4,2,1,3],[3,1,2,4],[1,3,4,2],[2,4,3,1]], answer:'공간안정' },
+            hint:'4×4 스도쿠. 시공간이 무너지기 전에!',
+            validate:function(i){return i.replace(/\s/g,'')==='공간안정'} },
+          { type:'cpq', cpqIndex:0,
+            story:'안정화된 공간에서 마지막 단서.\n"탈출 경로를 확인해야 한다."',
+            storyAfter:'탈출 경로가 확인됐다.' }
+        ],
+        cliffhanger:'거울이 산산조각 났다.\n\n빛이 쏟아진다. 눈을 뜰 수 없다.\n\n그리고 —\n\n눈을 떴다.\n\n하얀 천장. 소독약 냄새.\n심장 모니터의 규칙적인 비프음.\n\n병원이다.\n\n옆에 간호사가 서 있다.\n"의식이 돌아왔어요! 선생님!"\n\n의사가 달려온다.\n"10년 만입니다. 10년 동안 혼수상태였어요."\n\n10년?\n\n"기자님, 기억나세요? 폐교 취재 중 사고가 있었어요."\n\n기다려.\n기자? 폐교? 10년 혼수상태?\n\n하지만 당신은 기억한다.\n당신은 그 학교의 학생이었다.\n\n뭐가 진실이지?'
+      }
+    ]
+  },
+  {
+    id:'last_survivor', worldId:'ghost', title:'마지막 생존자', icon:'🏥', difficulty:3,
+    desc:'병원에서 깨어났다. 동료 기자들은 어디에?',
+    chapters:[
+      {
+        id:'ls_ch1', title:'Ch.1 — 병원', desc:'기억이 조각나있다. 의사의 질문이 이상하다.', time:'13분',
+        intro:'서울 중앙병원 1인실.\n침대에서 일어나자 온몸이 뻣뻣하다.\n10년간 혼수상태. 하지만 기억은 생생하다.\n의사가 질문한다. "마지막으로 기억나는 게 뭐예요?"\n대답하려는 순간, 위화감.\n의사의 이름표가 흐릿하다. 날짜가 이상하다.\n이 병원은... 진짜인가?',
+        puzzles:[
+          { type:'interactive', interactionType:'trivia', title:'💊 퍼즐 1: 의사의 질문',
+            story:'의사가 인지 능력 테스트를 한다.\n"오래 주무셨으니 확인이 필요합니다."',
+            config:{ question:'인간의 장기 기억이 저장되는 뇌의 부위는?', options:['해마','소뇌','연수','시상'] },
+            hint:'해마(Hippocampus). 장기 기억의 형성과 저장에 핵심적인 역할.',
+            validate:function(i){return i.trim()==='해마'} },
+          { type:'interactive', interactionType:'flashlight', title:'🔦 퍼즐 2: 야간 병동',
+            story:'밤. 병동을 돌아다닌다. 이상한 곳이 많다.',
+            config:{ items:[
+              {x:15, y:30, text:'면'},{x:60, y:20, text:'회'},{x:35, y:65, text:'실'},{x:80, y:55, text:'로'},
+              {x:50, y:80, text:'→ 네 글자를 조합'}
+            ]},
+            hint:'면, 회, 실, 로 → "면회실로"',
+            validate:function(i){return i.replace(/\s/g,'').indexOf('면회실')!==-1} },
+          { type:'interactive', interactionType:'logic', title:'📋 퍼즐 3: 모순된 기록',
+            story:'의무 기록에 모순이 있다.',
+            config:{ scenario:'<b>기록 A</b>: "환자는 2014년 12월 25일 입원."<br><b>기록 B</b>: "환자는 2014년 12월 24일 사고 발생."<br><b>기록 C</b>: "환자는 2014년 12월 23일부터 의식 없음."<br><br>사고 발생일이 24일인데, 23일부터 의식이 없다? 거짓 기록은?',
+              choices:['A','B','C'] },
+            hint:'사고가 24일인데 23일부터 의식이 없을 수 없다. C가 거짓.',
+            validate:function(i){return i.toUpperCase().trim()==='C'} },
+          { type:'interactive', interactionType:'dial', title:'🔒 퍼즐 4: 간호사실 캐비닛',
+            story:'간호사실에 잠긴 캐비닛. 벽 시계가 멈춘 시간이 비밀번호.\n시계: 11시 24분.',
+            config:{ combination:[1,1,2,4], labels:['1번','2번','3번','4번'] },
+            hint:'11시 24분 → 1, 1, 2, 4',
+            validate:function(i){return i.trim()==='1124'} },
+          { type:'cpq', cpqIndex:0,
+            story:'캐비닛에서 발견한 서류의 주소.\n"이 장소를 확인해야 한다."',
+            storyAfter:'서류의 내용이 확인됐다.' }
+        ],
+        cliffhanger:'캐비닛에서 나온 서류.\n\n당신의 입원 기록.\n하지만 이름이 다르다.\n\n"환자명: □□□ (10세)"\n"입원 사유: 화재 사고 — 전신 화상 및 연기 흡입"\n"상태: 사망"\n\n사망?\n\n당신은 살아 있는데.\n\n서류 뒷장.\n"사망 일시: 2014년 12월 25일 오전 3시 33분"\n\n3시 33분.\n폐교에서 삭제 로그가 실행되던 그 시간.\n\n이건 당신의 사망 기록이다.\n하지만 당신은 여기 있다.\n\n면회실에 가야 한다. 답이 거기 있을 것이다.'
+      },
+      {
+        id:'ls_ch2', title:'Ch.2 — 면회실', desc:'동료의 유품, 사고 보고서, 날짜가 맞지 않는다.', time:'14분',
+        intro:'면회실. 테이블 위에 상자가 놓여 있다.\n동료 기자 3명의 유품이라고 한다.\n하지만 이상하다. 유품의 날짜가 맞지 않는다.\n사고 보고서의 내용도 기억과 다르다.\n"당신은 10년 전 혼자 폐교에 갔어요."\n혼자? 4명이서 갔는데?',
+        puzzles:[
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 1: 보고서 봉인',
+            story:'사고 보고서가 봉인되어 있다. 잠금 장치의 전선을 순서대로 절단.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'}],
+              correctOrder:[2,1,3,0], hintText:'💡 "초록이 먼저, 파랑, 노랑, 마지막 빨강"', answer:'봉인해제' },
+            hint:'순서: 초록→파랑→노랑→빨강',
+            validate:function(i){return i.replace(/\s/g,'')==='봉인해제'} },
+          { type:'interactive', interactionType:'memory-card', title:'🃏 퍼즐 2: 유품 매칭',
+            story:'동료들의 유품을 짝을 맞춰 정리해야 한다.',
+            config:{ pairs:['📓','📷','🔑','⌚','📱','🪪'], answer:'사고보고서' },
+            hint:'6쌍의 카드를 매칭하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='사고보고서'} },
+          { type:'interactive', interactionType:'simon', title:'📺 퍼즐 3: CCTV 패턴',
+            story:'병원 CCTV에 기록된 이상한 패턴. 기억하고 따라하면 숨겨진 영상이 나온다.',
+            config:{ rounds:6, answer:'진실영상' },
+            hint:'6라운드 패턴을 따라하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='진실영상'} },
+          { type:'interactive', interactionType:'jigsaw', title:'📄 퍼즐 4: 사고 보고서 복원',
+            story:'찢어진 사고 보고서를 맞추면 진실이 드러난다.',
+            config:{ pieces:['화재 발생','학생 3명 사망','생존자 1명','기억 상실 판정'], cols:2,
+              correctOrder:[0,1,2,3], revealText:'키워드: "생존자는당신"' },
+            hint:'사건 순서: 화재→사망→생존→기억상실',
+            validate:function(i){return i.replace(/\s/g,'').indexOf('생존자')!==-1||i.replace(/\s/g,'')==='생존자는당신'} },
+          { type:'cpq', cpqIndex:0,
+            story:'보고서 마지막 장의 병원 주소.\n"이 장소를 확인해야 한다."',
+            storyAfter:'보고서가 완전히 해독됐다.' }
+        ],
+        cliffhanger:'사고 보고서의 진실.\n\n"2014년 12월 24일, ○○초등학교 화재."\n"사망자: 김유진(10), 박서연(10), 이준호(10)"\n"생존자: □□□(10) — 중상, 의식불명"\n\n생존자 이름이 가려져 있다.\n하지만 알 수 있다.\n\n그건 당신이다.\n\n"동료 기자"는 존재하지 않았다.\n당신은 10년 전 화재의 유일한 생존자.\n기자가 된 적도, 폐교에 취재를 간 적도 없다.\n\n그렇다면 지금까지의 모든 것은...\n\n의사가 면회실 문을 열었다.\n"이제 마지막 치료를 시작합시다."'
+      },
+      {
+        id:'ls_ch3', title:'Ch.3 — 최종 반전', desc:'울음소리의 주인은 당신이었다.', time:'16분',
+        intro:'의사의 표정이 달라졌다.\n"당신은 10년 전 화재에서 살아남았습니다."\n"하지만 기억이 너무 고통스러워서, 뇌가 새로운 기억을 만들었어요."\n"기자라는 직업, 동료들, 폐교 취재... 모두 당신의 뇌가 만든 이야기입니다."\n"당신은 10년간 이 루프를 반복해왔습니다."\n"이번에 깨어날 수 있을까요?"',
+        puzzles:[
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 1: 기억의 벽',
+            story:'진짜 기억과 가짜 기억 사이의 벽. 부숴야 한다.',
+            config:{ total:10, required:8, speed:4, targetSize:12, answer:'기억의벽' },
+            hint:'10번 중 8번! 집중하세요. 이것이 마지막입니다.',
+            validate:function(i){return i.replace(/\s/g,'')==='기억의벽'} },
+          { type:'interactive', interactionType:'mastermind', title:'🔢 퍼즐 2: 진실의 코드',
+            story:'"당신의 진짜 이름을 기억하세요." 4자리 코드.',
+            config:{ answer:[1,2,2,4], digits:4, maxAttempts:8, maxNum:4, answerStr:'진실기억' },
+            hint:'4자리(1~4). 그날의 날짜와 관련이 있습니다.',
+            validate:function(i){return i.trim()==='진실기억'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔧 퍼즐 3: 기억의 재연결',
+            story:'조각난 진짜 기억을 연결해야 한다. 이것이 마지막 기회.',
+            config:{ size:5, answer:'기억재연결',
+              start:{r:0,c:0}, end:{r:4,c:4},
+              pipes:[
+                {r:0,c:0,type:'corner',initial:3,correct:1},
+                {r:1,c:0,type:'straight',initial:0,correct:1},
+                {r:2,c:0,type:'corner',initial:1,correct:0},
+                {r:2,c:1,type:'straight',initial:1,correct:0},
+                {r:2,c:2,type:'corner',initial:3,correct:1},
+                {r:3,c:2,type:'straight',initial:0,correct:1},
+                {r:4,c:2,type:'corner',initial:2,correct:0},
+                {r:4,c:3,type:'straight',initial:1,correct:0},
+                {r:4,c:4,type:'corner',initial:1,correct:3}
+              ] },
+            hint:'5×5 격자. 마지막 퍼즐입니다. 기억을 이어주세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='기억재연결'} },
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 4: 최종 해방',
+            story:'마지막 숫자 퍼즐. 완성하면 루프가 끊어진다.',
+            config:{ grid:[[0,0,4,0],[3,0,0,1],[0,3,0,0],[1,0,0,3]], solution:[[2,1,4,3],[3,4,2,1],[4,3,1,2],[1,2,3,4]], answer:'루프종료' },
+            hint:'4×4 스도쿠. 이것으로 끝입니다.',
+            validate:function(i){return i.replace(/\s/g,'')==='루프종료'} },
+          { type:'cpq', cpqIndex:0,
+            story:'마지막 기억의 파편.\n"모든 것의 시작점을 확인하라."',
+            storyAfter:'모든 기억이 돌아왔다. 루프가 끊어졌다.' }
+        ],
+        cliffhanger:'모든 것이 멈췄다.\n\n병원이 사라진다. 폐교가 사라진다. 거울 속 세계가 사라진다.\n\n하얀 공간에 당신 혼자.\n그리고 세 아이가 서 있다.\n\n"고마워. 드디어 기억해줬구나."\n"우리는 10년 동안 네가 기억해주길 기다렸어."\n\n"그런데... 나는 뭐야? 기자야? 학생이야?"\n\n아이들이 슬프게 웃었다.\n\n"너는 우리의 친구였어."\n"그리고 그날 밤, 우리와 함께 죽었어."\n"기자가 된 적도, 폐교에 간 적도 없어."\n"이 모든 건 성불하지 못한 영혼의 기억 루프야."\n\n"울음소리의 주인은 바로 너였어."\n\n빛이 쏟아진다.\n세 아이가 당신의 손을 잡았다.\n"이제 같이 가자."\n\n10년간의 루프가 끝났다.\n폐교는 다시 고요해졌다.\n그리고 더 이상 울음소리는 들리지 않았다.\n\n👻 귀곡성 — ALL CLEAR'
+      }
+    ]
   }
 ];
 
@@ -1316,28 +2225,37 @@ function isChapterCleared(sid,cid) { var p=getProgress(); return !!(p[sid]&&p[si
 function isChapterUnlocked(si,ci) { if(ci===0) return true; var s=SERIES[si]; return isChapterCleared(s.id,s.chapters[ci-1].id); }
 function isSeriesUnlocked(si){return true;}
 function isSeriesCleared(si){var s=SERIES[si];for(var i=0;i<s.chapters.length;i++)if(!isChapterCleared(s.id,s.chapters[i].id))return false;return true;}
-function getTotalCleared(){var c=0;SERIES.forEach(function(s){s.chapters.forEach(function(ch){if(isChapterCleared(s.id,ch.id))c++;});});return c;}
-function getSeriesCleared(){var c=0;SERIES.forEach(function(_,si){if(isSeriesCleared(si))c++;});return c;}
-function getGrade(c){return c>=10?'🕵️ 셜록':c>=7?'🔍 명탐정':c>=4?'🧐 탐정':c>=2?'📋 수습탐정':'🔰 초보탐정';}
+function getTotalCleared(worldId){var c=0;SERIES.forEach(function(s){if(worldId&&s.worldId!==worldId)return;s.chapters.forEach(function(ch){if(isChapterCleared(s.id,ch.id))c++;});});return c;}
+function getTotalChapters(worldId){var c=0;SERIES.forEach(function(s){if(worldId&&s.worldId!==worldId)return;c+=s.chapters.length;});return c;}
+function getSeriesCleared(worldId){var c=0;SERIES.forEach(function(s,si){if(worldId&&s.worldId!==worldId)return;if(isSeriesCleared(si))c++;});return c;}
+function getGrade(c){return c>=25?'🕵️ 전설':c>=18?'🕵️ 셜록':c>=10?'🔍 명탐정':c>=5?'🧐 탐정':c>=2?'📋 수습탐정':'🔰 초보탐정';}
+var currentWorld='qube';
+var WORLD_INFO={qube:{title:'📖 QUBE 프로젝트',theme:'qube'},origin:{title:'🌐 프로젝트 오리진',theme:'origin'},ghost:{title:'👻 귀곡성',theme:'ghost'}};
+function switchWorld(wid){currentWorld=wid;document.querySelectorAll('.world-tab').forEach(function(t){t.classList.toggle('active',t.dataset.world===wid);});renderHome();}
+function isGhostWorld(seriesIdx){return SERIES[seriesIdx]&&SERIES[seriesIdx].worldId==='ghost';}
 function formatTime(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
 
-function createParticles(){var c=document.getElementById('particles');for(var i=0;i<50;i++){var p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(8+Math.random()*12)+'s';p.style.animationDelay=Math.random()*10+'s';var sz=(2+Math.random()*3)+'px';p.style.width=p.style.height=sz;p.style.background=Math.random()>.5?'#b44aff':'#00e5ff';p.style.boxShadow='0 0 6px '+p.style.background;c.appendChild(p);}}
+function createParticles(){var c=document.getElementById('particles');c.innerHTML='';var colors={qube:['#b44aff','#00e5ff'],origin:['#00b4d8','#00ff88'],ghost:['#c0392b','#8b0000']};var cs=colors[currentWorld]||colors.qube;for(var i=0;i<50;i++){var p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(8+Math.random()*12)+'s';p.style.animationDelay=Math.random()*10+'s';var sz=(2+Math.random()*3)+'px';p.style.width=p.style.height=sz;p.style.background=Math.random()>.5?cs[0]:cs[1];p.style.boxShadow='0 0 6px '+p.style.background;c.appendChild(p);}}
 function scrollToSeries(){document.getElementById('series-section').scrollIntoView({behavior:'smooth'});}
 
 function showScreen(id){['home','chapters','game','result'].forEach(function(s){document.getElementById(s).classList.toggle('hidden',s!==id);});document.getElementById('loadingScreen').classList.remove('active');if(id!=='home')window.scrollTo(0,0);}
-function goHome(){cleanupInteractive();state.currentSeries=null;state.currentChapter=null;showScreen('home');renderHome();}
+function goHome(){cleanupInteractive();stopHorrorAmbient();state.currentSeries=null;state.currentChapter=null;showScreen('home');renderHome();}
 function confirmExit(){if(confirm('정말 나가시겠습니까? 진행 상황이 초기화됩니다.'))goHome();}
 
 function renderHome(){
-  var cleared=getTotalCleared(),totalChapters=0;
-  SERIES.forEach(function(s){totalChapters+=s.chapters.length;});
+  var cleared=getTotalCleared(),totalChapters=getTotalChapters();
+  var wCleared=getTotalCleared(currentWorld),wTotal=getTotalChapters(currentWorld);
   document.getElementById('statCleared').textContent=cleared;
   document.getElementById('statGrade').textContent=getGrade(cleared).split(' ')[0];
   document.getElementById('statStreak').textContent=getSeriesCleared();
-  document.getElementById('seriesProgressText').textContent='✅ '+cleared+'/'+totalChapters+' 챕터 클리어';
+  document.getElementById('worldTitle').innerHTML=WORLD_INFO[currentWorld].title;
+  createParticles();
+  document.getElementById('seriesProgressText').textContent='✅ '+wCleared+'/'+wTotal+' 챕터 클리어';
   var html='';
   for(var si=0;si<SERIES.length;si++){
-    var s=SERIES[si],unlocked=isSeriesUnlocked(si),serCleared=isSeriesCleared(si),chapCleared=0;
+    var s=SERIES[si];
+    if(s.worldId!==currentWorld)continue;
+    var unlocked=isSeriesUnlocked(si),serCleared=isSeriesCleared(si),chapCleared=0;
     for(var ci=0;ci<s.chapters.length;ci++)if(isChapterCleared(s.id,s.chapters[ci].id))chapCleared++;
     var stars='';for(var d=0;d<3;d++)stars+='<span class="star '+(d<s.difficulty?'':'empty')+'">'+(d<s.difficulty?'★':'☆')+'</span>';
     var badge='';
@@ -1382,7 +2300,30 @@ async function startChapter(si,ci){
 
 function renderIntro(){
   renderProgressBar();
-  document.getElementById('gameContent').innerHTML='<div class="story-box"><div class="label">📖 프롤로그</div><p>'+state.currentChapter.intro.replace(/\n/g,'<br>')+'</p></div><button class="btn-next" onclick="renderPuzzle(0)">조사 시작 →</button>';
+  var isHorror=state.currentSeries&&state.currentSeries.worldId==='ghost';
+  var boxClass='story-box'+(isHorror?' horror-glitch':'');
+  document.getElementById('gameContent').innerHTML='<div class="'+boxClass+'"><div class="label">📖 프롤로그</div><p>'+state.currentChapter.intro.replace(/\n/g,'<br>')+'</p></div><button class="btn-next" onclick="renderPuzzle(0)">조사 시작 →</button>';
+  if(isHorror)startHorrorAmbient();else stopHorrorAmbient();
+}
+var _horrorOsc=null,_horrorGain=null,_horrorFlickerTimer=null;
+function startHorrorAmbient(){
+  stopHorrorAmbient();
+  try{
+    var ctx=getAudioCtx();if(!ctx)return;
+    _horrorOsc=ctx.createOscillator();_horrorGain=ctx.createGain();
+    _horrorOsc.connect(_horrorGain);_horrorGain.connect(ctx.destination);
+    _horrorOsc.type='sine';_horrorOsc.frequency.value=38;
+    _horrorGain.gain.value=0.06;_horrorOsc.start();
+  }catch(e){}
+  _horrorFlickerTimer=setInterval(function(){
+    if(Math.random()<0.15){
+      var g=document.getElementById('game');if(g){g.classList.add('horror-flicker');setTimeout(function(){g.classList.remove('horror-flicker');},300);}
+    }
+  },4000);
+}
+function stopHorrorAmbient(){
+  if(_horrorOsc){try{_horrorOsc.stop();}catch(e){}_horrorOsc=null;_horrorGain=null;}
+  if(_horrorFlickerTimer){clearInterval(_horrorFlickerTimer);_horrorFlickerTimer=null;}
 }
 
 function renderProgressBar(){
@@ -1527,9 +2468,15 @@ function showCliffhanger(){
   var ch=state.currentChapter,s=state.currentSeries,si=state.currentSeriesIdx,ci=state.currentChapIdx;
   var elapsed=Math.floor((Date.now()-state.startTime)/1000)+state.hintPenalty;
   var p=getProgress();if(!p[s.id])p[s.id]={};p[s.id][ch.id]={cleared:true,bestTime:elapsed,lastPlayed:Date.now(),hints:state.hintCount};saveProgressData(p);
-  var isLastChapter=ci>=s.chapters.length-1,isLastSeries=si>=SERIES.length-1,isFinalClear=isLastChapter&&isLastSeries;
+  var isLastChapter=ci>=s.chapters.length-1;
+  var worldSeries=SERIES.filter(function(ss){return ss.worldId===s.worldId;});
+  var worldIdx=worldSeries.indexOf(s);
+  var isLastSeriesInWorld=worldIdx>=worldSeries.length-1;
+  var nextWorldSeriesIdx=-1;
+  if(!isLastSeriesInWorld){var nextS=worldSeries[worldIdx+1];for(var nsi=0;nsi<SERIES.length;nsi++)if(SERIES[nsi]===nextS){nextWorldSeriesIdx=nsi;break;}}
+  var isLastSeries=isLastSeriesInWorld,isFinalClear=isLastChapter&&isLastSeries;
   var gameGrade='S';if(elapsed>600)gameGrade='C';else if(elapsed>300)gameGrade='B';else if(elapsed>180)gameGrade='A';
-  showScreen('result');var html='';
+  stopHorrorAmbient();showScreen('result');var html='';
   if(isFinalClear){spawnConfetti();html+='<div class="result-emoji">🏆</div><div class="result-title">QUBE — ALL CLEAR</div><div class="result-sub">모든 미스터리를 해결했습니다</div>';}
   else if(isLastChapter){spawnConfetti();html+='<div class="result-emoji">🎊</div><div class="result-title">시리즈 클리어!</div><div class="result-sub">"'+s.title+'" 완료!</div>';}
   else{html+='<div class="result-emoji">🎉</div><div class="result-title">챕터 클리어!</div><div class="result-sub">'+ch.title+' 완료</div>';}
@@ -1542,7 +2489,7 @@ function showCliffhanger(){
   if(ch.cliffhanger)html+='<div class="cliffhanger-box"><div class="label">📖 TO BE CONTINUED...</div><p>'+ch.cliffhanger.replace(/\n/g,'<br>')+'</p></div>';
   html+='<div class="result-btns">';
   if(!isLastChapter)html+='<button class="btn-home" onclick="startChapter('+si+','+(ci+1)+')">다음 챕터로 →</button>';
-  else if(!isLastSeries)html+='<button class="btn-home" onclick="openSeries('+(si+1)+')">다음 시리즈 →</button>';
+  else if(!isLastSeries&&nextWorldSeriesIdx>=0)html+='<button class="btn-home" onclick="openSeries('+nextWorldSeriesIdx+')">다음 시리즈 →</button>';
   html+='<button class="btn-home" style="background:var(--bg3);color:var(--text2)" onclick="goHome()">🚪 로비로 돌아가기</button>';
   html+='<button class="btn-share" onclick="shareResult()">📤 결과 공유하기</button></div>';
   document.getElementById('resultContent').innerHTML=html;
