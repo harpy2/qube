@@ -116,6 +116,80 @@ async function handleRequest(request, env) {
     return jsonResponse({ campaigns: safe });
   }
 
+  // POST /api/cpq-story — CPQ 퍼즐 스토리 AI 생성
+  if (path === '/api/cpq-story' && request.method === 'POST') {
+    const body = await request.json();
+    const { theme, room_name, campaign } = body;
+
+    if (!theme || !campaign) {
+      return jsonResponse({ error: 'theme and campaign required' }, 400);
+    }
+
+    const keyword = campaign.search_keyword || '';
+    const desc = campaign.join_desc || '';
+    const placeMatch = desc.match(/\[([^\]]*X[^\]]*)\]/);
+    const placeHint = placeMatch ? placeMatch[1] : '해당 장소';
+    const startMatch = desc.match(/출발지를\s*\[([^\]]+)\]/);
+    const startPlace = startMatch ? startMatch[1] : '지정된 출발지';
+
+    const prompt = `당신은 방탈출 게임 시나리오 작가입니다.
+
+아래 정보를 바탕으로 방탈출 게임의 마지막 퍼즐(CPQ 미션) 스토리를 작성해주세요.
+
+[방 정보]
+- 방 이름: ${room_name || '미스터리 방'}
+- 테마: ${theme}
+
+[CPQ 미션 정보]
+- 검색 키워드: ${keyword}
+- 장소 힌트: ${placeHint}
+- 출발지: ${startPlace}
+
+[요구사항]
+1. "story": 이 장소를 왜 조사해야 하는지 스토리 맥락 (3~5문장, 방 테마에 자연스럽게 녹여서)
+2. "storyAfter": 걸음 수를 확인한 후 이어지는 스토리 (2~3문장, 단서가 맞아떨어지는 느낌)
+3. "title": 퍼즐 제목 (예: "🔍 퍼즐 5: 마지막 단서")
+
+반드시 아래 JSON 형식으로만 응답하세요. 다른 텍스트 없이 JSON만:
+{"story":"...","storyAfter":"...","title":"..."}`;
+
+    const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 512,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
+
+    if (!claudeRes.ok) {
+      const err = await claudeRes.text();
+      return jsonResponse({ error: 'AI generation failed', detail: err }, 502);
+    }
+
+    const claudeData = await claudeRes.json();
+    const text = claudeData.content?.[0]?.text || '';
+
+    try {
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      const result = JSON.parse(jsonMatch[0]);
+      return jsonResponse({
+        ...result,
+        campaign_id: campaign.id,
+        search_keyword: keyword,
+        place_hint: placeHint,
+        start_place: startPlace,
+      });
+    } catch {
+      return jsonResponse({ error: 'Failed to parse AI response', raw: text }, 500);
+    }
+  }
+
   // POST /api/sync — 수동 동기화
   if (path === '/api/sync' && request.method === 'POST') {
     const result = await syncCampaigns(env);
