@@ -44,28 +44,60 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .stat-val{font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .stat-label{font-size:.8rem;color:var(--text2);margin-top:4px}
 
-/* Rooms Section */
-.rooms-section{max-width:900px;margin:0 auto;padding:0 1.5rem 4rem}
-.rooms-section h2{font-size:1.5rem;margin-bottom:.5rem;display:flex;align-items:center;gap:8px}
-.rooms-progress{color:var(--text2);font-size:.85rem;margin-bottom:1.5rem}
-.room-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem}
+/* Series Section */
+.series-section{max-width:700px;margin:0 auto;padding:0 1.5rem 4rem}
+.series-section h2{font-size:1.5rem;margin-bottom:.5rem;display:flex;align-items:center;gap:8px}
+.series-progress-text{color:var(--text2);font-size:.85rem;margin-bottom:1.5rem}
 
-/* Room Card */
-.room-card{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:1.5rem;backdrop-filter:blur(10px);transition:all .3s;cursor:pointer;position:relative;overflow:hidden}
-.room-card:hover{border-color:rgba(180,74,255,.3);background:rgba(255,255,255,.05);transform:translateY(-3px);box-shadow:0 8px 30px rgba(180,74,255,.1)}
-.room-card.cleared{border-color:rgba(0,255,136,.2)}
-.room-card.cleared .room-start{background:var(--bg3);color:var(--text2)}
-.room-badge{position:absolute;top:12px;right:12px;padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:700}
-.badge-new{background:var(--accent);color:#fff}
-.badge-cleared{background:var(--success);color:#000}
-.room-emoji{font-size:2.5rem;margin-bottom:.8rem}
-.room-title{font-size:1.15rem;font-weight:700;margin-bottom:.4rem}
-.room-desc{font-size:.85rem;color:var(--text2);margin-bottom:.8rem;line-height:1.5}
-.room-meta{display:flex;gap:12px;color:var(--text2);font-size:.85rem;margin-bottom:1rem}
-.room-diff .star{color:var(--accent)}
-.room-diff .star.empty{color:var(--text3)}
-.room-start{width:100%;padding:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:50px;cursor:pointer;font-size:.9rem;font-weight:600;transition:all .3s}
-.room-start:hover{box-shadow:0 4px 15px rgba(180,74,255,.4)}
+/* Series Card */
+.series-card{background:var(--card);border:1px solid var(--card-border);border-radius:20px;padding:1.8rem;margin-bottom:1.2rem;backdrop-filter:blur(10px);transition:all .3s;cursor:pointer;position:relative;overflow:hidden}
+.series-card:hover:not(.locked){border-color:rgba(180,74,255,.3);background:rgba(255,255,255,.05);transform:translateY(-3px);box-shadow:0 8px 30px rgba(180,74,255,.1)}
+.series-card.locked{opacity:.45;filter:saturate(.3);cursor:not-allowed}
+.series-card.cleared{border-color:rgba(0,255,136,.2)}
+.series-lock-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.4);backdrop-filter:blur(2px);border-radius:20px;z-index:2}
+.series-lock-overlay span{font-size:1rem;color:var(--text2);background:rgba(0,0,0,.6);padding:8px 20px;border-radius:50px}
+.series-header{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.series-icon{font-size:2.8rem}
+.series-info{flex:1}
+.series-title{font-size:1.2rem;font-weight:700}
+.series-diff{font-size:.85rem;color:var(--text2);margin-top:2px}
+.series-diff .star{color:var(--accent)}
+.series-diff .star.empty{color:var(--text3)}
+.series-desc{font-size:.9rem;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.series-footer{display:flex;align-items:center;justify-content:space-between}
+.series-chapter-progress{font-size:.85rem;color:var(--text2)}
+.series-chapter-progress .done{color:var(--success)}
+.series-badge{padding:4px 14px;border-radius:20px;font-size:.75rem;font-weight:700}
+.badge-clear{background:var(--success);color:#000}
+.badge-progress{background:var(--accent);color:#fff}
+.badge-new{background:rgba(180,74,255,.2);color:var(--accent);border:1px solid rgba(180,74,255,.3)}
+
+/* Chapter Select Screen */
+#chapters{max-width:700px;margin:0 auto;min-height:100vh;padding:1rem}
+.chapter-header{display:flex;align-items:center;padding:1rem 0;border-bottom:1px solid var(--card-border);margin-bottom:2rem;gap:12px}
+.chapter-back{background:none;border:none;color:var(--text2);font-size:1.3rem;cursor:pointer;padding:4px 8px}
+.chapter-back:hover{color:var(--text)}
+.chapter-series-title{font-size:1.2rem;font-weight:700;flex:1}
+.chapter-series-desc{color:var(--text2);font-size:.9rem;line-height:1.7;margin-bottom:2rem;padding:0 .5rem}
+
+/* Timeline */
+.chapter-timeline{position:relative;padding-left:32px}
+.chapter-timeline::before{content:'';position:absolute;left:11px;top:20px;bottom:20px;width:2px;background:linear-gradient(to bottom,var(--accent),var(--cyan));opacity:.3}
+.chapter-item{position:relative;margin-bottom:1.5rem}
+.chapter-dot{position:absolute;left:-32px;top:18px;width:22px;height:22px;border-radius:50%;border:2px solid var(--text3);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.7rem;z-index:1}
+.chapter-item.unlocked .chapter-dot{border-color:var(--accent);box-shadow:0 0 8px rgba(180,74,255,.4)}
+.chapter-item.cleared .chapter-dot{border-color:var(--success);background:var(--success);color:#000}
+.chapter-card{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:1.3rem 1.5rem;transition:all .3s}
+.chapter-item.unlocked .chapter-card{border-color:rgba(180,74,255,.2)}
+.chapter-item.unlocked .chapter-card:hover{border-color:rgba(180,74,255,.4);background:rgba(255,255,255,.05);transform:translateX(4px)}
+.chapter-item.locked .chapter-card{opacity:.4;filter:saturate(.3)}
+.chapter-card-title{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+.chapter-card-desc{font-size:.85rem;color:var(--text2);margin-bottom:10px}
+.chapter-card-meta{display:flex;align-items:center;gap:12px;font-size:.8rem;color:var(--text2)}
+.chapter-enter{padding:8px 20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:50px;cursor:pointer;font-size:.85rem;font-weight:600;transition:all .3s}
+.chapter-enter:hover{box-shadow:0 4px 15px rgba(180,74,255,.4)}
+.chapter-replay{padding:8px 20px;background:var(--bg3);color:var(--text2);border:1px solid var(--card-border);border-radius:50px;cursor:pointer;font-size:.85rem;transition:all .3s}
+.chapter-replay:hover{border-color:var(--accent);color:var(--text)}
 
 /* Game Screen */
 #game{max-width:700px;margin:0 auto;min-height:100vh;padding:1rem}
@@ -114,6 +146,17 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .feedback.correct{background:rgba(0,255,136,.1);color:var(--success);border:1px solid rgba(0,255,136,.2)}
 .feedback.wrong{background:rgba(255,68,68,.1);color:var(--danger);border:1px solid rgba(255,68,68,.2)}
 
+/* Cliffhanger */
+.cliffhanger-box{background:linear-gradient(135deg,rgba(180,74,255,.08),rgba(0,229,255,.08));border:1px solid rgba(180,74,255,.25);border-radius:16px;padding:2rem;margin:1.5rem 0;text-align:center;animation:fadeIn .8s ease}
+.cliffhanger-box .label{color:var(--cyan);font-size:.75rem;font-weight:700;margin-bottom:12px;letter-spacing:.2em}
+.cliffhanger-box p{color:var(--text);line-height:2;font-size:1.05rem;font-style:italic}
+
+/* Series Clear */
+.series-clear-box{text-align:center;padding:2rem 0;animation:fadeIn .5s}
+.series-clear-emoji{font-size:4rem;margin-bottom:1rem}
+.series-clear-title{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#fff,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+.series-clear-sub{color:var(--text2);margin-bottom:1.5rem}
+
 /* Result */
 #result{max-width:600px;margin:0 auto;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
 .result-card{text-align:center;width:100%}
@@ -138,11 +181,17 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{color:var(--text2);font-size:.9rem}
 
+/* Confetti */
+.confetti-container{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden}
+.confetti-piece{position:absolute;width:10px;height:10px;top:-20px;animation:confettiFall 3s ease-in forwards}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
 @media(max-width:600px){
   .hero h1{letter-spacing:.05em}
-  .room-grid{grid-template-columns:1fr}
   .stats-bar{gap:24px}
   .result-stats{gap:12px}
+  .series-card{padding:1.3rem}
+  .chapter-timeline{padding-left:28px}
 }
 </style>
 </head>
@@ -154,25 +203,28 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <div class="particles" id="particles"></div>
     <h1>QUBE</h1>
     <p>풀어라. 탈출하라.</p>
-    <button class="hero-cta" onclick="scrollToRooms()">방 선택하기</button>
+    <button class="hero-cta" onclick="scrollToSeries()">시리즈 선택하기</button>
     <div class="scroll-hint">↓</div>
   </div>
   <div class="stats-bar">
     <div class="stat"><div class="stat-val" id="statCleared">0</div><div class="stat-label">클리어</div></div>
     <div class="stat"><div class="stat-val" id="statGrade">🔰</div><div class="stat-label">등급</div></div>
-    <div class="stat"><div class="stat-val" id="statStreak">0</div><div class="stat-label">연속</div></div>
+    <div class="stat"><div class="stat-val" id="statStreak">0</div><div class="stat-label">시리즈</div></div>
   </div>
-  <div class="rooms-section" id="rooms-section">
-    <h2>🚪 미스터리 목록</h2>
-    <div class="rooms-progress" id="rooms-progress"></div>
-    <div class="room-grid" id="roomGrid"></div>
+  <div class="series-section" id="series-section">
+    <h2>📖 미스터리 시리즈</h2>
+    <div class="series-progress-text" id="seriesProgressText"></div>
+    <div id="seriesGrid"></div>
   </div>
 </div>
+
+<!-- ─── 챕터 선택 ─── -->
+<div id="chapters" class="hidden"></div>
 
 <!-- ─── 로딩 ─── -->
 <div class="loading-screen" id="loadingScreen">
   <div class="spinner"></div>
-  <div class="loading-text">방에 진입하는 중...</div>
+  <div class="loading-text">진입 중...</div>
 </div>
 
 <!-- ─── 게임 ─── -->
@@ -194,1142 +246,766 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <script>
 const API = 'https://qube-api.harpy922.workers.dev';
 
-// ─── 방 템플릿 ───
-const ROOMS = [
+// ─── 시리즈 & 챕터 데이터 ───
+const SERIES = [
   {
-    id: 'professor', emoji: '🏚️', name: '사라진 교수의 서재',
-    desc: '김동현 교수가 사라졌다. 서재에 남은 건 피 묻은 메모 한 장. 72시간 안에 진실을 찾아라.',
-    difficulty: 1, time: '12분',
-    intro: `김동현 교수가 사라졌다. 3일째 연락 두절. 당신은 마스터키로 서재에 들어섰지만, 문이 잠겼다. 희미한 스탠드 불빛 아래, 급하게 찢긴 서류와 쓰러진 커피잔. 교수는 뭔가를 숨기다 사라진 것이다. 서재에 갇힌 지금, 진실을 파헤쳐라.`,
-    puzzles: [
-      { type:'general', title:'📋 퍼즐 1: 책상 위의 암호 메모',
-        story: `책상 위, 피 묻은 포스트잇 하나. 교수의 떨리는 필체. 좌표 암호다.
-
-<b>┌──┬──┬──┬──┐
-│ 서 │ 랍 │ 을 │ 금 │
-├──┼──┼──┼──┤
-│ 열 │ 어 │ 고 │ 라 │
-├──┼──┼──┼──┤
-│ 벽 │ 확 │ 인 │ 해 │
-└──┴──┴──┴──┘</b>
-
-그 아래 좌표가 적혀있다: <b>(1,1) (1,2) (2,1) (2,2) (2,3)</b>
-(행,열 순서)`,
-        question: `격자에서 좌표를 읽어 메시지를 완성하라.
-
-(1,1)=서, (1,2)=랍, (2,1)=열, (2,2)=어, (2,3)=?
-
-다섯 글자를 이어서 입력하시오. (공백 없이)`,
-        hint: '(1,1)=서, (1,2)=랍, (2,1)=열, (2,2)=어, (2,3)=고 → "서랍열어고"? 아니, 다시 읽어보자.',
-        validate: i => i.replace(/\s/g,'') === '서랍열어고' || i.replace(/\s/g,'') === '서랍을열어' },
-      { type:'general', title:'📦 퍼즐 2: 택배 영수증 분석',
-        story: `서랍이 열렸다. 택배 영수증 한 장. 실종 이틀 전, 낯선 주소로 보낸 화물. 배송료에 뭔가 숨겨져 있다.
-
-<b>📦 택배 영수증
-기본료: 3,000원
-거리할증(5km초과): 2,000원  
-무게할증(5kg초과): 1,500원
-할인(회원): -500원
-최종 배송료: ?원</b>
-
-교수가 빨간 펜으로 표시한 부분: "배송료가 단서다."`,
-        question: `택배 영수증의 최종 배송료를 계산하라.
-
-<b>요금 계산:</b>
-- 기본료: 3,000원
-- 거리할증: 2,000원
-- 무게할증: 1,500원  
-- 회원할인: -500원
-
-최종 배송료는 얼마인가?`,
-        hint: '3,000 + 2,000 + 1,500 - 500 = ?',
-        validate: i => i.replace(/[^\d]/g,'') === '6000' || i.trim() === '6000' },
-      { type:'general', title:'🔢 퍼즐 3: 벽 속의 금고',
-        story: `영수증 뒷면: "벽을 확인하라." 책장 세 번째 칸, 책들 뒤에 숨겨진 금고. 위에 네 권의 책이 의도적으로 배치되어 있다.
-
-<b>📕 "로마의 일곱 언덕" — 263페이지
-📗 "이집트 제5왕조" — 178페이지
-📘 "그리스 12신" — 412페이지
-📙 "한국의 삼국시대" — 95페이지</b>
-
-금고 옆에 메모:
-"각 책 제목에 숨겨진 숫자가 비밀번호다. 페이지 수에 속지 마라."`,
-        question: `교수의 메모를 해석하라.
-
-각 책 <b>제목</b> 속에 숨겨진 숫자를 순서대로 나열하면?
-
-📕 로마의 <b>일곱</b> 언덕
-📗 이집트 제<b>5</b>왕조
-📘 그리스 <b>12</b>신
-📙 한국의 <b>삼국</b>시대
-
-(힌트: 숫자를 아라비아 숫자로 변환)`,
-        hint: '일곱=7, 5=5, 12=12, 삼국=3 → 4자리 숫자로...',
-        validate: i => i.replace(/\s/g,'') === '75123' || i.replace(/\s/g,'') === '7-5-12-3' || i.replace(/\s/g,'').includes('75123') },
-      { type:'general', title:'📓 퍼즐 4: 비밀 수첩의 암호',
-        story: `금고 안, "PRIVATE" 각인된 가죽 수첩. 교수는 뭔가를 체계적으로 추적하고 있었다. 마지막 페이지에 알파벳 암호.
-
-<b>🔤 암호 해독
-A=1, B=2, C=3... Z=26
-
-DOOR = D(4) + O(15) + O(15) + R(18) = ?</b>
-
-수첩 하단에 메모: "이 숫자가 마지막 단서의 열쇠다."`,
-        question: `수첩의 알파벳 암호를 해독하라.
-
-<b>계산 공식:</b>
-A=1, B=2, C=3, D=4, ..., O=15, ..., R=18, ..., Z=26
-
-<b>DOOR를 숫자로 변환:</b>
-D = 4
-O = 15  
-O = 15
-R = 18
-
-4 + 15 + 15 + 18 = ?`,
-        hint: '4 + 15 + 15 + 18 = ?',
-        validate: i => i.trim() === '52' },
-      { type:'cpq', cpqIndex:0,
-        story: `수첩 마지막 장. 빨간 동그라미 친 주소. "여기가 핵심이다." 교수가 사라지기 직전, 마지막으로 향하려던 장소. 도보 거리를 확인하라.`,
-        storyAfter: `교수는 쫓기고 있었다. 그리고 당신이 이 자리에 오길 원했다. 마지막 탈출 코드는 문 옆 패널에.` }
+    id: 'professor',
+    title: '사라진 교수',
+    icon: '🔮',
+    difficulty: 1,
+    desc: '고고학 교수 김동현이 발굴 현장에서 실종됐다. 남은 건 암호화된 연구노트 한 권뿐.',
+    chapters: [
+      {
+        id: 'ch1_study',
+        title: 'Ch.1 — 교수의 서재',
+        desc: '실종 3일째. 서재에 침입해 단서를 찾는다.',
+        time: '12분',
+        intro: '김동현 교수가 사라졌다.\n3일째 연락 두절. 경찰은 "자발적 잠적"이라 했지만, 당신은 믿지 않았다.\n마스터키로 서재에 들어선 순간, 등 뒤에서 문이 잠겼다.\n희미한 스탠드 불빛 아래, 급하게 찢긴 서류와 쓰러진 커피잔.\n교수는 뭔가를 숨기다 쫓긴 것이다.',
+        puzzles: [
+          { type:'general', title:'📋 퍼즐 1: 책상 위의 암호 메모',
+            story: '책상 위, 피 묻은 포스트잇 하나. 교수의 떨리는 필체. 좌표 암호다.',
+            question: '격자에서 좌표를 읽어 메시지를 완성하라.\n\n<b>┌──┬──┬──┬──┐\n│ 서 │ 랍 │ 을 │ 금 │\n├──┼──┼──┼──┤\n│ 열 │ 어 │ 고 │ 라 │\n├──┼──┼──┼──┤\n│ 벽 │ 확 │ 인 │ 해 │\n└──┴──┴──┴──┘</b>\n\n좌표: <b>(1,1) (1,2) (2,1) (2,2) (2,3)</b>\n(행,열 순서)\n\n다섯 글자를 이어서 입력하시오.',
+            hint: '(1,1)=서, (1,2)=랍, (2,1)=열, (2,2)=어, (2,3)=고',
+            validate: function(i){return i.replace(/\s/g,'') === '서랍열어고'} },
+          { type:'general', title:'📦 퍼즐 2: 서랍 속 택배 영수증',
+            story: '서랍이 열렸다. 안에는 택배 영수증 한 장. 실종 이틀 전, 낯선 주소로 보낸 화물.\n교수가 빨간 펜으로 밑줄 그은 부분: "배송료가 단서다."',
+            question: '택배 영수증의 최종 배송료를 계산하라.\n\n<b>기본료: 3,000원\n거리할증(5km초과): 2,000원\n무게할증(5kg초과): 1,500원\n할인(회원): -500원</b>\n\n최종 배송료는?',
+            hint: '3,000 + 2,000 + 1,500 - 500 = ?',
+            validate: function(i){return i.replace(/[^\d]/g,'') === '6000'} },
+          { type:'general', title:'🔢 퍼즐 3: 벽 속의 금고',
+            story: '영수증 뒷면: "벽을 확인하라." 책장 세 번째 칸 뒤에 숨겨진 금고.\n위에 네 권의 책이 의도적으로 배치되어 있다.',
+            question: '각 책 <b>제목</b> 속에 숨겨진 숫자를 순서대로 나열하면?\n\n📕 로마의 <b>일곱</b> 언덕\n📗 이집트 제<b>5</b>왕조\n📘 그리스 <b>12</b>신\n📙 한국의 <b>삼국</b>시대\n\n(숫자를 아라비아 숫자로 변환하여 이어서 입력)',
+            hint: '일곱=7, 5=5, 12=12, 삼국=3',
+            validate: function(i){return i.replace(/\s/g,'') === '75123'} },
+          { type:'general', title:'📓 퍼즐 4: 금고 속 수첩',
+            story: '금고가 열렸다. "PRIVATE" 각인된 가죽 수첩.\n교수는 뭔가를 체계적으로 추적하고 있었다. 마지막 페이지에 알파벳 암호.',
+            question: '알파벳 암호를 해독하라.\n\n<b>A=1, B=2, C=3, D=4, ..., O=15, ..., R=18</b>\n\nDOOR = D(4) + O(15) + O(15) + R(18) = ?',
+            hint: '4 + 15 + 15 + 18 = ?',
+            validate: function(i){return i.trim() === '52'} },
+          { type:'cpq', cpqIndex:0,
+            story: '수첩 마지막 장에 빨간 동그라미 친 주소.\n"여기가 핵심이다." 교수가 사라지기 직전, 마지막으로 향하려던 장소.',
+            storyAfter: '코드가 맞았다. 수첩 뒷표지 안쪽, 교수의 마지막 메모가 드러났다.' }
+        ],
+        cliffhanger: '수첩 뒷표지를 벗기자 접힌 종이가 떨어졌다.\n떨리는 손으로 펼쳤다. 교수의 필체.\n\n"그들이 나를 찾고 있다. 연구 샘플은 화물선에 실었다."\n"아리아호... 인천항 2번 선착장..."\n\n교수는 여기서 배를 탔다.\n그리고 사라졌다.'
+      },
+      {
+        id: 'ch2_ship',
+        title: 'Ch.2 — 화물선 아리아호',
+        desc: '교수가 마지막으로 탑승한 유령 화물선에 잠입한다.',
+        time: '14분',
+        intro: '인천항 2번 선착장.\n녹슨 화물선 "아리아호"가 안개 속에 정박해 있다.\n선원 12명이 타고 있었다. 지금은 아무도 없다. 구명보트도, 소지품도 그대로인 채.\n당신이 갑판에 올라선 순간, 해치가 닫혔다.\n비상등만 깜빡이고, 어딘가에서 금속이 삐걱거린다.',
+        puzzles: [
+          { type:'general', title:'🧭 퍼즐 1: 항해 일지의 마지막 기록',
+            story: '선장실. 항해 일지 마지막 기록:\n"2월 11일 23:47 — 레이더 이상 반응. 소리를 들었다. 확인하러 간다."\n여기서 끊긴다.',
+            question: '선장실 금고 위에 책 세 권, 각각 포스트잇이 꽂혀있다.\n\n<b>📕 "해양법 개론" → 표시된 단어: "대한민국"\n📗 "항해술의 역사" → 표시된 단어: "나침반"\n📘 "선박 구조학" → 표시된 단어: "용골"</b>\n\n금고 메모: "각 단어의 글자 수가 비밀번호다."\n세 숫자를 이어서 입력하시오.',
+            hint: '대한민국=4, 나침반=3, 용골=2',
+            validate: function(i){return i.replace(/\s/g,'') === '432'} },
+          { type:'general', title:'📦 퍼즐 2: 화물 적하 목록',
+            story: '금고 안에 "HELP" 한 단어와 적하 목록.\n빨간 줄 그은 항목: "특수 화물 #7 — 발송지 확인 요망."',
+            question: '화물 #7의 부피를 계산하라.\n\n<b>길이: 120cm\n폭: 80cm\n높이: 50cm</b>\n\n부피 = 길이 × 폭 × 높이 = ? cm³',
+            hint: '120 × 80 × 50 = ?',
+            validate: function(i){return i.replace(/[^\d]/g,'') === '480000'} },
+          { type:'general', title:'⚓ 퍼즐 3: 기관실의 이진법',
+            story: '기관실. 엔진이 멈춰있다. 연료는 충분한데 누군가 일부러 정지시켰다.\n배전반에 12개의 스위치가 있다.',
+            question: '배전반의 이진법을 해독하라.\n\n<b>위아래아래위 | 아래위아래아래 | 아래아래위위</b>\n= 1001 | 0100 | 0011\n\n각 4자리 이진수를 십진수로 변환하면?\n(세 숫자를 이어서 입력)',
+            hint: '1001=9, 0100=4, 0011=3',
+            validate: function(i){return i.replace(/\s/g,'') === '943'} },
+          { type:'general', title:'📻 퍼즐 4: 무전기 SOS 신호',
+            story: '기관장 박철수의 노트.\n"선장이 화물 #7을 열었다. 그 안에 있던 건... 연구 샘플이 아니었다."',
+            question: 'SOS 모스 부호의 총 신호 개수를 세어라.\n\n<b>S = ... (점 3개)\nO = --- (선 3개)\nS = ... (점 3개)</b>\n\n점과 선을 모두 합쳐서 총 몇 개?',
+            hint: '3 + 3 + 3 = ?',
+            validate: function(i){return i.trim() === '9'} },
+          { type:'cpq', cpqIndex:0,
+            story: '기관장의 노트 마지막 페이지.\n"화물 #7의 진짜 발송지를 찾았다. 이 주소다."',
+            storyAfter: '맞았다. 기관장의 마지막 기록이 해독됐다.' }
+        ],
+        cliffhanger: '기관장의 마지막 기록.\n\n"화물 #7 안에 든 건 교수의 연구 샘플이 아니었다.\n인체 조직이었다."\n\n적하 목록 뒷면, 배송지 주소가 적혀 있다.\n\n"그랜드 파크 호텔 1408호 — VIP 전용 배송"\n\n교수는 이걸 알고 있었다. 그래서 쫓긴 것이다.'
+      },
+      {
+        id: 'ch3_hotel',
+        title: 'Ch.3 — 호텔 스위트룸',
+        desc: '5성급 호텔 1408호. 교수가 마지막으로 목격된 곳.',
+        time: '15분',
+        intro: '그랜드 파크 호텔. 로비의 샹들리에가 차갑게 빛난다.\n1408호. VIP 전용 스위트룸. 교수가 마지막으로 목격된 곳.\n카드키를 대자 문이 열렸다. 안에 들어서는 순간, 자동 잠금.\n침대는 정돈되어 있지만, 욕실에서 희미한 물소리가 들린다.\n누군가 여기 있었다. 아주 최근까지.',
+        puzzles: [
+          { type:'general', title:'🔑 퍼즐 1: 노트북의 이모지 암호',
+            story: '책상 위 노트북이 열려있다. 잠금 화면에 이모지 수식이 깜빡인다.',
+            question: '노트북 비밀번호를 풀어라.\n\n<b>🏨 + 🏨 = 28\n🔑 × 🔑 = 16\n🏨 - 🔑 = ?</b>',
+            hint: '🏨=14, 🔑=4, 14-4=?',
+            validate: function(i){return i.trim() === '10'} },
+          { type:'general', title:'💻 퍼즐 2: 검색 기록 분석',
+            story: '노트북이 열렸다. 마지막 검색은 사라지기 17분 전.\n비즈니스와 무관한 이상한 키워드들.',
+            question: '검색 기록에서 숫자를 찾아 더하라.\n\n<b>"M&A 실사 절차" → 숫자 없음\n"계약서 검토 요령" → 숫자 없음\n"호텔 1408호 비밀" → 1408\n"숫자 7의 의미" → 7</b>\n\n1408 + 7 = ?',
+            hint: '1408 + 7 = ?',
+            validate: function(i){return i.trim() === '1415'} },
+          { type:'general', title:'🪞 퍼즐 3: 욕실 거울의 메시지',
+            story: '메모 앱에 누군가 적었다. 교수의 글씨가 아니다.\n"거울 뒤에 진실이 있다."\n온수를 틀자 김 서린 거울에 숫자가 떠올랐다.',
+            question: '거울에 비친 숫자: <b>5765</b>\n\n거울이므로 좌우가 반전된다.\n실제 숫자(순서가 뒤집힌)를 입력하라.',
+            hint: '5765를 뒤집으면 5675',
+            validate: function(i){return i.trim() === '5675'} },
+          { type:'general', title:'📅 퍼즐 4: 비밀 금고의 일정표',
+            story: '욕실 타일 밑에 금고. 호텔 비품이 아니다. 누가 설치한 거지?\n안에 교수의 비밀 일정표가 있다.',
+            question: '일정표의 총 참석자 수를 계산하라.\n\n<b>09:00 A사 미팅: 3명\n14:00 B사 검토: 2명\n16:30 C사 협의: 4명\n19:00 저녁 식사: 1명</b>\n\n3 + 2 + 4 + 1 = ?',
+            hint: '3 + 2 + 4 + 1 = ?',
+            validate: function(i){return i.trim() === '10'} },
+          { type:'cpq', cpqIndex:0,
+            story: '금고 안 봉투. 교수의 편지.\n"이 호텔은 거점이다. 진짜 목적지의 위치를 남긴다."',
+            storyAfter: '편지의 마지막 줄이 드러났다.' }
+        ],
+        cliffhanger: '편지의 마지막 줄.\n\n"나는 도망친 게 아니다. 감금당했다."\n"침대 헤드보드 뒤에 비밀 통로가 있다. 하지만 열지 마라."\n"그들이 기다리고 있다."\n\n헤드보드를 밀자 차가운 바람이 불어왔다.\n통로 벽에 사진 한 장이 붙어있다.\n교수와 함께 찍힌 남자 — 마술사 최현우.\n\n사진 뒷면: "그도 사라졌다. 우리는 같은 것을 발견했다."'
+      }
     ]
   },
   {
-    id: 'ship', emoji: '🚢', name: '표류된 화물선',
-    desc: '무인 화물선이 떠밀려왔다. 선원 12명, 흔적도 없이 증발. 구명보트는 그대로다.',
-    difficulty: 2, time: '15분',
-    intro: `동해호. 선원 12명이 타고 있었다. 지금은 아무도 없다. 구명보트도, 소지품도 그대로인 채. 해양경찰인 당신이 올라탔지만, 해치가 닫혔다. 비상등만 깜빡이고, 무전기에서 의미 불명의 신호음이 반복된다. 이 배에서 무슨 일이 있었나.`,
-    puzzles: [
-      { type:'general', title:'🧭 퍼즐 1: 항해 일지의 마지막 기록',
-        story: `선장실. 항해 일지 마지막 기록: "2월 11일 23:47 — 레이더 이상 반응. 소리를 들었다. 확인하러 간다." 여기서 끊긴다. 금고 위에 세 권의 책. 각각 포스트잇이 꽂혀있다.`,
-        question: `선장실 금고 위에 책 세 권이 놓여있고 각각 포스트잇이 꽂혀있다.
-
-<b>📕 "해양법 개론" → 표시된 단어: "대한민국"
-📗 "항해술의 역사" → 표시된 단어: "나침반"
-📘 "선박 구조학" → 표시된 단어: "용골"</b>
-
-금고 메모: "각 단어의 글자 수가 비밀번호다."
-
-세 숫자를 순서대로 이어서 입력하시오.`,
-        hint: '대한민국 = 4글자, 나침반 = 3글자, 용골 = 2글자',
-        validate: i => i.replace(/\s/g,'') === '432' },
-      { type:'general', title:'📦 퍼즐 2: 화물 적하 목록',
-        story: `금고 안, "HELP." 한 단어. 적하 목록에서 빨간 줄 그은 항목 발견. "특수 화물 #7 — 발송지 확인 요망." 이 화물이 핵심이다.
-
-<b>📦 특수 화물 #7 상세 정보
-길이: 120cm
-폭: 80cm  
-높이: 50cm
-부피 = 길이 × 폭 × 높이 = ? cm³</b>
-
-선장이 빨간 펜으로 메모: "부피 계산이 핵심이다."`,
-        question: `화물 #7의 부피를 계산하라.
-
-<b>화물 규격:</b>
-- 길이: 120cm
-- 폭: 80cm
-- 높이: 50cm
-
-<b>부피 공식:</b> 길이 × 폭 × 높이
-
-120 × 80 × 50 = ? cm³`,
-        hint: '120 × 80 × 50 = ?',
-        validate: i => i.replace(/[^\d]/g,'') === '480000' || i.trim() === '480000' },
-      { type:'general', title:'⚓퍼즐 3: 기관실의 이진법',
-        story: `"기관실에 기록이 있다." 엔진은 멈춰있다. 연료는 충분한데. 누군가 일부러 정지시켰다. 배전반에 12개의 스위치. 이진법이다.
-
-<b>위 아래 아래 위 | 아래 위 아래 아래 | 아래 아래 위 위</b>
-
-배전반 옆에 기관장의 메모:
-"이진법이다. 위=1, 아래=0. 4자리씩 끊어서 십진수로 변환하면 내 사물함 번호가 나온다."`,
-        question: `배전반의 이진법을 해독하라.
-
-<b>1001 | 0100 | 0011</b>
-(위아래아래위 | 아래위아래아래 | 아래아래위위)
-
-각 4자리 이진수를 십진수로 변환하면?
-(세 숫자를 이어서 입력. 예: "123")`,
-        hint: '1001(2진) = 8+0+0+1 = 9, 0100(2진) = 0+4+0+0 = 4, 0011(2진) = 0+0+2+1 = 3',
-        validate: i => i.replace(/\s/g,'') === '943' },
-      { type:'general', title:'📻 퍼즐 4: 무전기 SOS 신호',
-        story: `기관장 박철수의 노트. "선장이 화물 #7을 조사 중. 나도 추적하고 있다." 무전기에서 SOS가 자동 송출되고 있다.
-
-<b>📻 모스 부호 SOS
-S = ... (짧은 소리 3개)
-O = --- (긴 소리 3개)  
-S = ... (짧은 소리 3개)
-
-전체: ... --- ... (총 몇 개의 신호?)</b>
-
-노트에 메모: "SOS 신호의 총 음향 개수가 다음 단서다."`,
-        question: `SOS 모스 부호의 총 신호 개수를 세어라.
-
-<b>SOS 모스 부호:</b>
-S = ... (점 3개)
-O = --- (선 3개)
-S = ... (점 3개)
-
-점과 선을 모두 합쳐서 총 몇 개의 신호인가?`,
-        hint: 'S(...) = 3개, O(---) = 3개, S(...) = 3개. 총 3 + 3 + 3 = ?',
-        validate: i => i.trim() === '9' },
-      { type:'cpq', cpqIndex:0,
-        story: `"23:50 — 갑판에서 이상한 빛. 선원들이 올라가고 있다. 나도—" 여기서 끊긴다. 노트에 적힌 장소. 선원 실종의 진짜 원인이 거기 있다. 도보 거리를 확인하라.`,
-        storyAfter: `기관장도 선장과 같은 것을 쫓고 있었다. 노트 뒷면: "해치 코드를 남긴다. 갑판의 퍼즐을 풀어라." 갑판으로.` }
+    id: 'magician',
+    title: '마술사의 유산',
+    icon: '🎭',
+    difficulty: 2,
+    desc: '전설의 마술사 최현우가 공연 중 사라졌다. 유언장에는 "마지막 트릭을 풀어라"고만 적혀있다.',
+    chapters: [
+      {
+        id: 'ch1_magic',
+        title: 'Ch.1 — 마술사의 비밀 방',
+        desc: '최현우의 개인 연습실. 무대장치와 거울로 가득한 방.',
+        time: '12분',
+        intro: '마술사 최현우. "대탈출" 공연 중 사라졌다.\n일주일째 행방불명. 경찰은 "자작극"이라 결론 내렸다.\n하지만 교수의 사진이 모든 걸 바꿨다.\n극장 뒤편 비밀 방에 잠입했지만, 마술 장치가 작동하며 문이 봉쇄됐다.\n오르골이 울린다. 최현우의 목소리: "진짜 탐정이라면 이것을 풀어라."',
+        puzzles: [
+          { type:'general', title:'🃏 퍼즐 1: 마술사의 카드 트릭',
+            story: '벨벳 테이블 위, 카드가 패턴으로 펼쳐져 있다.\n메모: "내 가장 좋아하는 마술 — 수학의 마법."',
+            question: '카드 패턴을 분석하라.\n\n<b>♥2 ♥4 ♥6 ♥8 ♥?</b> ← +2씩\n<b>♦1 ♦3 ♦5 ♦7 ♦?</b> ← +2씩\n<b>♣3 ♣6 ♣9 ♣12 ♣?</b> ← +3씩\n\n각 줄의 ?에 들어갈 숫자를 이어서 입력하시오.',
+            hint: '♥: 10, ♦: 9, ♣: 15',
+            validate: function(i){return i.replace(/\s/g,'') === '10915'} },
+          { type:'general', title:'📔 퍼즐 2: 다이어리의 공연 기록',
+            story: '금고 안 다이어리.\n"그들이 쫓고 있다. 내가 발견한 비밀 때문이다."',
+            question: '총 공연 횟수를 계산하라.\n\n<b>1월: 8회\n2월: 12회\n3월: 6회\n4월: 15회\n5월: 9회</b>\n\n8 + 12 + 6 + 15 + 9 = ?',
+            hint: '8 + 12 + 6 + 15 + 9 = ?',
+            validate: function(i){return i.trim() === '50'} },
+          { type:'general', title:'🪞 퍼즐 3: 마법의 거울 LED',
+            story: '"마지막 단서는 거울 속에."\n벽면의 마술 거울에 손을 대자, LED 패턴이 떠올랐다.',
+            question: 'LED 패턴에서 검은 점(●)의 총 개수를 세어라.\n\n<b>● ○ ● ○ ●</b> ← 3개\n<b>○ ● ○ ● ○</b> ← 2개\n<b>● ○ ○ ○ ●</b> ← 2개\n<b>○ ● ○ ● ○</b> ← 2개\n<b>● ○ ● ○ ○</b> ← 2개\n\n총 ●의 개수는?',
+            hint: '3 + 2 + 2 + 2 + 2 = ?',
+            validate: function(i){return i.trim() === '11'} },
+          { type:'general', title:'🎩 퍼즐 4: 마술 도구 목록',
+            story: '거울이 회전한다. 뒤편 서랍에 마술 도구 목록과 함께 오래된 사진.\n최현우와 교수 김동현, 그리고 또 한 명. 얼굴이 지워져 있다.',
+            question: '마술 도구 총 개수를 계산하라.\n\n<b>실크 스카프: 7개\n트럼프 카드: 12벌\n마술 지팡이: 3개\n거울: 5개\n동전: 20개</b>\n\n7 + 12 + 3 + 5 + 20 = ?',
+            hint: '7 + 12 + 3 + 5 + 20 = ?',
+            validate: function(i){return i.trim() === '47'} },
+          { type:'cpq', cpqIndex:0,
+            story: '"대탈출은 공연이 아니었다."\n최현우가 마지막으로 향하려던 장소의 단서.',
+            storyAfter: '도구함 이중바닥 아래, 봉투 하나가 나왔다.' }
+        ],
+        cliffhanger: '봉투 안에는 빛바랜 졸업앨범 한 페이지.\n세종고등학교 3학년 2반, 1994년.\n\n세 명에게 동그라미가 쳐져 있다.\n김동현. 최현우. 그리고 세 번째 사람 — 이름이 까맣게 지워져 있다.\n\n앨범 여백에 최현우의 글씨:\n"우리 셋은 같은 걸 봤다. 그날 밤, 학교에서."\n\n1994년 세종고. 화재로 폐교된 바로 그 학교다.'
+      },
+      {
+        id: 'ch2_school',
+        title: 'Ch.2 — 야간 학교',
+        desc: '30년 전 화재로 폐교된 세종고. 그날 밤의 진실을 파헤친다.',
+        time: '14분',
+        intro: '세종고등학교. 30년간 방치된 폐교.\n철조망을 넘어 정문에 들어섰다. 유리창은 깨져 있고, 복도에 낙서가 가득하다.\n3학년 2반 교실. 칠판에 누군가 최근에 적어놓은 글씨.\n"여기서 시작됐다."\n문이 안에서 잠겼다. 비상등만 깜빡이는 교실. 30년 전의 메아리가 들린다.',
+        puzzles: [
+          { type:'general', title:'📚 퍼즐 1: 사물함의 조합',
+            story: '김동현의 사물함이 아직 남아있다. 문에 연필로 적어둔 메모.',
+            question: '사물함 조합을 계산하라.\n\n<b>첫 번째: 반 번호(2) × 2 = ?\n두 번째: 생일 월(12) + 일(8) = ?\n세 번째: 창가부터 줄 수 = 5</b>\n\n세 숫자를 이어서 입력하시오.',
+            hint: '2×2=4, 12+8=20, 5 → "4205"',
+            validate: function(i){return i.replace(/\s/g,'') === '4205'} },
+          { type:'general', title:'📝 퍼즐 2: 학습 계획표',
+            story: '사물함 안 쪽지.\n"오늘 밤 지하실에서 만나. 비밀을 확인하러 간다. — 현우"',
+            question: '주간 총 자습 시간을 계산하라.\n\n<b>월: 3시간\n화: 5시간\n수: 2시간\n목: 4시간\n금: 6시간</b>\n\n3 + 5 + 2 + 4 + 6 = ?',
+            hint: '3 + 5 + 2 + 4 + 6 = ?',
+            validate: function(i){return i.trim() === '20'} },
+          { type:'general', title:'📐 퍼즐 3: 칠판의 수학 문제',
+            story: '"진짜 비밀은 칠판 뒤에 있다."\n칠판에 풀다 만 수학 문제가 남아있다.',
+            question: '정육각형의 내각의 합을 구하라.\n\n<b>공식: (n-2) × 180°</b>\n\n삼각형(3): 180°\n사각형(4): 360°\n오각형(5): 540°\n육각형(6): ?',
+            hint: '(6-2) × 180 = 4 × 180 = ?',
+            validate: function(i){return i.trim() === '720'} },
+          { type:'general', title:'📰 퍼즐 4: 비밀 자료실',
+            story: '칠판이 움직인다. 뒤편에 비밀 자료실.\n오래된 신문 스크랩: "화재", "실종", "은폐."\n이 학교에는 어두운 역사가 있다.',
+            question: '세종고의 총 사건 수를 계산하라.\n\n<b>1995년: 1건 (화재)\n2003년: 2건 (실종)\n2010년: 1건 (붕괴)\n2018년: 3건 (식중독)\n2023년: 3건 (실종)</b>\n\n1 + 2 + 1 + 3 + 3 = ?',
+            hint: '1 + 2 + 1 + 3 + 3 = ?',
+            validate: function(i){return i.trim() === '10'} },
+          { type:'cpq', cpqIndex:0,
+            story: '자료실 벽에 붙은 지도. 화재 원인 조사 보고서.\n"화재는 사고가 아니었다." 결정적 장소가 표시되어 있다.',
+            storyAfter: '보고서의 마지막 페이지가 펼쳐졌다.' }
+        ],
+        cliffhanger: '화재 조사 보고서. 기밀 스탬프가 찍혀있다.\n\n"1994년 12월 24일. 세종고 지하 보일러실에서 발화."\n"화재는 사고가 아니라 의도적 방화."\n"목적: 지하실의 증거 인멸."\n\n증거가 뭐였을까?\n\n보고서에 첨부된 생존자 명단. 세 번째 이름.\n직업란: "그란데 오페라 하우스 단원"\n\n졸업앨범에서 지워졌던 세 번째 사람.\n그가 오페라 극장에 있다.'
+      },
+      {
+        id: 'ch3_opera',
+        title: 'Ch.3 — 오페라 극장',
+        desc: '100년 된 극장. 무대 아래에 숨겨진 비밀.',
+        time: '15분',
+        intro: '그란데 오페라 하우스. 100년 역사의 극장.\n공연은 끝났지만 조명이 켜져 있다. 무대 위에 한 사람이 서 있다.\n당신을 기다리고 있었다는 듯이.\n"잘 왔어. 교수도, 현우도 여기까지 왔었지."\n그가 뒤돌아서는 순간, 무대가 꺼지고 기계장치가 작동한다.',
+        puzzles: [
+          { type:'general', title:'🎼 퍼즐 1: 악보의 알파벳 암호',
+            story: '분장실. 화장대 위 악보에 빨간 펜으로 음표에 동그라미가 쳐져있다.',
+            question: '음표를 알파벳 순서로 변환하라.\n\n<b>A=1, B=2, C=3, D=4, E=5, F=6, G=7</b>\n\n표시된 음표:\nC(3), D(4), E(5), C(3), G(7)\n\n다섯 숫자를 이어서 입력하시오.',
+            hint: 'C=3, D=4, E=5, C=3, G=7',
+            validate: function(i){return i.replace(/\s/g,'') === '34537'} },
+          { type:'general', title:'📔 퍼즐 2: 위협 편지의 로마 숫자',
+            story: '분장대 서랍. 위협 편지 네 통.\n"진실을 말하면 죽는다."',
+            question: '위협 편지를 받은 월의 합을 구하라.\n\n<b>I번째: III월 (3월)\nII번째: VII월 (7월)\nIII번째: IX월 (9월)\nIV번째: XII월 (12월)</b>\n\n3 + 7 + 9 + 12 = ?',
+            hint: '3 + 7 + 9 + 12 = ?',
+            validate: function(i){return i.trim() === '31'} },
+          { type:'general', title:'🎻 퍼즐 3: 오케스트라 배치 패턴',
+            story: '지하 악기 보관소. 악기들이 수학적 패턴으로 배열되어 있다.',
+            question: '패턴을 분석하라.\n\n<b>1열: 8대\n2열: 6대 (-2)\n3열: 4대 (-2)\n4열: 2대 (-2)\n5열: ?</b>\n\n5열에는 몇 대?',
+            hint: '8→6→4→2→?',
+            validate: function(i){return i.trim() === '0'} },
+          { type:'general', title:'🚪 퍼즐 4: 무대 기계실',
+            story: '기계실. 100년 된 장치들 사이에 마지막 퍼즐.\n"이 극장은 그들의 거점이었다."',
+            question: '극장 건립 연수를 계산하라.\n\n<b>건립: 1924년\n현재: 2024년</b>\n\n2024 - 1924 = ?',
+            hint: '2024 - 1924 = ?',
+            validate: function(i){return i.trim() === '100'} },
+          { type:'cpq', cpqIndex:0,
+            story: '무대 아래 비밀 기록보관소.\n"유령의 정체를 알아냈다. 증거가 이 장소에 있다."',
+            storyAfter: '기록보관소의 마지막 서류가 드러났다.' }
+        ],
+        cliffhanger: '기록보관소에서 나온 서류뭉치.\n\n세 번째 남자의 고백.\n"우리 셋은 1994년 크리스마스 이브, 학교 지하실에서 그것을 봤다."\n"인체 실험 기록. 아이들을 대상으로 한."\n"화재는 증거를 태우기 위한 것이었다."\n\n마지막 페이지.\n"최현우는 이걸 세상에 알리려다 사라졌다."\n"김동현 교수는 증거를 모으다 감금당했다."\n"나는... 마지막 트릭을 준비했다."\n\n서류 뒷면에 도장.\n"성모의료재단"\n\n폐쇄된 성모병원. 304호.\n모든 것은 거기서 시작됐다.'
+      }
     ]
   },
   {
-    id: 'hotel', emoji: '🏨', name: '호텔 미스터리',
-    desc: 'VIP가 체크인 47분 만에 증발했다. 1408호, 짐도 여권도 그대로. 문만 잠겨 있다.',
-    difficulty: 3, time: '15분',
-    intro: `그랜드 파크 호텔 1408호. IT 대표 박준호, 체크인 47분 후 증발. CCTV엔 방에 들어간 게 마지막이다. 짐도 여권도 그대로. 보안팀장인 당신이 들어섰지만, 문이 잠겼다. 이 방에는 비밀이 있다.`,
-    puzzles: [
-      { type:'general', title:'🔑 퍼즐 1: 투숙객의 노트북',
-        story: `노트북이 열려있다. 잠금 화면. 옆에 메모: "1408 — 불길한 숫자." 화면에 이모지 수식이 깜빡인다.`,
-        question: `노트북 비밀번호를 입력하라.
-
-화면에 이모지 수식이 표시되어 있다:
-
-<b>🏨 + 🏨 = 28
-🔑 × 🔑 = 16
-🏨 - 🔑 = ?</b>
-
-? 에 들어갈 숫자는?`,
-        hint: '🏨+🏨=28이면 🏨=14. 🔑×🔑=16이면 🔑=4. 14-4=?',
-        validate: i => i.trim()==='10' },
-      { type:'general', title:'💻 퍼즐 2: 검색 기록 분석',
-        story: `노트북이 열렸다. 마지막 검색 시각, 사라지기 17분 전. 비즈니스와 무관한 이상한 키워드들.
-
-<b>💻 검색 기록 (시간 순)
-21:15 - "M&A 실사 절차"  
-21:22 - "계약서 검토 요령"
-21:28 - "호텔 1408호 비밀"  
-21:30 - "숫자 7의 의미"</b>
-
-메모 앱이 열려있다: "검색한 숫자들을 더하면 답이 나온다."`,
-        question: `박준호의 검색 기록에서 숫자를 찾아라.
-
-<b>검색 키워드들:</b>
-- "M&A 실사 절차" → 숫자 없음
-- "계약서 검토 요령" → 숫자 없음  
-- "호텔 1408호 비밀" → 1408
-- "숫자 7의 의미" → 7
-
-1408 + 7 = ?`,
-        hint: '1408 + 7 = ?',
-        validate: i => i.trim() === '1415' },
-      { type:'general', title:'🪞 퍼즐 3: 욕실 거울의 메시지',
-        story: `메모 앱에 누군가 적어놨다. 박준호의 글씨가 아니다. "거울 뒤에 진실이 있다." 욕실 거울에 온수를 틀자, 김 서린 표면에 숫자가 떠오른다. 거울이니까 좌우가 반전됐다.`,
-        question: `거울에 숫자가 나타났다. 거울이므로 좌우가 반전되어 보인다.
-
-거울에 비친 숫자: <b>5765</b>
-
-이 숫자들을 거울에 비추면 좌우반전된다.
-실제 숫자(거울 바깥에서 본 원래 숫자)를 입력하라.
-
-(힌트: 숫자 순서가 뒤집힌다)`,
-        hint: '거울은 좌우를 반전시킨다. 5765를 거울에 비추면 순서가 뒤집혀서 5675가 된다.',
-        validate: i => i.trim()==='5675' },
-      { type:'general', title:'📅 퍼즐 4: 일정표의 암호',
-        story: `타일 밑에 금고. 호텔 비품이 아니다. 누가 설치한 거지? 이미 열려있다. 박준호의 비밀 일정표.`,
-        question: `박준호의 일정표를 분석하라.
-
-<b>각 미팅별 참석자 수:</b>
-- 09:00 A사 미팅: 3명
-- 14:00 B사 검토: 2명
-- 16:30 C사 협의: 4명  
-- 19:00 저녁 식사: 1명
-
-총 참석자 수는? 3 + 2 + 4 + 1 = ?`,
-        hint: '3 + 2 + 4 + 1 = ?',
-        validate: i => i.trim() === '10' },
-      { type:'cpq', cpqIndex:0,
-        story: `금고 안 편지. 박준호는 실종된 게 아니다. 스스로 사라졌다. 호텔은 거점일 뿐. 진짜 목적지가 따로 있다. 도보 거리를 확인하라.`,
-        storyAfter: `편지 뒷면: "침대 헤드보드 뒤, 비밀 통로." 박준호는 이 통로를 알고 이 방을 지정했다.` }
+    id: 'hospital',
+    title: '304호의 기억',
+    icon: '🏥',
+    difficulty: 3,
+    desc: '10년 전 폐쇄된 병원. 304호 환자들이 전원 동시에 사라진 사건. 진실을 파헤쳐라.',
+    chapters: [
+      {
+        id: 'ch1_hospital',
+        title: 'Ch.1 — 폐병원 304호',
+        desc: '밤마다 불이 켜지는 폐병원. 10년 전 그날 밤의 진실.',
+        time: '14분',
+        intro: '성모병원. 10년 전 의료사고로 폐쇄됐다.\n하지만 "의료사고"는 공식 발표일 뿐이다.\n304호에서 밤마다 불빛이 켜진다는 제보.\n당신이 들어선 순간, 복도 끝에서 발자국 소리.\n10년간 아무도 들어오지 않았을 이 병원에서.',
+        puzzles: [
+          { type:'general', title:'💊 퍼즐 1: 환자 차트의 복용량',
+            story: '304호 침대 옆, 낡은 환자 차트.\n마지막 기록: "박민수, 45세." 간호사의 메모: "복용량이 열쇠다."',
+            question: '하루 총 복용량을 계산하라.\n\n<b>아침: 2정\n점심: 1정\n저녁: 3정</b>\n\n2 + 1 + 3 = ?',
+            hint: '2 + 1 + 3 = ?',
+            validate: function(i){return i.trim() === '6'} },
+          { type:'general', title:'📋 퍼즐 2: 의사의 진료 기록',
+            story: '침대 아래 금고. 김영호 의사의 수첩.\n"환자들이 갑자기 악화되고 있다. 약이 바뀌었다."',
+            question: '주간 총 진료 환자 수를 계산하라.\n\n<b>월: 12명\n화: 8명\n수: 15명\n목: 6명\n금: 9명</b>\n\n12 + 8 + 15 + 6 + 9 = ?',
+            hint: '12 + 8 + 15 + 6 + 9 = ?',
+            validate: function(i){return i.trim() === '50'} },
+          { type:'general', title:'🔬 퍼즐 3: 창가의 화학 공식',
+            story: '"진실을 발견했다. 그들이 쫓고 있다."\n창가 실험대에 김 의사가 남긴 화학 공식.',
+            question: '등장하는 원소의 첫 글자를 나열하라.\n\n<b>H₂O + NaCl\n2H₂ + O₂ = 2H₂O\nC₆H₁₂O₆ + 6O₂ = 6CO₂ + 6H₂O</b>\n\n원소: H(수소), O(산소), Na(나트륨), Cl(염소), C(탄소)\n첫 글자 순서: H, O, N, C, C',
+            hint: 'H, O, N, C, C → HONCC',
+            validate: function(i){return i.toUpperCase().replace(/\s/g,'') === 'HONCC'} },
+          { type:'general', title:'🗂️ 퍼즐 4: 병원 총 인원',
+            story: '비밀 서랍. 김 의사의 최종 보고서.\n"폐쇄의 진짜 원인을 찾았다. 의료사고가 아니다."',
+            question: '병원 전체 인원을 계산하라.\n\n<b>입원 환자: 45명\n외래 환자: 128명\n의료진: 23명\n관리직: 14명</b>\n\n45 + 128 + 23 + 14 = ?',
+            hint: '45 + 128 + 23 + 14 = ?',
+            validate: function(i){return i.trim() === '210'} },
+          { type:'cpq', cpqIndex:0,
+            story: '"304호의 진짜 비밀. 더 큰 음모가 있다."\n김 의사가 목숨 걸고 추적한 장소.',
+            storyAfter: '보고서의 마지막 장이 해독됐다.' }
+        ],
+        cliffhanger: '김영호 의사의 최종 보고서.\n\n"304호 환자 5명. 전원 같은 고아원 출신."\n"구세주 고아원. 30년 전 화재로 폐쇄된 바로 그곳."\n"환자들은 어린 시절 실험 대상이었다."\n"그리고 누군가 그들을 다시 모았다."\n\n보고서에 첨부된 사진.\n고아원 정문. 최근에 찍힌 것이다.\n철조망이 새것으로 교체되어 있다.\n\n누군가 그곳을 다시 사용하고 있다.'
+      },
+      {
+        id: 'ch2_orphanage',
+        title: 'Ch.2 — 버려진 고아원',
+        desc: '30년 전 불탄 고아원. 밤마다 아이들의 울음소리가 들린다.',
+        time: '16분',
+        intro: '구세주 고아원. 외벽은 그을음으로 까맣다.\n새 철조망. 새 자물쇠. 누군가 관리하고 있다.\n안으로 들어서자 소독약 냄새. 30년 전 건물에서?\n2층에서 희미한 불빛. 발자국 소리.\n이곳은 버려지지 않았다.',
+        puzzles: [
+          { type:'general', title:'👶 퍼즐 1: 재원생 명단 분석',
+            story: '사무실. 30년 전 재원생 명단이 남아있다.',
+            question: '이름 첫 글자를 가나다 순으로 정렬하라.\n\n<b>이름들:</b> 김민수, 박영희, 이철호, 정수진, 최영수, 장미나, 오태식, 윤서연, 홍길동, 강혜진\n\n가나다 순: 강, 김, 박, 오, 윤, 이, 장, 정, 최, 홍\n\n<b>다섯 번째 글자</b>는?',
+            hint: '강김박오윤이장정최홍 → 다섯 번째는?',
+            validate: function(i){return i.trim() === '윤'} },
+          { type:'general', title:'📖 퍼즐 2: 원장 수녀의 일기',
+            story: '원장 수녀의 일기.\n"아이들이 밤마다 지하실로 데려가진다. 멈춰야 한다."',
+            question: '외출 기록의 패턴을 분석하라.\n\n<b>2월 1일 - 3명\n2월 5일 - 3명\n2월 9일 - 3명\n2월 13일 - 3명\n2월 ?일 - 3명</b>\n\n간격: 4일. 다음 날짜는 2월 며칠?',
+            hint: '1, 5, 9, 13... +4씩. 13 + 4 = ?',
+            validate: function(i){return i.trim() === '17'} },
+          { type:'general', title:'🧸 퍼즐 3: 놀이방의 이진법',
+            story: '2층 놀이방. 칠판에 수녀가 남긴 이진법 암호.\n별과 검은 동그라미.',
+            question: '이진법을 십진법으로 변환하라.\n\n<b>🌟⚫🌟⚫🌟⚫⚫🌟</b> = 10101001\n\n1×128 + 0×64 + 1×32 + 0×16 + 1×8 + 0×4 + 0×2 + 1×1 = ?',
+            hint: '128 + 32 + 8 + 1 = ?',
+            validate: function(i){return i.trim() === '169'} },
+          { type:'general', title:'🚪 퍼즐 4: 지하실의 연수 계산',
+            story: '지하실. 양초가 최근에 탄 흔적.\n벽에 새겨진 글: "침묵하는 자는 더 큰 죄를 짓는다."',
+            question: '화재부터 현재까지의 연수를 계산하라.\n\n<b>화재: 1994년\n현재: 2024년</b>\n\n2024 - 1994 = ?',
+            hint: '2024 - 1994 = ?',
+            validate: function(i){return i.trim() === '30'} },
+          { type:'cpq', cpqIndex:0,
+            story: '지하실 벽 뒤 숨겨진 방.\n"아이들은 여기서 실험당했다." 증거가 숨겨진 마지막 장소.',
+            storyAfter: '벽 뒤 방에서 상자가 나왔다.' }
+        ],
+        cliffhanger: '상자 안. 입양 서류 수십 통.\n\n전부 가짜다. 입양된 아이들은 가정에 간 게 아니었다.\n서류의 실제 목적지:\n"지하철 7호선 — 군사 폐역 B-7"\n\n아이들은 그곳으로 보내졌다.\n서류 뒷면, 최근 날짜의 메모:\n"실험은 계속되고 있다. 새로운 피험자가 필요하다."\n\n304호 환자들이 사라진 이유.\n그들은 다시 돌아간 것이다.'
+      },
+      {
+        id: 'ch3_subway',
+        title: 'Ch.3 — 지하철 폐역',
+        desc: '봉인된 군사 폐역. 아이들이 보내진 곳.',
+        time: '16분',
+        intro: '7호선 마지막 열차가 떠난 뒤.\n유지보수 통로를 통해 봉인된 B-7 폐역으로 진입했다.\n플랫폼은 깨끗하다. 너무 깨끗하다. 관리되고 있다.\n형광등이 깜빡이고, 어딘가에서 기계음이 들린다.\n이곳은 역이 아니다. 위장된 시설이다.',
+        puzzles: [
+          { type:'general', title:'🗺️ 퍼즐 1: 노선도의 환승역',
+            story: '벽면 노선도에 빨간 펜으로 표시된 역들.\n일반 지도에는 없는 역이 추가되어 있다.',
+            question: '환승 가능한 역의 개수를 세어라.\n\n<b>홍대입구: 2호선 ↔ 6호선 (환승)\n신촌: 2호선만\n이대: 2호선만\n충정로: 2호선 ↔ 5호선 (환승)</b>\n\n환승역 개수는?',
+            hint: '홍대입구, 충정로 = 2개',
+            validate: function(i){return i.trim() === '2'} },
+          { type:'general', title:'📋 퍼즐 2: 실종자 기록',
+            story: '관제실. 이곳을 지나간 사람들의 기록.\n번호만 있고 이름은 없다. 그들은 사람이 아니라 번호였다.',
+            question: '실종된 피험자 수를 계산하라.\n\n<b>A동: 탑승 8명, 실종 2명\nB동: 탑승 6명, 실종 3명\nC동: 탑승 10명, 실종 5명\nD동: 탑승 4명, 실종 2명</b>\n\n총 실종자: 2 + 3 + 5 + 2 = ?',
+            hint: '2 + 3 + 5 + 2 = ?',
+            validate: function(i){return i.trim() === '12'} },
+          { type:'general', title:'⏰ 퍼즐 3: 운행 시간 계산',
+            story: '운전석 서랍에 비밀 시간표.\n이 시설과 외부를 연결하는 셔틀의 시간표다.',
+            question: '운행 시간을 계산하라.\n\n<b>출발: 23:45\n도착: 01:15 (다음날)</b>\n\n23:45 → 00:00 = 15분\n00:00 → 01:15 = 75분\n\n총 몇 분?',
+            hint: '15 + 75 = ?',
+            validate: function(i){return i.trim() === '90'} },
+          { type:'general', title:'🚪 퍼즐 4: 증언 분석',
+            story: '녹음기. 탈출한 피험자의 증언이 녹음되어 있다.\n떨리는 목소리. "그들이 거짓말을 하고 있어요."',
+            question: '증언의 진위를 분석하라.\n\n<b>A: "B가 거짓말"\nB: "우리 중 한 명만 진실"\nC: "A의 말이 맞다"\nD: "B의 말이 틀렸다"</b>\n\nB가 거짓이면 → A(참), C(참), D(참)\n\n진실을 말하는 사람은 총 몇 명?',
+            hint: 'A, C, D가 진실 = 3명',
+            validate: function(i){return i.trim() === '3'} },
+          { type:'cpq', cpqIndex:0,
+            story: '시설 최심부. 실험실 문 앞.\n마지막 인증이 필요하다. 결정적 장소의 거리를 확인하라.',
+            storyAfter: '실험실 문이 열렸다.' }
+        ],
+        cliffhanger: '실험실.\n\n벽면 가득 사진과 서류. 30년간의 기록.\n아이들의 성장 사진. 같은 아이들이 어른이 되어가는 과정.\n304호 환자들이다.\n\n그리고 서류 맨 위, 재단 로고.\n"국립 고고학 박물관 산하 특수연구재단"\n\n박물관.\n김동현 교수가 소속된 바로 그 박물관.\n\n교수는 이 사실을 알고 있었다.\n아니, 교수는 이 재단의 일원이었다.\n\n벽에 붙은 조직도. 최상위에 적힌 이름.\n"재단 이사장: □□□"\n이름이 검게 칠해져 있다.\n\n하지만 아래 메모가 있다.\n"지하 전시실 B관. 모든 답이 거기 있다."'
+      },
+      {
+        id: 'ch4_museum',
+        title: 'Ch.4 — 박물관의 지하',
+        desc: '국립 박물관 전시관 아래 숨겨진 연구소. 10년 전 사건의 전모.',
+        time: '15분',
+        intro: '국립 고고학 박물관. 폐관 후 야간.\n지하 B관 입구. 일반인 출입 금지 구역.\n카드키가 작동한다. 교수의 것이니까.\n엘리베이터가 지하 3층까지 내려간다.\n문이 열리자 서늘한 공기와 함께 기계음.\n여기는 박물관이 아니다.',
+        puzzles: [
+          { type:'general', title:'🏺 퍼즐 1: 유물 연도 암호',
+            story: '전시 구역을 위장한 통로. 유물 4점 앞에 김 교수가 남긴 메모.',
+            question: '유물 연도의 마지막 자리를 나열하라.\n\n<b>투탕카멘 마스크: BC 1323 → 3\n카노푸스 항아리: BC 1550 → 0\n로제타 스톤: BC 196 → 6\n클레오파트라 목걸이: BC 69 → 9</b>\n\n네 숫자를 이어서 입력.',
+            hint: '3, 0, 6, 9 → 3069',
+            validate: function(i){return i.replace(/\s/g,'') === '3069'} },
+          { type:'general', title:'📓 퍼즐 2: 순찰 기록 패턴',
+            story: '경비원 순찰 일지.\n"유물이 제자리에 없다. 밤마다 누군가 들어온다."',
+            question: '이동 감지 패턴을 분석하라.\n\n<b>이집트관: 3건\n그리스관: 5건\n로마관: 7건\n동양관: 9건\n중세관: ?건</b>\n\n+2씩 증가. 중세관은?',
+            hint: '3, 5, 7, 9, ? → 11',
+            validate: function(i){return i.trim() === '11'} },
+          { type:'general', title:'🏛️ 퍼즐 3: 음악 암호',
+            story: '그리스관. 아폴로 조각상 대좌에 음표가 새겨져 있다.',
+            question: '음계를 숫자로 변환하라.\n\n<b>도(1), 레(2), 미(3), 파(4), 솔(5), 라(6), 시(7)</b>\n\n악보: 솔 도 레 미\n= 5 1 2 3\n\n네 숫자를 이어서 입력.',
+            hint: '솔=5, 도=1, 레=2, 미=3',
+            validate: function(i){return i.replace(/\s/g,'') === '5123'} },
+          { type:'general', title:'🚪 퍼즐 4: 황제의 재위 기간',
+            story: '로마관 해시계 옆. 재단 이사장의 최종 기록이 숨겨져 있다.',
+            question: '가장 오래 통치한 황제의 재위 기간은?\n\n<b>아우구스투스: 45년\n트라야누스: 19년\n하드리아누스: 21년\n마르쿠스: 19년</b>\n\n최대값은?',
+            hint: '45, 19, 21, 19 중 최대',
+            validate: function(i){return i.trim() === '45'} },
+          { type:'cpq', cpqIndex:0,
+            story: '최심부 비밀 수장고.\n"모든 증거가 여기 있다." 마지막 장소의 거리를 확인하라.',
+            storyAfter: '수장고의 최종 문서가 드러났다.' }
+        ],
+        cliffhanger: '수장고 중앙. 대형 스크린.\n\n재생 버튼을 누르자 영상이 흘러나온다.\n재단 이사장의 얼굴.\n\n"304호 환자들은 사라진 게 아닙니다."\n"그들은 성공한 겁니다."\n"30년간의 실험이 드디어 결실을 맺었습니다."\n"이제 2단계를 시작합니다."\n\n영상이 끊긴다.\n\n스크린 아래 서류. 2단계 계획서.\n목표: "심해 연구소 가동"\n위치: "북태평양 해저 1000m"\n\n교수는 이걸 막으려다 감금당한 것이다.\n최현우는 이걸 알리려다 사라진 것이다.\n\n서류 마지막 줄.\n"카운트다운 시작. 시계탑에서 신호를 보내라."\n\n도시 중심의 시계탑.\n3시 33분에 멈춘 시계.\n\n카운트다운은 이미 시작됐다.'
+      }
     ]
   },
   {
-    id: 'hospital', emoji: '🏥', name: '폐병원 304호',
-    desc: '폐쇄된 병원, 304호. 밤마다 불이 켜진다. 10년 전 그날 밤, 무슨 일이 있었나.',
-    difficulty: 2, time: '15분',
-    intro: `성모병원, 10년 전 의료사고로 폐쇄. 그런데 304호에서 밤마다 불빛이 켜진다. 경비원인 당신이 들어섰고, 문이 잠겼다. 썩은 냄새, 삐걱거리는 소리, 복도 끝 신음. 10년 전의 진실을 파헤쳐라.`,
-    puzzles: [
-      { type:'general', title:'💊 퍼즐 1: 환자 차트의 암호',
-        story: `침대 옆, 낡은 환자 차트. 마지막 기록: "박민수, 45세." 간호사의 메모: "복용량이 열쇠다." 침대 아래 금고.`,
-        question: `환자 차트를 분석하라.
-
-<b>처방전 내용:</b>
-- 매일 3회 복용
-- 아침: 2정
-- 점심: 1정  
-- 저녁: 3정
-
-환자가 하루에 복용하는 <b>총 알약 수</b>를 계산하여 입력하시오.`,
-        hint: '아침 2정 + 점심 1정 + 저녁 3정 = ?',
-        validate: i => i.trim() === '6' },
-      { type:'general', title:'📋 퍼즐 2: 의사의 진료 기록',
-        story: `금고 안, 김영호 의사의 수첩. "환자들이 갑자기 악화되고 있다. 원인 조사 중." 진료 기록이 적혀있다.`,
-        question: `김 의사의 주간 진료 환자 수를 계산하라.
-
-<b>요일별 진료 환자:</b>
-- 월요일: 12명
-- 화요일: 8명
-- 수요일: 15명  
-- 목요일: 6명
-- 금요일: 9명
-
-일주일 총 진료 환자 수는?
-12 + 8 + 15 + 6 + 9 = ?`,
-        hint: '12 + 8 + 15 + 6 + 9 = ?',
-        validate: i => i.trim() === '50' },
-      { type:'general', title:'🔬 퍼즐 3: 창가의 화학 공식',
-        story: `"진실을 발견했다. 그들이 쫓고 있다." 창가 실험대에 김 의사가 남긴 화학 공식.`,
-        question: `화학 공식에서 나타나는 모든 원소를 찾아라.
-
-<b>H₂O + NaCl = ?
-2H₂ + O₂ = 2H₂O  
-C₆H₁₂O₆ + 6O₂ = 6CO₂ + 6H₂O</b>
-
-등장하는 원소: H(수소), O(산소), Na(나트륨), Cl(염소), C(탄소)
-
-<b>각 원소의 첫 글자</b>를 순서대로 나열하면?
-(H, O, N, C, C 순서로)`,
-        hint: 'H=수소=H, O=산소=O, Na=나트륨=N, Cl=염소=C, C=탄소=C',
-        validate: i => i.toUpperCase().replace(/\s/g,'') === 'HONCC' },
-      { type:'general', title:'🗂️퍼즐 4: 최종 조사 보고서',
-        story: `창문 손잡이 뒤 비밀 서랍. 김 의사의 최종 보고서. "폐쇄의 진짜 원인을 찾았다."`,
-        question: `병원 전체 인원을 계산하라.
-
-<b>각 그룹별 인원:</b>
-- 입원 환자: 45명
-- 외래 환자: 128명
-- 의료진: 23명  
-- 관리직: 14명
-
-총 인원은 몇 명인가?
-45 + 128 + 23 + 14 = ?`,
-        hint: '45 + 128 + 23 + 14 = ?',
-        validate: i => i.trim() === '210' },
-      { type:'cpq', cpqIndex:0,
-        story: `"304호의 진짜 비밀. 더 큰 음모가 있다." 김 의사가 목숨 걸고 추적한 장소. 도보 거리를 확인하라.`,
-        storyAfter: `보고서 뒷면: "침대 아래 타일. 탈출 코드가 있다." 침대로.` }
-    ]
-  },
-  {
-    id: 'magician', emoji: '🎪', name: '마술사의 비밀 방',
-    desc: '마술사가 무대에서 사라졌다. 이번엔 트릭이 아니다. 일주일째 행방불명.',
-    difficulty: 1, time: '12분',
-    intro: `마술사 최현우, "대탈출" 공연 중 사라졌다. 일주일째 행방불명. 경찰은 포기했지만 매니저인 당신은 아니다. 극장 뒤편 비밀 방에 잠입했지만, 마술 장치가 작동하며 문이 봉쇄됐다. 그의 마지막 트릭을 풀어라.`,
-    puzzles: [
-      { type:'general', title:'🃏 퍼즐 1: 마술사의 카드 트릭',
-        story: `벨벳 테이블 위, 카드가 패턴으로 펼쳐져 있다. 메모: "내 가장 좋아하는 마술 — 수학의 마법."`,
-        question: `카드 패턴을 분석하라.
-
-<b>♠A(1) ♠2 ♠3 ♠4 ♠5</b> ← +1씩
-<b>♥2 ♥4 ♥6 ♥8 ♥?</b> ← +2씩  
-<b>♦1 ♦3 ♦5 ♦7 ♦?</b> ← +2씩
-<b>♣3 ♣6 ♣9 ♣12 ♣?</b> ← +3씩
-
-각 줄의 물음표에 들어갈 숫자는?
-♥=?, ♦=?, ♣=?
-
-세 숫자를 순서대로 입력하시오. (예: "10911")`,
-        hint: '♥: 2,4,6,8,? → 10, ♦: 1,3,5,7,? → 9, ♣: 3,6,9,12,? → 15',
-        validate: i => i.replace(/\s/g,'') === '10915' },
-      { type:'general', title:'📔 퍼즐 2: 다이어리의 암호',
-        story: `금고 안 다이어리. "그들이 쫓고 있다. 내가 발견한 비밀 때문이다." 공연 기록이 적혀있다.`,
-        question: `최현우의 총 공연 횟수를 계산하라.
-
-<b>월별 공연 횟수:</b>
-- 1월: 8회
-- 2월: 12회
-- 3월: 6회  
-- 4월: 15회
-- 5월: 9회
-
-총 공연 횟수는?
-8 + 12 + 6 + 15 + 9 = ?`,
-        hint: '8 + 12 + 6 + 15 + 9 = ?',
-        validate: i => i.trim() === '50' },
-      { type:'general', title:'🪞 퍼즐 3: 마법의 거울',
-        story: `"마지막 단서는 거울 속에." 벽면의 마술 거울에 손을 대자, LED 패턴이 떠오른다.`,
-        question: `거울의 LED 패턴을 분석하라.
-
-<b>● ○ ● ○ ●</b> ← 3개
-<b>○ ● ○ ● ○</b> ← 2개
-<b>● ○ ○ ○ ●</b> ← 2개
-<b>○ ● ○ ● ○</b> ← 2개
-<b>● ○ ● ○ ○</b> ← 2개
-
-검은 점(●)의 총 개수는?`,
-        hint: '각 줄을 차례대로 세어보자. 1줄(3) + 2줄(2) + 3줄(2) + 4줄(2) + 5줄(2) = ?',
-        validate: i => i.trim() === '11' },
-      { type:'general', title:'🎩 퍼즐 4: 마술 도구의 개수',
-        story: `거울이 회전한다. 뒤편 서랍. "모든 퍼즐이 연결된다." 마술 도구 목록이 들어있다.`,
-        question: `최현우의 마술 도구 총 개수를 계산하라.
-
-<b>각 도구별 개수:</b>
-- 실크 스카프: 7개
-- 트럼프 카드: 12벌
-- 마술 지팡이: 3개  
-- 거울: 5개
-- 동전: 20개
-
-총 몇 개의 도구인가?
-7 + 12 + 3 + 5 + 20 = ?`,
-        hint: '7 + 12 + 3 + 5 + 20 = ?',
-        validate: i => i.trim() === '47' },
-      { type:'cpq', cpqIndex:0,
-        story: `"대탈출은 공연이 아니었다." 최현우가 마지막으로 향하려던 장소. 도보 거리를 측정하라.`,
-        storyAfter: `"실크 스카프 아래 마지막 장치가 있다." 마술사의 진짜 마지막 트릭.` }
-    ]
-  },
-  {
-    id: 'school', emoji: '🏫', name: '야간 학교의 비밀',
-    desc: '야자 중 학생 3명이 동시에 사라졌다. 칠판에 의문의 숫자만 남아있다.',
-    difficulty: 2, time: '14분',
-    intro: `세종고 3학년 2반. 야자 중 학생 3명이 동시에 사라졌다. 책상은 엎어져 있고, 칠판엔 의문의 숫자. 담임인 당신이 밤늦게 왔지만, 문이 잠기고 전등이 꺼졌다. 비상등만 깜빡이는 교실. 학생들의 흔적을 따라가라.`,
-    puzzles: [
-      { type:'general', title:'📚 퍼즐 1: 사물함의 조합',
-        story: `김민수의 사물함이 반쯤 열려있다. 문에 연필로 적어둔 메모.`,
-        question: `민수의 사물함 조합을 계산하라.
-
-<b>힌트 해석:</b>
-- 첫 번째: 반 번호(2) × 2 = ?
-- 두 번째: 생일 월(12) + 일(8) = ?  
-- 세 번째: 창가부터 줄 수 = 5
-
-세 숫자를 이어서 입력하시오. (예: "4205")`,
-        hint: '2×2=4, 12+8=20, 줄 수=5 → "4205"',
-        validate: i => i.replace(/\s/g,'') === '4205' },
-      { type:'general', title:'📝 퍼즐 2: 학습 계획표',
-        story: `사물함 안 쪽지. "오늘 밤 비밀을 확인하러 간다. 선생님이 숨기고 있는 진실이 있다." 학습 계획표가 함께 있다.`,
-        question: `민수의 주간 총 자습 시간을 계산하라.
-
-<b>요일별 자습 시간:</b>
-- 월요일: 3시간
-- 화요일: 5시간
-- 수요일: 2시간  
-- 목요일: 4시간
-- 금요일: 6시간
-
-총 몇 시간 자습했는가?
-3 + 5 + 2 + 4 + 6 = ?`,
-        hint: '3 + 5 + 2 + 4 + 6 = ?',
-        validate: i => i.trim() === '20' },
-      { type:'general', title:'📐 퍼즐 3: 칠판의 수학 문제',
-        story: `"진짜 비밀은 칠판 뒤에. 선생님도 모르는 학교의 역사." 칠판에 풀다 만 수학 문제.`,
-        question: `다각형 내각의 합 공식을 적용하라.
-
-<b>패턴 분석:</b>
-- 삼각형(3): (3-2) × 180 = 180°
-- 사각형(4): (4-2) × 180 = 360°
-- 오각형(5): (5-2) × 180 = 540°
-- 육각형(6): (6-2) × 180 = ?
-
-정육각형의 내각의 합은 몇 도인가?`,
-        hint: '육각형은 6각형이니까 (6-2) × 180 = 4 × 180 = ?',
-        validate: i => i.trim() === '720' },
-      { type:'general', title:'📰 퍼즐 4: 비밀 자료실의 기록',
-        story: `칠판이 움직인다. 뒤편에 비밀 자료실. 오래된 신문 스크랩: "화재", "실종", "은폐." 학교의 어두운 역사.`,
-        question: `세종고등학교의 총 사건 수를 계산하라.
-
-<b>연도별 사건 수:</b>
-- 1995년: 1건 (화재)
-- 2003년: 2건 (실종)
-- 2010년: 1건 (붕괴)  
-- 2018년: 3건 (식중독)
-- 2023년: 3건 (실종)
-
-총 몇 건의 사건이 발생했는가?
-1 + 2 + 1 + 3 + 3 = ?`,
-        hint: '1 + 2 + 1 + 3 + 3 = ?',
-        validate: i => i.trim() === '10' },
-      { type:'cpq', cpqIndex:0,
-        story: `학생들의 마지막 메시지. "진실을 알았다. 증거는 이 장소에 있다." 모든 사건의 연결고리. 도보 거리를 확인하라.`,
-        storyAfter: `"선생님 책상 서랍. 논리 퍼즐이 마지막 관문이다." 교실 앞으로.` }
-    ]
-  },
-  {
-    id: 'detective', emoji: '🕵️', name: '탐정 사무소의 수수께끼',
-    desc: '"결정적 단서를 찾았다." 그 전화를 마지막으로 탐정이 사라졌다.',
-    difficulty: 1, time: '11분',
-    intro: `사립탐정 장혜린, 20년 경력. "결정적 단서를 찾았다"는 전화를 마지막으로 3일째 연락 두절. 조수인 당신이 사무소에 왔지만, 문이 잠기고 음성이 들린다. "진짜 탐정이라면 이것을 풀어보라." 장혜린의 마지막 퍼즐이다.`,
-    puzzles: [
-      { type:'general', title:'🔍 퍼즐 1: 탐정의 알리바이 시간표',
-        story: `책상 위, 사건 수첩. '황금 상속 사건' 용의자 4명의 알리바이 시간표.`,
-        question: `용의자들의 알리바이를 분석하라.
-
-<b>9시 ~ 9시30분 동안:</b>
-- 김대표: 집에 있음 (9시 집 도착)
-- 박차장: 영화 관람 중 (9시30분 종료)
-- 최부장: 편의점에서 집으로 이동 중  
-- 이비서: 사우나에 있음
-
-"9시부터 9시30분 사이에 <b>자유시간</b>이 있었던 사람"은 누구인가?
-
-해당 용의자의 성씨를 입력하시오. (김, 박, 최, 이)`,
-        hint: '김대표는 집에 있고, 박차장은 영화 중, 이비서는 사우나 중. 최부장만 편의점에서 집까지 이동하는 동안 자유시간이...',
-        validate: i => i.trim() === '최' },
-      { type:'general', title:'🕵️ 퍼즐 2: 추적 기록 분석',
-        story: `장혜린의 추리가 맞았다. 최부장의 실제 동선. 편의점이 아니라 다른 곳을 갔다.`,
-        question: `최부장의 총 이동 시간을 계산하라.
-
-<b>각 구간별 이동 시간:</b>
-- 회사 → 카페 A: 15분
-- 카페 A → 은행: 25분
-- 은행 → 집: 20분
-
-총 이동 시간은?
-15 + 25 + 20 = ?분`,
-        hint: '15 + 25 + 20 = ?',
-        validate: i => i.trim() === '60' },
-      { type:'general', title:'💰 퍼즐 3: 상속 재산의 암호',
-        story: `"최부장은 미끼다. 진짜 문제는 따로 있다." 금고 안, 故 황금남 회장의 유언장. 상속 비율에 암호가 숨어있다.`,
-        question: `상속 비율을 계산하라.
-
-<b>재산 분배:</b>
-- 아들: 1/2 = 3/6
-- 딸: 1/3 = 2/6  
-- 손자: 1/6 = 1/6
-- 자선단체: 나머지
-
-분수의 합: 3/6 + 2/6 + 1/6 = ?/6
-
-자선단체가 받을 몫은 전체 중 몇 분의 몇인가?
-(분수 형태로 입력. 예: 1/6)`,
-        hint: '3/6 + 2/6 + 1/6 = 6/6 = 1. 전체가 1이므로 자선단체 몫은 0이다. 즉, 0/6 = 0',
-        validate: i => i.trim() === '0' || i.trim() === '0/6' || i.includes('0') },
-      { type:'general', title:'📋 퍼즐 4: 조사 노트의 증거',
-        story: `유언장은 완벽하다. 그런데 금고 뒤에 또 다른 서류. "진짜 범인은 따로 있다." 관련자 접촉 기록.`,
-        question: `장혜린의 총 접촉 횟수를 계산하라.
-
-<b>각 관련자별 접촉 횟수:</b>
-- 김대표: 7회
-- 박차장: 12회
-- 최부장: 5회  
-- 이비서: 9회
-- 변호사: 6회
-
-총 몇 회 접촉했는가?
-7 + 12 + 5 + 9 + 6 = ?`,
-        hint: '7 + 12 + 5 + 9 + 6 = ?',
-        validate: i => i.trim() === '39' },
-      { type:'cpq', cpqIndex:0,
-        story: `"진범을 찾았다. 감시당하고 있다." 장혜린이 마지막으로 향하려던 장소. 도보 거리를 확인하라.`,
-        storyAfter: `"책장 뒤 비밀 금고. 마지막 퍼즐이 진실로 이끈다." 책장을 확인하라.` }
-    ]
-  },
-  {
-    id: 'orphanage', emoji: '🏚️', name: '버려진 고아원의 저주',
-    desc: '30년 전 불탄 고아원. 밤마다 아이들의 울음소리가 들린다. 소문이 아니다.',
-    difficulty: 3, time: '18분',
-    intro: `구세주 고아원. 30년 전 화재로 폐쇄됐다. 밤마다 울음소리가 들린다. 심령 조사관인 당신이 들어섰고, 현관문이 저절로 닫혔다. 썩은 냄새, 곰팡이, 복도 끝에서 들리는 작은 발자국. 30년 전 그날 밤의 진실을 밝혀라.`,
-    puzzles: [
-      { type:'general', title:'👶 퍼즐 1: 아이들의 이름 암호',
-        story: `사무실, 30년간 방치. 책상 위 '재원생 명단'. 화재 그날 밤, 이 아이들이 있었다.`,
-        question: `아이들 이름의 첫 글자를 분석하라.
-
-<b>이름들:</b> 김민수, 박영희, 이철호, 정수진, 최영수, 장미나, 오태식, 윤서연, 홍길동, 강혜진
-
-<b>첫 글자들:</b> 김, 박, 이, 정, 최, 장, 오, 윤, 홍, 강
-
-이를 가나다 순으로 정렬하면?
-강, 김, 박, 오, 윤, 이, 장, 정, 최, 홍
-
-<b>다섯 번째 글자</b>는?`,
-        hint: '가나다 순: ㄱ(강), ㄱ(김), ㄱ(박)... 아니다. 강(ㄱ), 김(ㄱ), 오(ㅇ), 박(ㅂ), 윤(ㅇ), 이(ㅇ), 장(ㅈ), 정(ㅈ), 최(ㅊ), 홍(ㅎ)',
-        validate: i => i.trim() === '윤' || i.trim() === 'ㅇ' },
-      { type:'general', title:'📖 퍼즐 2: 원장 수녀의 일기 해독',
-        story: `원장 수녀의 일기. "아이들이 밤마다 어딘가로 나간다. '그 장소'가 무엇인지 확인해야 한다." 아이들이 걸어간 곳의 주소가 적혀있다.`,
-        question: `원장 수녀의 일기에서 중요한 단서를 찾아라.
-
-일기에는 아이들이 밤마다 빠져나간 날짜가 기록되어 있다.
-
-<b>📅 아이들의 외출 기록:</b>
-- 2월 1일 (수) - 3명
-- 2월 5일 (일) - 3명
-- 2월 9일 (목) - 3명
-- 2월 13일 (월) - 3명
-- 2월 ?일 - 3명
-
-날짜가 일정한 간격으로 반복된다. 다음 외출 예정일은 2월 며칠인가?`,
-        hint: '1, 5, 9, 13... 간격은 4일씩. 13 + 4 = ?',
-        validate: i => i.trim() === '17' },
-      { type:'general', title:'🧸 퍼즐 3: 놀이방의 이진법',
-        story: `2층 놀이방. 30년 전 아이들이 마지막으로 놀았던 곳. 칠판에 수녀가 남긴 이진법 암호.`,
-        question: `칠판의 이진법을 해독하라.
-
-<b>🌟 ⚫ 🌟 ⚫ 🌟 ⚫ ⚫ 🌟</b>
-= 1 0 1 0 1 0 0 1
-
-8자리 이진법 10101001을 십진법으로 변환하면?
-
-계산: 1×128 + 0×64 + 1×32 + 0×16 + 1×8 + 0×4 + 0×2 + 1×1 = ?`,
-        hint: '128 + 32 + 8 + 1 = ?',
-        validate: i => i.trim() === '169' },
-      { type:'general', title:'🚪 퍼즐 5: 지하실의 마지막 진실',
-        story: `지하실. 양초가 타고 있다. 벽에 새겨진 글: "침묵하는 자는 더 큰 죄를 짓는다."`,
-        question: `30년 전 화재에서 현재까지의 정확한 시간을 계산하라.
-
-<b>화재 발생:</b> 1994년 2월 15일 오후 11시 30분
-<b>현재:</b> 2024년 2월 15일 오후 11시 30분
-
-2024 - 1994 = 몇 년?
-
-정확히 지난 연수를 입력하시오.`,
-        hint: '2024 - 1994 = ?',
-        validate: i => i.trim() === '30' },
-      { type:'cpq', cpqIndex:0,
-        story: `이사장의 고백. "고아원을 팔기 위해 불을 질렀다." 아이들은 이걸 알아버렸다. 증거가 숨겨진 장소. 거리를 확인하라.`,
-        storyAfter: `"아이들이 진실을 폭로하려 했지만... 나는 그들을 막기 위해..." 지하실을 확인하라.` }
-    ]
-  },
-  {
-    id: 'subway', emoji: '🚇', name: '지하철 마지막 열차의 공포',
-    desc: '새벽 1시 30분, 마지막 열차. 승객들이 한 명씩 사라진다. 내리지 않았는데.',
-    difficulty: 2, time: '16분',
-    intro: `새벽 1시 30분, 2호선 막차. 승객이 한 명씩 사라진다. 내린 게 아니다. 그냥 없어진다. 터널에서 열차가 멈췄다. 문이 잠기고, 조명이 깜빡이고, 안내방송이 끊겼다. 이 열차에서 무슨 일이 일어나고 있는가.`,
-    puzzles: [
-      { type:'general', title:'🗺️ 퍼즐 1: 지하철 노선도의 암호',
-        story: `정적. 노선도에 누군가 빨간 펜으로 표시해뒀다. 특정 역들이 연결된다.`,
-        question: `지하철 노선도를 분석하라.
-
-표시된 역들의 환승 정보:
-- 홍대입구: 2호선 ↔ 6호선 (환승 가능)
-- 신촌: 2호선만
-- 이대: 2호선만  
-- 충정로: 2호선 ↔ 5호선 (환승 가능)
-
-<b>2호선에서 다른 노선으로 환승 가능한 역은 몇 개인가?</b>
-
-환승역 개수를 입력하시오.`,
-        hint: '홍대입구(2↔6), 충정로(2↔5). 신촌과 이대는 2호선만.',
-        validate: i => i.trim() === '2' },
-      { type:'general', title:'📋 퍼즐 2: 기관사의 승객 기록 분석',
-        story: `기관사의 비상 일지. "승객들이 같은 장소를 계속 말한다." 사라진 사람들과 그 장소의 연결고리는?`,
-        question: `기관사의 비상 일지에서 사라진 승객 패턴을 분석하라.
-
-<b>🚇 승객 실종 기록:</b>
-- 1호차: 탑승 8명, 실종 2명
-- 2호차: 탑승 6명, 실종 3명
-- 3호차: 탑승 10명, 실종 5명
-- 4호차: 탑승 4명, 실종 2명
-
-<b>전체 열차에서 실종된 승객은 총 몇 명인가?</b>`,
-        hint: '2 + 3 + 5 + 2 = ?',
-        validate: i => i.trim() === '12' },
-      { type:'general', title:'⏰ 퍼즐 3: 시간표의 비밀',
-        story: `운전석. 서랍 안에 '비밀 시간표'. 일반 시간표가 아니다.`,
-        question: `지하철 운행 시간을 계산하라.
-
-<b>출발:</b> 23:45 (23시 45분)
-<b>도착:</b> 01:15 (1시 15분, 다음날)
-
-23:45 → 00:00 → 01:15
-
-23:45에서 01:15까지 총 몇 분인가?
-
-(힌트: 23:45 → 00:00은 15분, 00:00 → 01:15는 75분)`,
-        hint: '23:45 → 24:00(00:00) = 15분, 00:00 → 01:15 = 75분. 총 15 + 75 = ?',
-        validate: i => i.trim() === '90' },
-      { type:'general', title:'🚪 퍼즐 5: 마지막 역으로의 탈출',
-        story: `비상벨 옆, 숨겨진 패널. 탈출 시스템이다. 마지막 논리 퍼즐.`,
-        question: `승객들의 증언을 분석하라.
-
-- A: "B가 거짓말"
-- B: "우리 중 한 명만 진실"
-- C: "A의 말이 맞다"  
-- D: "B의 말이 틀렸다"
-
-B의 말이 참이라면 (한 명만 진실), A,C,D는 모두 거짓말쟁이여야 한다.
-그런데 A는 "B가 거짓말"이라고 했으니 A가 거짓말쟁이면 B는 진실해야...
-
-B의 말이 거짓이라면, B를 제외하고 누가 진실을 말하는가?
-
-<b>진실을 말하는 승객은 총 몇 명인가?</b>`,
-        hint: 'B가 거짓말이라고 가정하자. 그러면 A("B가 거짓말")=참, C("A가 맞다")=참, D("B가 틀렸다")=참. B만 거짓말하고 나머지는 진실.',
-        validate: i => i.trim() === '3' },
-      { type:'cpq', cpqIndex:0,
-        story: `"승객들이 모두 그 장소와 연결되어 있다." 기관사의 최종 보고서. 결정적 장소의 거리를 측정하라.`,
-        storyAfter: `"이 열차의 진짜 목적지를 알았다." 비상 탈출 코드는 비상벨 옆에 있다.` }
-    ]
-  },
-  {
-    id: 'museum', emoji: '🏛️', name: '박물관의 저주',
-    desc: '야간 경비원이 이집트관에서 사라졌다. CCTV는 그 순간 꺼졌다.',
-    difficulty: 2, time: '15분',
-    intro: `국립 고고학 박물관. 야간 경비원 김태현, 3일째 행방불명. 마지막 CCTV는 이집트관에서 끊긴다. 관리소장인 당신이 야간에 들어왔지만, 모든 문이 잠겼다. 유물들이 어둠 속에서 빛나고, 복도 끝에서 속삭임이 들린다.`,
-    puzzles: [
-      { type:'general', title:'🏺 퍼즐 1: 고대 유물의 연도 암호',
-        story: `이집트관. 유물 4점 앞에 김 경비원이 남긴 메모가 붙어있다.`,
-        question: `유물 연도의 패턴을 분석하라.
-
-<b>유물별 제작 연도:</b>
-- 투탕카멘 마스크: 기원전 1323년 → 마지막 자리: 3
-- 카노푸스 항아리: 기원전 1550년 → 마지막 자리: 0
-- 로제타 스톤: 기원전 196년 → 마지막 자리: 6  
-- 클레오파트라 목걸이: 기원전 69년 → 마지막 자리: 9
-
-네 숫자를 순서대로 이어서 입력하시오.`,
-        hint: '1323의 마지막 숫자는 3, 1550은 0, 196은 6, 69는 9',
-        validate: i => i.replace(/\s/g,'') === '3069' },
-      { type:'general', title:'📓 퍼즐 2: 경비원의 순찰 기록 분석',
-        story: `순찰 일지. "유물이 제자리에 없다. 누군가 몰래 들어온다." 마지막 기록: "오늘 밤 따라가 본다." 의심스러운 장소의 주소.`,
-        question: `김 경비원의 순찰 일지에서 이상한 패턴을 분석하라.
-
-<b>🔦 야간 순찰 기록 (유물 이동 감지):</b>
-- 이집트관: 3건
-- 그리스관: 5건
-- 로마관: 7건
-- 동양관: 9건
-- 중세관: ?건
-
-이동 감지 건수가 일정한 패턴으로 증가하고 있다. 중세관의 예상 건수는?`,
-        hint: '3, 5, 7, 9... 2씩 증가. 다음은?',
-        validate: i => i.trim() === '11' },
-      { type:'general', title:'🏛️ 퍼즐 3: 그리스 신화의 음악 암호',
-        story: `그리스관. 아폴로 조각상 대좌에 음표가 그려져 있다. 김 경비원의 단서.`,
-        question: `그리스 음악 암호를 해독하라.
-
-<b>음계 대응표:</b>
-도(1), 레(2), 미(3), 파(4), 솔(5), 라(6), 시(7), 도(8)
-
-<b>악보의 멜로디:</b> 솔 도 레 미
-
-각 음을 숫자로 변환하면?
-솔(5) 도(1) 레(2) 미(3)
-
-네 숫자를 순서대로 입력하시오.`,
-        hint: '솔=5, 도=1, 레=2, 미=3',
-        validate: i => i.replace(/\s/g,'') === '5123' },
-      { type:'general', title:'🚪 퍼즐 5: 로마 황제의 시간',
-        story: `로마관. 거대한 해시계 주변에 4명의 황제. 김 경비원의 마지막 퍼즐이 새겨져 있다.`,
-        question: `로마 황제들의 재위 기간을 비교하라.
-
-<b>각 황제의 재위 기간:</b>
-- 아우구스투스: 45년
-- 트라야누스: 19년
-- 하드리아누스: 21년  
-- 마르쿠스: 19년
-
-<b>가장 오래 통치한 황제의 재위 기간</b>은 몇 년인가?`,
-        hint: '45년, 19년, 21년, 19년 중에서 가장 큰 수는?',
-        validate: i => i.trim() === '45' },
-      { type:'cpq', cpqIndex:0,
-        story: `비밀 수장고. "내부자가 유물을 빼돌리고 있다." 밀매 거래 장소가 적혀있다. 도보 거리를 확인하라.`,
-        storyAfter: `"진범을 찾았다. 나를 의심하고 있다. 로마관 시계를 확인하라." 로마관으로.` }
-    ]
-  },
-  {
-    id: 'opera', emoji: '🎭', name: '오페라 극장의 유령',
-    desc: '프리마돈나가 1천 관객 앞에서 연기처럼 사라졌다. 100년 된 극장의 저주인가.',
-    difficulty: 3, time: '17분',
-    intro: `그란데 오페라 하우스, 100년 역사. 프리마돈나 이소프라노, <라 트라비아타> 2막 도중 무대에서 사라졌다. 1천 관객이 보는 앞에서. 프로듀서인 당신이 무대 뒤에 왔지만, 기계장치가 작동하며 출입구가 봉쇄됐다. 오르골이 울리고, 빈 객석에서 박수 소리가 메아리친다.`,
-    puzzles: [
-      { type:'general', title:'🎼 퍼즐 1: 악보의 숫자 암호',
-        story: `분장실. 화장대 위 악보, "Addio del passato." 빨간 펜으로 음표에 동그라미.`,
-        question: `음표를 알파벳 순서 번호로 변환하라.
-
-<b>알파벳 순서:</b> A=1, B=2, C=3, D=4, E=5, F=6, G=7...
-
-<b>표시된 음표들:</b>
-- 도(C) = 3번째 알파벳 = 3
-- 레(D) = 4번째 알파벳 = 4  
-- 미(E) = 5번째 알파벳 = 5
-- 도(C) = 3번째 알파벳 = 3
-- 솔(G) = 7번째 알파벳 = 7
-
-다섯 숫자를 순서대로 입력하시오.`,
-        hint: 'C=3, D=4, E=5, C=3, G=7',
-        validate: i => i.replace(/\s/g,'') === '34537' },
-      { type:'general', title:'📔 퍼즐 2: 이소프라노의 일기 해독',
-        story: `이소프라노의 일기. "누군가 나를 지켜보고 있다. 연습실에서, 무대에서, 집에서도." 위협 편지의 기록이 있다.`,
-        question: `이소프라노의 일기에 적힌 암호를 해독하라.
-
-그녀는 위협 편지를 받은 날짜를 로마 숫자로 기록했다.
-
-<b>🎭 위협 편지 수신 날짜:</b>
-- I번째 편지: III월 (3월)
-- II번째 편지: VII월 (7월)
-- III번째 편지: IX월 (9월)
-- IV번째 편지: XII월 (12월)
-
-<b>네 편지의 월 숫자를 모두 더하면?</b>
-3 + 7 + 9 + 12 = ?`,
-        hint: '3 + 7 + 9 + 12 = ?',
-        validate: i => i.trim() === '31' },
-      { type:'general', title:'🎻 퍼즐 3: 오케스트라의 수학적 하모니',
-        story: `지하 악기 보관소. 악기들이 수학적 패턴으로 배열되어 있다.`,
-        question: `악기 배치의 패턴을 분석하라.
-
-<b>각 열별 악기 수:</b>
-- 1열: 8대
-- 2열: 6대 (8-2)
-- 3열: 4대 (6-2)  
-- 4열: 2대 (4-2)
-- 5열: ? (2-2)
-
-패턴: 매번 2씩 감소
-
-<b>5열에는 몇 대의 악기가 있어야 하는가?</b>`,
-        hint: '8 → 6 → 4 → 2 → ?',
-        validate: i => i.trim() === '0' },
-      { type:'general', title:'🚪 퍼즐 5: 무대 기계실의 마지막 비밀',
-        story: `기계실, 극장의 심장부. 100년 된 장치들 사이에 마지막 퍼즐.`,
-        question: `극장의 역사를 계산하라.
-
-<b>오페라 하우스 건립:</b> 1924년
-<b>현재:</b> 2024년
-
-극장이 건립된 지 몇 년이 지났는가?
-
-2024 - 1924 = ?
-
-계산한 연수를 입력하시오.`,
-        hint: '2024 - 1924 = ?',
-        validate: i => i.trim() === '100' },
-      { type:'cpq', cpqIndex:0,
-        story: `비밀 기록보관소. 이소프라노의 마지막 보고서. "유령의 정체를 알아냈다. 그들이 막으려 한다." 증거가 숨겨진 장소. 도보 거리를 확인하라.`,
-        storyAfter: `"유령은 존재한다. 하지만 초자연적 존재가 아니다." 무대 아래 기계실로.` }
-    ]
-  },
-  {
-    id: 'clocktower', emoji: '⛪', name: '시계탑의 비밀',
-    desc: '시계가 3시 33분에 멈췄다. 50년간 한 번도 멈춘 적 없던 시계가. 종지기는 사라졌다.',
-    difficulty: 2, time: '14분',
-    intro: `고딕 시계탑. 50년간 한 번도 멈추지 않았다. 지금은 3시 33분에 멈춰있다. 종지기 박시계가 사라졌다. 관리사인 당신이 올라왔지만, 계단이 무너지며 갇혔다. 기어 돌아가는 소리 사이로 암호가 새겨져 있다.`,
-    puzzles: [
-      { type:'general', title:'⏰ 퍼즐 1: 시계바늘의 각도 계산',
-        story: `거대한 시계 기계장치. 3시 33분에 멈춰있다. 박시계의 메모.`,
-        question: `3시 33분에서 시침과 분침 사이의 각도를 계산하라.
-
-<b>분침 위치:</b> 33분 → 33 × 6도 = 198도
-<b>시침 위치:</b> 3시 33분 → 3 × 30도 + (33 × 0.5도) = 90도 + 16.5도 = 106.5도
-
-<b>두 바늘 사이 각도:</b> |198도 - 106.5도| = 91.5도
-
-시침과 분침 사이의 각도는? (소수점 첫째 자리까지)`,
-        hint: '분침은 198도 위치, 시침은 106.5도 위치. 두 각도의 차이는 91.5도',
-        validate: i => i.trim() === '91.5' || i.trim() === '91' },
-      { type:'general', title:'📒 퍼즐 2: 종지기의 작업 일지 분석',
-        story: `작업 일지. "시계가 자꾸 느려진다. 누군가 조작하고 있다." 의심스러운 장소가 적혀있다.`,
-        question: `박시계의 작업 일지에서 시계 오차 패턴을 분석하라.
-
-<b>⏰ 시계 오차 기록 (일별):</b>
-- 월요일: 2분 느림
-- 화요일: 4분 느림
-- 수요일: 8분 느림
-- 목요일: 16분 느림
-- 금요일: ?분 느림
-
-오차가 매일 2배씩 증가하고 있다. 금요일의 오차는 몇 분인가?`,
-        hint: '2, 4, 8, 16... 매일 2배. 16 × 2 = ?',
-        validate: i => i.trim() === '32' },
-      { type:'general', title:'🔔 퍼즐 3: 종의 진동 주파수',
-        story: `종루. 50년간 울려온 청동 종이 침묵하고 있다. 박시계가 남긴 계산 공식.`,
-        question: `종의 진동 주파수를 계산하라.
-
-<b>공식:</b> f = 무게 ÷ 직경²
-
-<b>주어진 값:</b>
-- 무게: 1,500kg
-- 직경: 2미터
-
-f = 1,500 ÷ (2)²
-f = 1,500 ÷ 4
-f = ?
-
-계산 결과를 입력하시오.`,
-        hint: '1,500 ÷ 4 = ?',
-        validate: i => i.trim() === '375' },
-      { type:'general', title:'🚪 퍼즐 5: 시간의 마지막 비밀',
-        story: `기계 내부. 50년간 관리된 정밀한 기어와 태엽. 건설자가 남긴 최종 시험.`,
-        question: `시계탑의 정확한 연수를 계산하라.
-
-<b>건설 일시:</b> 1974년 6월 15일 오후 3시 33분
-<b>현재 일시:</b> 2024년 6월 15일 오후 3시 33분
-
-두 시점 사이에 지난 정확한 연수는?
-
-2024 - 1974 = ?
-
-계산한 연수를 입력하시오.`,
-        hint: '2024 - 1974 = ?',
-        validate: i => i.trim() === '50' },
-      { type:'cpq', cpqIndex:0,
-        story: `숨겨진 계단. 비밀 방. "이 시계탑은 단순한 시계가 아니다." 마지막 핵심 장소. 도보 거리를 측정하라.`,
-        storyAfter: `"탈출 코드는 시간 속에 숨어있다." 시계 기계 내부로.` }
-    ]
-  },
-  {
-    id: 'laboratory', emoji: '🌊', name: '해저 연구소의 공포',
-    desc: '수심 1000m 밀폐 연구소. 과학자 5명 동시 실종. 탈출구는 하나뿐이었는데.',
-    difficulty: 3, time: '20분',
-    intro: `해저 연구소 '딥 블루', 수심 1000m. 과학자 5명이 어젯밤 동시에 사라졌다. 밀폐 공간, 탈출구 하나. 구조대장인 당신이 내려왔지만, 시스템이 봉쇄됐다. 산소 3시간. 내부에 이상한 생명체의 흔적. 수면으로 돌아가야 한다.`,
-    puzzles: [
-      { type:'general', title:'🧬 퍼즐 1: 해저 기압 계산',
-        story: `중앙 제어실. 김해양 박사의 마지막 로그인. 화면에 남겨진 계산:`,
-        question: `해저 1000m에서의 기압을 계산하라.
-
-<b>기압 계산 공식:</b>
-- 수면 기압: 1기압  
-- 수심 10m마다: +1기압
-
-<b>수심 1000m에서:</b>
-총 기압 = 1 + (1000 ÷ 10)
-총 기압 = 1 + 100
-총 기압 = ?
-
-계산 결과를 입력하시오.`,
-        hint: '1 + (1000 ÷ 10) = 1 + 100 = ?',
-        validate: i => i.trim() === '101' },
-      { type:'general', title:'📊 퍼즐 2: 해양 박사의 연구 일지 분석',
-        story: `김해양 박사의 일지. "미지의 생명체. 그들이 우리를 관찰하고 있다." 마지막 기록: "서식지를 직접 확인하러 간다."`,
-        question: `김해양 박사의 연구 일지에서 미지 생명체의 출현 패턴을 분석하라.
-
-<b>🌊 생명체 목격 기록:</b>
-- 1주차: 목격 1회
-- 2주차: 목격 1회
-- 3주차: 목격 2회
-- 4주차: 목격 3회
-- 5주차: 목격 5회
-- 6주차: ?회
-
-이 수열의 패턴을 파악하라. 6주차 목격 횟수는?
-
-(힌트: 각 항은 앞의 두 항의 합이다)`,
-        hint: '1, 1, 2, 3, 5... 피보나치 수열! 3 + 5 = ?',
-        validate: i => i.trim() === '8' },
-      { type:'general', title:'🔬 퍼즐 3: DNA 서열 암호',
-        story: `실험실. 푸른 빛을 내는 미지의 샘플. DNA 서열분석기에 결과가 표시되어 있다.`,
-        question: `DNA 서열을 숫자 코드로 변환하라.
-
-<b>염기 대응표:</b> A=1, T=2, C=3, G=4
-
-<b>DNA 서열:</b> ATCG-TACG-GCTA-ATGC
-
-각 염기를 숫자로 변환:
-- A(1) T(2) C(3) G(4)
-- T(2) A(1) C(3) G(4)  
-- G(4) C(3) T(2) A(1)
-- A(1) T(2) G(4) C(3)
-
-16자리 숫자를 순서대로 입력하시오.`,
-        hint: 'ATCG = 1234, TACG = 2134, GCTA = 4321, ATGC = 1243',
-        validate: i => i.replace(/\s/g,'').replace(/-/g,'') === '1234213443211243' },
-      { type:'general', title:'🚪 퍼즐 5: 비상 탈출 시퀀스',
-        story: `비상 탈출 프로토콜. 마지막 인증 코드가 필요하다.`,
-        question: `비상 탈출 인증 코드를 계산하라.
-
-<b>필요한 정보:</b>
-- 미지 생명체 최초 발견: 2019년
-- 딥 블루 연구소 건설: 2015년
-
-<b>인증 코드:</b> 발견 연도 + 건설 연도
-
-2019 + 2015 = ?
-
-계산 결과를 입력하시오.`,
-        hint: '2019 + 2015 = ?',
-        validate: i => i.trim() === '4034' },
-      { type:'cpq', cpqIndex:0,
-        story: `"이 생명체들은 지구 생명체가 아니다." 과학자들이 마지막으로 향한 해저 지점. 거리를 측정하라.`,
-        storyAfter: `"그들이 우리를 데려간 이유를 알았다. 이미 늦었다." 비상 탈출 프로토콜은 중앙 컴퓨터에.` }
+    id: 'deep',
+    title: '심해의 비밀',
+    icon: '🔱',
+    difficulty: 3,
+    desc: '모든 사건의 배후. 시계탑에서 시작된 카운트다운. 끝내지 않으면 끝나지 않는다.',
+    chapters: [
+      {
+        id: 'ch1_clock',
+        title: 'Ch.1 — 시계탑',
+        desc: '도시 중심의 시계탑. 갑자기 멈춘 시계와 함께 시작되는 카운트다운.',
+        time: '14분',
+        intro: '고딕 시계탑. 50년간 한 번도 멈추지 않았다.\n지금은 3시 33분에 멈춰 있다.\n종지기 박시계가 사라졌다.\n탑 꼭대기에 올라서자 계단이 무너졌다.\n기어 돌아가는 소리 사이로 빨간 LED 숫자가 깜빡인다.\n카운트다운. 72:00:00.',
+        puzzles: [
+          { type:'general', title:'⏰ 퍼즐 1: 시계바늘 각도',
+            story: '거대한 시계 기계장치. 3시 33분에 멈춰있다.\n메모: "각도가 열쇠다."',
+            question: '3시 33분, 시침과 분침 사이의 각도를 구하라.\n\n<b>분침: 33 × 6° = 198°\n시침: 3 × 30° + 33 × 0.5° = 106.5°</b>\n\n|198 - 106.5| = ?\n(소수점 첫째 자리까지)',
+            hint: '198 - 106.5 = 91.5',
+            validate: function(i){return i.trim() === '91.5' || i.trim() === '91'} },
+          { type:'general', title:'📒 퍼즐 2: 시계 오차 패턴',
+            story: '작업 일지.\n"시계가 자꾸 느려진다. 누군가 조작하고 있다."',
+            question: '오차 패턴을 분석하라.\n\n<b>월: 2분 느림\n화: 4분 느림\n수: 8분 느림\n목: 16분 느림\n금: ?분 느림</b>\n\n매일 2배씩. 금요일은?',
+            hint: '16 × 2 = ?',
+            validate: function(i){return i.trim() === '32'} },
+          { type:'general', title:'🔔 퍼즐 3: 종의 진동 주파수',
+            story: '종루. 50년간 울려온 청동 종이 침묵하고 있다.\n종 내부에 좌표가 새겨져 있다.',
+            question: '주파수를 계산하라.\n\n<b>f = 무게 ÷ 직경²\n무게: 1,500kg\n직경: 2m</b>\n\n1500 ÷ 4 = ?',
+            hint: '1500 ÷ 4 = ?',
+            validate: function(i){return i.trim() === '375'} },
+          { type:'general', title:'🚪 퍼즐 4: 시계탑 연수',
+            story: '기계 내부. 건설자가 남긴 최종 시험.\n"이 탑의 나이를 맞춰라."',
+            question: '시계탑의 연수를 계산하라.\n\n<b>건설: 1974년\n현재: 2024년</b>\n\n2024 - 1974 = ?',
+            hint: '2024 - 1974 = ?',
+            validate: function(i){return i.trim() === '50'} },
+          { type:'cpq', cpqIndex:0,
+            story: '시계 내부 숨겨진 방. 좌표가 새겨진 금속판.\n"이 좌표가 가리키는 곳." 마지막 장소의 거리를 확인하라.',
+            storyAfter: '금속판 뒷면의 메시지가 해독됐다.' }
+        ],
+        cliffhanger: '금속판 뒷면.\n해저 좌표: N 35°12\'48" E 129°45\'36"\n\n그리고 한 줄의 메시지.\n"모든 답은 바다 아래에 있다."\n\n카운트다운이 멈췄다.\n시계가 다시 움직이기 시작한다.\n\n하지만 방향이 반대다.\n시계가 거꾸로 가고 있다.\n\n종지기의 마지막 메모.\n"이 사건을 20년간 추적해온 사람이 있다."\n"탐정 장혜린. 그녀의 사무소에 모든 연결고리가 있다."'
+      },
+      {
+        id: 'ch2_detective',
+        title: 'Ch.2 — 탐정 사무소',
+        desc: '20년간 이 사건을 추적해온 탐정. 모든 연결고리를 정리한다.',
+        time: '13분',
+        intro: '사립탐정 장혜린. 20년 경력.\n"결정적 단서를 찾았다"는 전화를 마지막으로 3일째 연락 두절.\n사무소에 들어서자 음성이 흘러나온다.\n"여기까지 왔다면, 당신도 진실에 가까워진 거야."\n"내가 정리한 걸 봐. 모든 건 연결되어 있어."',
+        puzzles: [
+          { type:'general', title:'🔍 퍼즐 1: 알리바이 분석',
+            story: '사건 수첩. 모든 시리즈의 핵심 인물 알리바이.',
+            question: '9시~9시30분 사이에 자유시간이 있었던 사람은?\n\n<b>김대표: 집에 있음\n박차장: 영화 관람 중\n최부장: 편의점에서 이동 중\n이비서: 사우나에 있음</b>\n\n해당 성씨를 입력하시오.',
+            hint: '최부장만 이동 중에 자유시간이 있다',
+            validate: function(i){return i.trim() === '최'} },
+          { type:'general', title:'🕵️ 퍼즐 2: 이동 시간 계산',
+            story: '장혜린의 추적 기록. 핵심 인물의 실제 동선.',
+            question: '총 이동 시간을 계산하라.\n\n<b>회사→카페 A: 15분\n카페 A→은행: 25분\n은행→집: 20분</b>\n\n15 + 25 + 20 = ?',
+            hint: '15 + 25 + 20 = ?',
+            validate: function(i){return i.trim() === '60'} },
+          { type:'general', title:'💰 퍼즐 3: 재단 자금 추적',
+            story: '"특수연구재단의 자금 흐름을 추적했다."\n장혜린의 핵심 발견.',
+            question: '재산 분배를 계산하라.\n\n<b>아들: 1/2 = 3/6\n딸: 1/3 = 2/6\n손자: 1/6 = 1/6\n자선단체: 나머지</b>\n\n3/6 + 2/6 + 1/6 = 6/6 = 전부\n자선단체 몫은? (숫자로)',
+            hint: '6/6 = 1. 남는 건 0',
+            validate: function(i){return i.trim() === '0' || i.trim() === '0/6'} },
+          { type:'general', title:'📋 퍼즐 4: 접촉 횟수 합산',
+            story: '장혜린의 수사 노트 최종본.\n"모든 건 해저 연구소에서 시작됐다."',
+            question: '총 접촉 횟수를 계산하라.\n\n<b>김대표: 7회\n박차장: 12회\n최부장: 5회\n이비서: 9회\n변호사: 6회</b>\n\n7 + 12 + 5 + 9 + 6 = ?',
+            hint: '7 + 12 + 5 + 9 + 6 = ?',
+            validate: function(i){return i.trim() === '39'} },
+          { type:'cpq', cpqIndex:0,
+            story: '"진범을 찾았다. 감시당하고 있다."\n장혜린이 마지막으로 향하려던 장소.',
+            storyAfter: '장혜린의 마지막 녹음이 재생됐다.' }
+        ],
+        cliffhanger: '장혜린의 마지막 녹음.\n\n"20년간 추적한 끝에 모든 걸 연결했어."\n"교수 김동현, 마술사 최현우, 세 번째 남자."\n"304호 환자들, 구세주 고아원, 세종고 화재."\n"전부 하나의 프로젝트야."\n"코드명: QUBE."\n\n"해저 연구소. 북태평양 수심 1000m."\n"거기서 모든 게 시작됐고, 거기서 끝내야 해."\n"나는 지금 그곳으로 간다."\n\n녹음이 끊긴다.\n\n책상 서랍에 잠수정 탑승권 두 장.\n한 장은 장혜린 것. 한 장은... 비어 있다.\n\n당신의 이름을 적으라는 뜻이다.'
+      },
+      {
+        id: 'ch3_abyss',
+        title: 'Ch.3 — 해저 연구소',
+        desc: '수심 1000m. 모든 떡밥이 회수되는 최종 스테이지.',
+        time: '20분',
+        intro: '잠수정이 하강한다. 수심 100m... 500m... 1000m.\n해저 연구소 "딥 블루". 창밖으로 푸른 빛이 흐른다.\n도킹 완료. 에어록이 열린다.\n장혜린이 있다. 살아 있다.\n"드디어 왔구나. 이제 끝낼 때야."\n산소 잔량: 3시간. 시간이 없다.',
+        puzzles: [
+          { type:'general', title:'🧬 퍼즐 1: 해저 기압 계산',
+            story: '중앙 제어실. 김해양 박사의 마지막 로그인 화면.',
+            question: '수심 1000m의 기압을 계산하라.\n\n<b>수면: 1기압\n10m마다: +1기압</b>\n\n1 + (1000 ÷ 10) = ?',
+            hint: '1 + 100 = ?',
+            validate: function(i){return i.trim() === '101'} },
+          { type:'general', title:'📊 퍼즐 2: 생명체 출현 패턴',
+            story: '김해양 박사의 일지.\n"미지의 생명체. 그들이 우리를 관찰하고 있다."',
+            question: '피보나치 수열을 적용하라.\n\n<b>1주차: 1회\n2주차: 1회\n3주차: 2회\n4주차: 3회\n5주차: 5회\n6주차: ?회</b>\n\n각 항 = 앞 두 항의 합. 6주차는?',
+            hint: '3 + 5 = ?',
+            validate: function(i){return i.trim() === '8'} },
+          { type:'general', title:'🔬 퍼즐 3: DNA 서열 변환',
+            story: '실험실. 푸른 빛을 내는 미지의 샘플.\n이것이 "QUBE 프로젝트"의 핵심이었다.',
+            question: 'DNA 서열을 숫자로 변환하라.\n\n<b>A=1, T=2, C=3, G=4</b>\n\nATCG TACG GCTA ATGC\n= 1234 2134 4321 1243\n\n16자리 숫자를 이어서 입력.',
+            hint: 'ATCG=1234, TACG=2134, GCTA=4321, ATGC=1243',
+            validate: function(i){return i.replace(/[\s-]/g,'') === '1234213443211243'} },
+          { type:'general', title:'🚪 퍼즐 4: 비상 탈출 코드',
+            story: '산소가 줄어들고 있다. 비상 탈출 프로토콜을 가동해야 한다.\n마지막 인증 코드.',
+            question: '인증 코드를 계산하라.\n\n<b>미지 생명체 최초 발견: 2019년\n연구소 건설: 2015년</b>\n\n2019 + 2015 = ?',
+            hint: '2019 + 2015 = ?',
+            validate: function(i){return i.trim() === '4034'} },
+          { type:'cpq', cpqIndex:0,
+            story: '"이 생명체들은 지구 생명체가 아니다."\n최종 좌표. 마지막 장소의 거리를 측정하라.',
+            storyAfter: '비상 탈출 시스템이 가동됐다.' }
+        ],
+        cliffhanger: '탈출 직전, 장혜린이 중앙 컴퓨터의 마지막 파일을 열었다.\n\nQUBE 프로젝트 최종 보고서.\n\n"1994년, 세종고 지하실에서 발견된 미지의 물질."\n"세 명의 학생이 목격. 김동현, 최현우, 그리고 ████."\n"물질은 해저에서 온 것이었다."\n"30년간의 연구 결과: 이것은 신호였다."\n"누군가 우리에게 보낸 메시지."\n\n장혜린이 말했다.\n"교수도, 마술사도, 환자들도... 전부 이 비밀을 지키기 위해 희생된 거야."\n"하지만 이제 세상이 알아야 해."\n\n비상 탈출 포드가 상승한다.\n수면 위로 떠오르는 순간, 라디오에서 뉴스가 흘러나온다.\n\n"속보입니다. 국립 고고학 박물관 특수연구재단의 비밀 실험이 폭로되었습니다."\n"실종된 교수 김동현이 무사히 구출되었으며..."\n\n최현우의 마지막 트릭.\n그는 사라진 게 아니라, 증거를 세상에 보내고 있었다.\n\n당신은 해냈다.\n\n🏆 QUBE — ALL CLEAR'
+      }
     ]
   }
 ];
 
 // ─── 게임 상태 ───
-let state = { currentRoom:null, currentPuzzle:0, cpqCampaigns:[], startTime:null, attempts:0 };
+var state = { currentSeries:null, currentChapter:null, currentPuzzle:0, cpqCampaigns:[], startTime:null, attempts:0 };
 
-function loadProgress() { try{return JSON.parse(localStorage.getItem('qube_progress')||'{}')}catch{return{}} }
-function saveProgress(p) { localStorage.setItem('qube_progress',JSON.stringify(p)) }
-function getGrade(c) { return c>=10?'🕵️ 셜록':c>=7?'🔍 명탐정':c>=4?'🧐 탐정':c>=2?'📋 수습탐정':'🔰 초보탐정' }
-function formatTime(s) { return Math.floor(s/60)+':'+String(s%60).padStart(2,'0') }
+function getProgress() {
+  try { return JSON.parse(localStorage.getItem('qube_progress') || '{}'); } catch(e) { return {}; }
+}
+function saveProgressData(p) { localStorage.setItem('qube_progress', JSON.stringify(p)); }
+
+function isChapterCleared(seriesId, chapterId) {
+  var p = getProgress();
+  return !!(p[seriesId] && p[seriesId][chapterId]);
+}
+
+function isChapterUnlocked(seriesIdx, chapIdx) {
+  if (seriesIdx === 0 && chapIdx === 0) return true;
+  var s = SERIES[seriesIdx];
+  if (chapIdx > 0) {
+    return isChapterCleared(s.id, s.chapters[chapIdx - 1].id);
+  }
+  // First chapter of series: previous series must be fully cleared
+  var prevS = SERIES[seriesIdx - 1];
+  if (!prevS) return false;
+  for (var i = 0; i < prevS.chapters.length; i++) {
+    if (!isChapterCleared(prevS.id, prevS.chapters[i].id)) return false;
+  }
+  return true;
+}
+
+function isSeriesUnlocked(seriesIdx) {
+  return isChapterUnlocked(seriesIdx, 0);
+}
+
+function isSeriesCleared(seriesIdx) {
+  var s = SERIES[seriesIdx];
+  for (var i = 0; i < s.chapters.length; i++) {
+    if (!isChapterCleared(s.id, s.chapters[i].id)) return false;
+  }
+  return true;
+}
+
+function getTotalCleared() {
+  var count = 0;
+  for (var si = 0; si < SERIES.length; si++) {
+    for (var ci = 0; ci < SERIES[si].chapters.length; ci++) {
+      if (isChapterCleared(SERIES[si].id, SERIES[si].chapters[ci].id)) count++;
+    }
+  }
+  return count;
+}
+
+function getSeriesCleared() {
+  var count = 0;
+  for (var si = 0; si < SERIES.length; si++) {
+    if (isSeriesCleared(si)) count++;
+  }
+  return count;
+}
+
+function getGrade(c) { return c>=10?'🕵️ 셜록':c>=7?'🔍 명탐정':c>=4?'🧐 탐정':c>=2?'📋 수습탐정':'🔰 초보탐정'; }
+function formatTime(s) { return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
 
 // ─── 파티클 ───
 function createParticles() {
-  const c = document.getElementById('particles');
-  for(let i=0;i<50;i++){
-    const p = document.createElement('div');
+  var c = document.getElementById('particles');
+  for(var i=0;i<50;i++){
+    var p = document.createElement('div');
     p.className='particle';
     p.style.left=Math.random()*100+'%';
     p.style.animationDuration=(8+Math.random()*12)+'s';
     p.style.animationDelay=Math.random()*10+'s';
-    const sz=(2+Math.random()*3)+'px';
+    var sz=(2+Math.random()*3)+'px';
     p.style.width=p.style.height=sz;
     p.style.background=Math.random()>.5?'#b44aff':'#00e5ff';
-    p.style.boxShadow=`0 0 6px ${p.style.background}`;
+    p.style.boxShadow='0 0 6px '+p.style.background;
     c.appendChild(p);
   }
 }
 
-function scrollToRooms() { document.getElementById('rooms-section').scrollIntoView({behavior:'smooth'}) }
+function scrollToSeries() { document.getElementById('series-section').scrollIntoView({behavior:'smooth'}); }
 
 // ─── 화면 전환 ───
 function showScreen(id) {
-  document.getElementById('home').classList.toggle('hidden', id!=='home');
-  document.getElementById('game').classList.toggle('hidden', id!=='game');
-  document.getElementById('result').classList.toggle('hidden', id!=='result');
+  ['home','chapters','game','result'].forEach(function(s){
+    document.getElementById(s).classList.toggle('hidden', s!==id);
+  });
   document.getElementById('loadingScreen').classList.remove('active');
   if(id!=='home') window.scrollTo(0,0);
 }
 
 function goHome() {
-  state.currentRoom=null;
+  state.currentSeries=null;
+  state.currentChapter=null;
   showScreen('home');
   renderHome();
 }
 
-function confirmExit() { if(confirm('정말 나가시겠습니까? 진행 상황이 초기화됩니다.')) goHome() }
+function confirmExit() { if(confirm('정말 나가시겠습니까? 진행 상황이 초기화됩니다.')) goHome(); }
 
 // ─── 홈 렌더링 ───
 function renderHome() {
-  const progress = loadProgress();
-  const cleared = Object.keys(progress).filter(k=>progress[k]?.cleared).length;
+  var cleared = getTotalCleared();
+  var totalChapters = 0;
+  SERIES.forEach(function(s){ totalChapters += s.chapters.length; });
 
   document.getElementById('statCleared').textContent = cleared;
   document.getElementById('statGrade').textContent = getGrade(cleared).split(' ')[0];
-  document.getElementById('rooms-progress').textContent = `🔓 ${ROOMS.length}/${ROOMS.length} 해금 · ✅ ${cleared} 탈출`;
+  document.getElementById('statStreak').textContent = getSeriesCleared();
+  document.getElementById('seriesProgressText').textContent = '✅ ' + cleared + '/' + totalChapters + ' 챕터 클리어';
 
-  const grid = document.getElementById('roomGrid');
-  grid.innerHTML = ROOMS.map(room => {
-    const p = progress[room.id];
-    const isClear = p?.cleared;
-    const stars = Array.from({length:3},(_,i)=>`<span class="star ${i<room.difficulty?'':'empty'}">${i<room.difficulty?'★':'☆'}</span>`).join('');
-    const badge = isClear ? '<span class="room-badge badge-cleared">✓ 클리어</span>' : '<span class="room-badge badge-new">NEW</span>';
+  var html = '';
+  for (var si = 0; si < SERIES.length; si++) {
+    var s = SERIES[si];
+    var unlocked = isSeriesUnlocked(si);
+    var serCleared = isSeriesCleared(si);
+    var chapCleared = 0;
+    for (var ci = 0; ci < s.chapters.length; ci++) {
+      if (isChapterCleared(s.id, s.chapters[ci].id)) chapCleared++;
+    }
+    var stars = '';
+    for (var d = 0; d < 3; d++) {
+      stars += '<span class="star ' + (d < s.difficulty ? '' : 'empty') + '">' + (d < s.difficulty ? '★' : '☆') + '</span>';
+    }
+    var badge = '';
+    if (serCleared) badge = '<span class="series-badge badge-clear">✅ 클리어</span>';
+    else if (chapCleared > 0) badge = '<span class="series-badge badge-progress">' + chapCleared + '/' + s.chapters.length + '</span>';
+    else if (unlocked) badge = '<span class="series-badge badge-new">NEW</span>';
 
-    return `<div class="room-card ${isClear?'cleared':''}" onclick="startRoom('${room.id}')">
-      ${badge}
-      <div class="room-emoji">${room.emoji}</div>
-      <div class="room-title">${room.name}</div>
-      <div class="room-desc">${room.desc}</div>
-      <div class="room-meta">
-        <span class="room-diff">${stars}</span>
-        <span>⏱ ${room.time}</span>
-        ${isClear?`<span>🏆 ${formatTime(p.bestTime)}</span>`:''}
-      </div>
-      <button class="room-start">${isClear?'다시 도전 🔄':'입장하기 🔑'}</button>
-    </div>`;
-  }).join('');
+    var lockOverlay = '';
+    if (!unlocked) {
+      var prevTitle = si > 0 ? SERIES[si-1].title : '';
+      lockOverlay = '<div class="series-lock-overlay"><span>🔒 "' + prevTitle + '" 클리어 시 해금</span></div>';
+    }
+
+    html += '<div class="series-card ' + (unlocked ? '' : 'locked') + ' ' + (serCleared ? 'cleared' : '') + '" onclick="' + (unlocked ? 'openSeries('+si+')' : '') + '">';
+    html += lockOverlay;
+    html += '<div class="series-header">';
+    html += '<div class="series-icon">' + s.icon + '</div>';
+    html += '<div class="series-info"><div class="series-title">' + s.title + '</div><div class="series-diff">' + stars + '</div></div>';
+    html += badge;
+    html += '</div>';
+    html += '<div class="series-desc">' + s.desc + '</div>';
+    html += '<div class="series-footer">';
+    html += '<div class="series-chapter-progress">';
+    for (var ci2 = 0; ci2 < s.chapters.length; ci2++) {
+      if (isChapterCleared(s.id, s.chapters[ci2].id)) html += '<span class="done">✅</span> ';
+      else if (isChapterUnlocked(si, ci2)) html += '🔓 ';
+      else html += '🔒 ';
+    }
+    html += '</div></div></div>';
+  }
+  document.getElementById('seriesGrid').innerHTML = html;
+}
+
+// ─── 챕터 선택 화면 ───
+function openSeries(seriesIdx) {
+  var s = SERIES[seriesIdx];
+  showScreen('chapters');
+  var html = '<div class="chapter-header">';
+  html += '<button class="chapter-back" onclick="goHome()">←</button>';
+  html += '<div class="chapter-series-title">' + s.icon + ' ' + s.title + '</div>';
+  html += '</div>';
+  html += '<div class="chapter-series-desc">' + s.desc + '</div>';
+  html += '<div class="chapter-timeline">';
+
+  for (var ci = 0; ci < s.chapters.length; ci++) {
+    var ch = s.chapters[ci];
+    var cleared = isChapterCleared(s.id, ch.id);
+    var unlocked = isChapterUnlocked(seriesIdx, ci);
+    var cls = cleared ? 'cleared' : (unlocked ? 'unlocked' : 'locked');
+    var dotContent = cleared ? '✓' : (unlocked ? (ci+1) : '🔒');
+
+    html += '<div class="chapter-item ' + cls + '">';
+    html += '<div class="chapter-dot">' + dotContent + '</div>';
+    html += '<div class="chapter-card">';
+    html += '<div class="chapter-card-title">' + ch.title + '</div>';
+    html += '<div class="chapter-card-desc">' + ch.desc + '</div>';
+    html += '<div class="chapter-card-meta">';
+    html += '<span>⏱ ' + ch.time + '</span>';
+    if (cleared) {
+      html += '<button class="chapter-replay" onclick="startChapter('+seriesIdx+','+ci+')">다시 도전 🔄</button>';
+    } else if (unlocked) {
+      html += '<button class="chapter-enter" onclick="startChapter('+seriesIdx+','+ci+')">입장하기 🔑</button>';
+    } else {
+      html += '<span>🔒 이전 챕터 클리어 필요</span>';
+    }
+    html += '</div></div></div>';
+  }
+  html += '</div>';
+  document.getElementById('chapters').innerHTML = html;
 }
 
 // ─── 게임 시작 ───
-async function startRoom(roomId) {
-  const room = ROOMS.find(r=>r.id===roomId);
-  if(!room) return;
-
-  state.currentRoom=room; state.currentPuzzle=0; state.startTime=Date.now(); state.attempts=0;
+async function startChapter(seriesIdx, chapIdx) {
+  var s = SERIES[seriesIdx];
+  var ch = s.chapters[chapIdx];
+  state.currentSeries = s;
+  state.currentChapter = ch;
+  state.currentSeriesIdx = seriesIdx;
+  state.currentChapIdx = chapIdx;
+  state.currentPuzzle = 0;
+  state.startTime = Date.now();
+  state.attempts = 0;
 
   document.getElementById('loadingScreen').classList.add('active');
 
   try {
-    const cpqCount = room.puzzles.filter(p=>p.type==='cpq').length;
-    const res = await fetch(`${API}/api/random?count=${cpqCount}`);
-    const data = await res.json();
+    var cpqCount = ch.puzzles.filter(function(p){return p.type==='cpq';}).length;
+    var res = await fetch(API + '/api/random?count=' + cpqCount);
+    var data = await res.json();
     state.cpqCampaigns = data.campaigns || [];
   } catch(e) { state.cpqCampaigns = []; }
 
   showScreen('game');
-  document.getElementById('gameTitle').textContent = room.emoji + ' ' + room.name;
+  document.getElementById('gameTitle').textContent = ch.title;
   renderIntro();
 }
 
 function renderIntro() {
-  renderProgress();
-  document.getElementById('gameContent').innerHTML = `
-    <div class="story-box">
-      <div class="label">📖 프롤로그</div>
-      <p>${state.currentRoom.intro.replace(/\n/g,'<br>')}</p>
-    </div>
-    <button class="btn-next" onclick="renderPuzzle(0)">조사 시작 →</button>`;
+  renderProgressBar();
+  document.getElementById('gameContent').innerHTML =
+    '<div class="story-box"><div class="label">📖 프롤로그</div><p>' +
+    state.currentChapter.intro.replace(/\n/g,'<br>') +
+    '</p></div><button class="btn-next" onclick="renderPuzzle(0)">조사 시작 →</button>';
 }
 
-function renderProgress() {
-  const room = state.currentRoom;
-  const total = room.puzzles.length;
-  document.getElementById('gameProgressText').textContent = `${state.currentPuzzle+1} / ${total}`;
-  document.getElementById('progressBar').innerHTML =
-    Array.from({length:total},(_,i)=>{
-      const cls = i<state.currentPuzzle?'done':i===state.currentPuzzle?'active':'';
-      return `<div class="prog-dot ${cls}"></div>`;
-    }).join('');
+function renderProgressBar() {
+  var total = state.currentChapter.puzzles.length;
+  document.getElementById('gameProgressText').textContent = (state.currentPuzzle+1) + ' / ' + total;
+  var dots = '';
+  for (var i = 0; i < total; i++) {
+    var cls = i < state.currentPuzzle ? 'done' : (i === state.currentPuzzle ? 'active' : '');
+    dots += '<div class="prog-dot ' + cls + '"></div>';
+  }
+  document.getElementById('progressBar').innerHTML = dots;
 }
 
 // ─── 퍼즐 렌더링 ───
 function renderPuzzle(idx) {
   state.currentPuzzle = idx;
-  renderProgress();
-  const puzzle = state.currentRoom.puzzles[idx];
-  puzzle.type==='cpq' ? renderCpqPuzzle(idx,puzzle) : renderGeneralPuzzle(idx,puzzle);
+  renderProgressBar();
+  var puzzle = state.currentChapter.puzzles[idx];
+  if (puzzle.type === 'cpq') renderCpqPuzzle(idx, puzzle);
+  else renderGeneralPuzzle(idx, puzzle);
 }
 
 function renderGeneralPuzzle(idx, puzzle) {
-  document.getElementById('gameContent').innerHTML = `
-    <div class="story-box">
-      <div class="label">📖 상황</div>
-      <p>${puzzle.story.replace(/\n/g,'<br>')}</p>
-    </div>
-    <div class="puzzle-box">
-      <div class="puzzle-label">${puzzle.title}</div>
-      <div class="puzzle-question">${puzzle.question.replace(/\n/g,'<br>')}</div>
-      <div class="hint-box hidden" id="hintBox">💡 ${puzzle.hint}</div>
-      <button class="hint-btn" onclick="document.getElementById('hintBox').classList.remove('hidden');this.remove()">💡 힌트 보기</button>
-      <div class="answer-area">
-        <input type="text" id="answerInput" placeholder="정답을 입력하세요" onkeydown="handleEnter(event,${idx})">
-        <button class="btn-submit" onclick="checkGeneral(${idx})">확인</button>
-      </div>
-      <div id="feedback"></div>
-    </div>`;
-  setTimeout(() => document.getElementById('gameContent').scrollIntoView({behavior:'smooth'}), 100);
+  document.getElementById('gameContent').innerHTML =
+    '<div class="story-box"><div class="label">📖 상황</div><p>' + puzzle.story.replace(/\n/g,'<br>') + '</p></div>' +
+    '<div class="puzzle-box"><div class="puzzle-label">' + puzzle.title + '</div>' +
+    '<div class="puzzle-question">' + puzzle.question.replace(/\n/g,'<br>') + '</div>' +
+    '<div class="hint-box hidden" id="hintBox">💡 ' + puzzle.hint + '</div>' +
+    '<button class="hint-btn" onclick="document.getElementById(\'hintBox\').classList.remove(\'hidden\');this.remove()">💡 힌트 보기</button>' +
+    '<div class="answer-area"><input type="text" id="answerInput" placeholder="정답을 입력하세요" onkeydown="handleEnter(event,'+idx+')">' +
+    '<button class="btn-submit" onclick="checkGeneral('+idx+')">확인</button></div>' +
+    '<div id="feedback"></div></div>';
+  setTimeout(function(){ document.getElementById('gameContent').scrollIntoView({behavior:'smooth'}); }, 100);
 }
 
 function renderCpqPuzzle(idx, puzzle) {
-  const camp = state.cpqCampaigns[puzzle.cpqIndex];
+  var camp = state.cpqCampaigns[puzzle.cpqIndex];
   if(!camp) { nextPuzzle(idx); return; }
 
-  const desc = camp.join_desc || '';
-  const keyword = camp.search_keyword || '';
-  const placeMatch = desc.match(/\[([^\]]*X[^\]]*)\]/);
-  const placeHint = placeMatch ? placeMatch[1] : '해당 장소';
-  const startMatch = desc.match(/출발지를\s*\[([^\]]+)\]/);
-  const startPlace = startMatch ? startMatch[1] : '지정된 출발지';
+  var desc = camp.join_desc || '';
+  var keyword = camp.search_keyword || '';
+  var placeMatch = desc.match(/\[([^\]]*X[^\]]*)\]/);
+  var placeHint = placeMatch ? placeMatch[1] : '해당 장소';
+  var startMatch = desc.match(/출발지를\s*\[([^\]]+)\]/);
+  var startPlace = startMatch ? startMatch[1] : '지정된 출발지';
 
-  document.getElementById('gameContent').innerHTML = `
-    <div class="story-box">
-      <div class="label">📖 단서 발견</div>
-      <p>${puzzle.story.replace(/\n/g,'<br>')}</p>
-    </div>
-    <div class="puzzle-box">
-      <div class="puzzle-label">🔍 퍼즐 ${idx+1}: 장소 추적 미션</div>
-      <div class="puzzle-question">단서에 적힌 장소를 찾아야 한다. 네이버에서 검색하여 걸음 수를 확인하라.</div>
-      <div class="cpq-mission">
-        <div class="mission-title">📋 미션 순서</div>
-        <ol class="cpq-steps">
-          <li>아래 키워드를 복사하여 <b>네이버</b>에서 검색</li>
-          <li>검색 결과에서 <b>${placeHint}</b> 클릭</li>
-          <li>플레이스에서 <b>지도</b> 탭 → <b>지도앱으로 보기</b></li>
-          <li><b>도착</b> 버튼 클릭</li>
-          <li>출발지를 <b>${startPlace}</b>(으)로 설정</li>
-          <li><b>도보</b> → <b>가장 빠른</b> 경로의 걸음 수 확인</li>
-        </ol>
-        <div class="cpq-keyword-box">
-          <span class="cpq-keyword" onclick="copyKeyword(this)" title="클릭하여 복사">🔎 ${keyword}</span>
-        </div>
-      </div>
-      <div class="answer-area" style="margin-top:16px">
-        <input type="number" id="answerInput" placeholder="걸음 수를 입력하세요" onkeydown="handleEnter(event,${idx},'cpq')">
-        <button class="btn-submit" onclick="checkCpq(${idx})">확인</button>
-      </div>
-      <div id="feedback"></div>
-    </div>`;
-  setTimeout(() => document.getElementById('gameContent').scrollIntoView({behavior:'smooth'}), 100);
+  document.getElementById('gameContent').innerHTML =
+    '<div class="story-box"><div class="label">📖 단서 발견</div><p>' + puzzle.story.replace(/\n/g,'<br>') + '</p></div>' +
+    '<div class="puzzle-box"><div class="puzzle-label">🔍 퍼즐 ' + (idx+1) + ': 장소 추적 미션</div>' +
+    '<div class="puzzle-question">단서에 적힌 장소를 찾아야 한다. 네이버에서 검색하여 걸음 수를 확인하라.</div>' +
+    '<div class="cpq-mission"><div class="mission-title">📋 미션 순서</div>' +
+    '<ol class="cpq-steps"><li>아래 키워드를 복사하여 <b>네이버</b>에서 검색</li>' +
+    '<li>검색 결과에서 <b>' + placeHint + '</b> 클릭</li>' +
+    '<li>플레이스에서 <b>지도</b> 탭 → <b>지도앱으로 보기</b></li>' +
+    '<li><b>도착</b> 버튼 클릭</li>' +
+    '<li>출발지를 <b>' + startPlace + '</b>(으)로 설정</li>' +
+    '<li><b>도보</b> → <b>가장 빠른</b> 경로의 걸음 수 확인</li></ol>' +
+    '<div class="cpq-keyword-box"><span class="cpq-keyword" onclick="copyKeyword(this)" title="클릭하여 복사">🔎 ' + keyword + '</span></div></div>' +
+    '<div class="answer-area" style="margin-top:16px"><input type="number" id="answerInput" placeholder="걸음 수를 입력하세요" onkeydown="handleEnter(event,'+idx+',\'cpq\')">' +
+    '<button class="btn-submit" onclick="checkCpq('+idx+')">확인</button></div>' +
+    '<div id="feedback"></div></div>';
+  setTimeout(function(){ document.getElementById('gameContent').scrollIntoView({behavior:'smooth'}); }, 100);
 }
 
 // ─── 입력 핸들러 ───
-let isComposing = false;
-document.addEventListener('compositionstart', ()=>{isComposing=true});
-document.addEventListener('compositionend', ()=>{isComposing=false});
+var isComposing = false;
+document.addEventListener('compositionstart', function(){isComposing=true;});
+document.addEventListener('compositionend', function(){isComposing=false;});
 
 function handleEnter(e, idx, type) {
   if(e.key==='Enter' && !isComposing) {
@@ -1340,85 +1016,152 @@ function handleEnter(e, idx, type) {
 
 // ─── 검증 ───
 function checkGeneral(idx) {
-  const input = document.getElementById('answerInput').value.trim();
+  var input = document.getElementById('answerInput').value.trim();
   if(!input) return;
   state.attempts++;
-  showFeedback(state.currentRoom.puzzles[idx].validate(input), idx);
+  showFeedback(state.currentChapter.puzzles[idx].validate(input), idx);
 }
 
 async function checkCpq(idx) {
-  const input = document.getElementById('answerInput').value.trim();
+  var input = document.getElementById('answerInput').value.trim();
   if(!input) return;
   state.attempts++;
-  const camp = state.cpqCampaigns[state.currentRoom.puzzles[idx].cpqIndex];
+  var camp = state.cpqCampaigns[state.currentChapter.puzzles[idx].cpqIndex];
   try {
-    const res = await fetch(`${API}/api/verify`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({campaign_id:camp.id,user_answer:input})});
-    const data = await res.json();
+    var res = await fetch(API + '/api/verify', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({campaign_id:camp.id,user_answer:input})});
+    var data = await res.json();
     showFeedback(data.correct, idx);
-  } catch { showFeedback(false, idx); }
+  } catch(e) { showFeedback(false, idx); }
 }
 
 function showFeedback(correct, idx) {
-  const fb = document.getElementById('feedback');
-  const puzzle = state.currentRoom.puzzles[idx];
+  var fb = document.getElementById('feedback');
+  var puzzle = state.currentChapter.puzzles[idx];
+  var isLast = idx >= state.currentChapter.puzzles.length - 1;
   if(correct) {
-    const after = puzzle.storyAfter||'';
-    fb.innerHTML = `<div class="feedback correct">✅ 정답!${after?' '+after:''}</div>
-      <button class="btn-next" onclick="nextPuzzle(${idx})">${idx<state.currentRoom.puzzles.length-1?'다음 퍼즐 →':'🚪 탈출!'}</button>`;
+    var after = puzzle.storyAfter || '';
+    fb.innerHTML = '<div class="feedback correct">✅ 정답!' + (after ? ' ' + after : '') + '</div>' +
+      '<button class="btn-next" onclick="nextPuzzle(' + idx + ')">' + (isLast ? '🚪 챕터 완료!' : '다음 퍼즐 →') + '</button>';
   } else {
     fb.innerHTML = '<div class="feedback wrong">❌ 오답. 다시 시도해보세요.</div>';
-    document.getElementById('answerInput').value='';
-    document.getElementById('feedback').scrollIntoView({behavior:'smooth', block:'center'});
+    document.getElementById('answerInput').value = '';
+    fb.scrollIntoView({behavior:'smooth', block:'center'});
   }
 }
 
-function nextPuzzle(cur) { cur+1>=state.currentRoom.puzzles.length ? showResult() : renderPuzzle(cur+1) }
+function nextPuzzle(cur) {
+  if (cur + 1 >= state.currentChapter.puzzles.length) {
+    showCliffhanger();
+  } else {
+    renderPuzzle(cur + 1);
+  }
+}
 
-// ─── 결과 ───
-function showResult() {
-  const elapsed = Math.floor((Date.now()-state.startTime)/1000);
-  const room = state.currentRoom;
-  const progress = loadProgress();
-  const prev = progress[room.id];
-  const bestTime = prev?.bestTime ? Math.min(prev.bestTime,elapsed) : elapsed;
-  progress[room.id] = {cleared:true, bestTime, lastPlayed:Date.now()};
-  saveProgress(progress);
+// ─── 클리프행어 & 결과 ───
+function showCliffhanger() {
+  var ch = state.currentChapter;
+  var s = state.currentSeries;
+  var si = state.currentSeriesIdx;
+  var ci = state.currentChapIdx;
+  var elapsed = Math.floor((Date.now() - state.startTime) / 1000);
 
-  const cleared = Object.keys(progress).filter(k=>progress[k]?.cleared).length;
-  const grade = getGrade(cleared);
-  let gameGrade = 'S';
-  if(elapsed>600) gameGrade='C'; else if(elapsed>300) gameGrade='B'; else if(elapsed>180) gameGrade='A';
+  // Save progress
+  var p = getProgress();
+  if (!p[s.id]) p[s.id] = {};
+  p[s.id][ch.id] = { cleared: true, bestTime: elapsed, lastPlayed: Date.now() };
+  saveProgressData(p);
+
+  var isLastChapter = ci >= s.chapters.length - 1;
+  var isLastSeries = si >= SERIES.length - 1;
+  var isFinalClear = isLastChapter && isLastSeries;
+
+  var gameGrade = 'S';
+  if (elapsed > 600) gameGrade = 'C';
+  else if (elapsed > 300) gameGrade = 'B';
+  else if (elapsed > 180) gameGrade = 'A';
 
   showScreen('result');
-  document.getElementById('resultContent').innerHTML = `
-    <div class="result-emoji">🎉</div>
-    <div class="result-title">탈출 성공!</div>
-    <div class="result-sub">${room.name}에서 무사히 탈출했습니다</div>
-    <div class="result-grade">${gameGrade} RANK</div>
-    <div class="result-stats">
-      <div class="result-stat"><div class="result-stat-val">${formatTime(elapsed)}</div><div class="result-stat-label">소요시간</div></div>
-      <div class="result-stat"><div class="result-stat-val">${state.attempts}</div><div class="result-stat-label">시도횟수</div></div>
-      <div class="result-stat"><div class="result-stat-val">${grade.split(' ')[0]}</div><div class="result-stat-label">${grade.split(' ')[1]||''}</div></div>
-    </div>
-    <div class="result-btns">
-      <button class="btn-home" onclick="goHome()">🚪 로비로 돌아가기</button>
-      <button class="btn-share" onclick="shareResult()">📤 결과 공유하기</button>
-    </div>`;
+  var html = '';
+
+  if (isFinalClear) {
+    spawnConfetti();
+    html += '<div class="result-emoji">🏆</div>';
+    html += '<div class="result-title">QUBE — ALL CLEAR</div>';
+    html += '<div class="result-sub">모든 미스터리를 해결했습니다</div>';
+  } else if (isLastChapter) {
+    spawnConfetti();
+    html += '<div class="result-emoji">🎊</div>';
+    html += '<div class="result-title">시리즈 클리어!</div>';
+    html += '<div class="result-sub">"' + s.title + '" 완료!</div>';
+  } else {
+    html += '<div class="result-emoji">🎉</div>';
+    html += '<div class="result-title">챕터 클리어!</div>';
+    html += '<div class="result-sub">' + ch.title + ' 완료</div>';
+  }
+
+  html += '<div class="result-grade">' + gameGrade + ' RANK</div>';
+  html += '<div class="result-stats">';
+  html += '<div class="result-stat"><div class="result-stat-val">' + formatTime(elapsed) + '</div><div class="result-stat-label">소요시간</div></div>';
+  html += '<div class="result-stat"><div class="result-stat-val">' + state.attempts + '</div><div class="result-stat-label">시도횟수</div></div>';
+  var totalCleared = getTotalCleared();
+  var grade = getGrade(totalCleared);
+  html += '<div class="result-stat"><div class="result-stat-val">' + grade.split(' ')[0] + '</div><div class="result-stat-label">' + (grade.split(' ')[1]||'') + '</div></div>';
+  html += '</div>';
+
+  // Cliffhanger
+  if (ch.cliffhanger) {
+    html += '<div class="cliffhanger-box"><div class="label">📖 TO BE CONTINUED...</div><p>' + ch.cliffhanger.replace(/\n/g,'<br>') + '</p></div>';
+  }
+
+  html += '<div class="result-btns">';
+  if (!isLastChapter) {
+    html += '<button class="btn-home" onclick="startChapter(' + si + ',' + (ci+1) + ')">다음 챕터로 →</button>';
+  } else if (!isLastSeries) {
+    html += '<button class="btn-home" onclick="openSeries(' + (si+1) + ')">다음 시리즈 →</button>';
+  }
+  html += '<button class="btn-home" style="background:var(--bg3);color:var(--text2)" onclick="goHome()">🚪 로비로 돌아가기</button>';
+  html += '<button class="btn-share" onclick="shareResult()">📤 결과 공유하기</button>';
+  html += '</div>';
+
+  document.getElementById('resultContent').innerHTML = html;
 }
 
 function shareResult() {
-  const room = state.currentRoom;
-  const elapsed = Math.floor((Date.now()-state.startTime)/1000);
-  const text = `🔐 QUBE - ${room.name}\n${room.emoji} 탈출 성공! | ⏱ ${formatTime(elapsed)}\n\n나는 탈출했다. 당신은?\n👉 https://qube.salmonholic.com`;
-  navigator.share ? navigator.share({text}) : (navigator.clipboard?.writeText(text), alert('클립보드에 복사됐습니다!'));
+  var ch = state.currentChapter;
+  var s = state.currentSeries;
+  var elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+  var text = '🔐 QUBE - ' + s.title + ' / ' + ch.title + '\n⏱ ' + formatTime(elapsed) + '에 클리어!\n\n나는 탈출했다. 당신은?\n👉 https://qube.salmonholic.com';
+  if (navigator.share) navigator.share({text: text});
+  else { navigator.clipboard && navigator.clipboard.writeText(text); alert('클립보드에 복사됐습니다!'); }
 }
 
 function copyKeyword(el) {
-  const text = el.textContent.replace('🔎 ','').trim();
-  navigator.clipboard?.writeText(text);
-  const orig = el.textContent;
+  var text = el.textContent.replace('🔎 ','').trim();
+  navigator.clipboard && navigator.clipboard.writeText(text);
+  var orig = el.textContent;
   el.textContent = '✓ 복사됨!';
-  setTimeout(()=>el.textContent=orig, 1500);
+  setTimeout(function(){ el.textContent = orig; }, 1500);
+}
+
+function spawnConfetti() {
+  var container = document.createElement('div');
+  container.className = 'confetti-container';
+  document.body.appendChild(container);
+  var colors = ['#b44aff','#00e5ff','#00ff88','#ff4444','#f59e0b','#fff'];
+  for (var i = 0; i < 60; i++) {
+    var piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random()*100 + '%';
+    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+    piece.style.animationDelay = Math.random()*2 + 's';
+    piece.style.animationDuration = (2 + Math.random()*2) + 's';
+    var size = (6 + Math.random()*8) + 'px';
+    piece.style.width = size;
+    piece.style.height = size;
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    container.appendChild(piece);
+  }
+  setTimeout(function(){ container.remove(); }, 5000);
 }
 
 // ─── 초기화 ───
