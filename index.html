@@ -645,7 +645,7 @@ function renderGeneralPuzzle(idx, puzzle) {
       </div>
       <div id="feedback"></div>
     </div>`;
-  document.getElementById('answerInput').focus();
+  setTimeout(() => document.getElementById('gameContent').scrollIntoView({behavior:'smooth'}), 100);
 }
 
 function renderCpqPuzzle(idx, puzzle) {
@@ -687,7 +687,7 @@ function renderCpqPuzzle(idx, puzzle) {
       </div>
       <div id="feedback"></div>
     </div>`;
-  document.getElementById('answerInput').focus();
+  setTimeout(() => document.getElementById('gameContent').scrollIntoView({behavior:'smooth'}), 100);
 }
 
 // ─── 입력 핸들러 ───
@@ -732,7 +732,7 @@ function showFeedback(correct, idx) {
   } else {
     fb.innerHTML = '<div class="feedback wrong">❌ 오답. 다시 시도해보세요.</div>';
     document.getElementById('answerInput').value='';
-    document.getElementById('answerInput').focus();
+    document.getElementById('feedback').scrollIntoView({behavior:'smooth', block:'center'});
   }
 }
 
