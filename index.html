@@ -152,6 +152,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .confetti-container{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden}
 .confetti-piece{position:absolute;width:10px;height:10px;top:-20px;animation:confettiFall 3s ease-in forwards}
 @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.hint-penalty-notice{position:fixed;top:20%;left:50%;transform:translateX(-50%);background:rgba(255,68,68,.95);color:#fff;padding:14px 28px;border-radius:12px;font-size:1.1rem;font-weight:700;z-index:1000;animation:penaltyFade 2s ease forwards;pointer-events:none;text-align:center}
+@keyframes penaltyFade{0%{opacity:1;transform:translateX(-50%) translateY(0)}70%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-30px)}}
 
 /* ═══ Interactive Puzzle Styles ═══ */
 
@@ -162,7 +164,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .flashlight-hint-text{text-align:center;color:var(--text3);font-size:.85rem;margin-bottom:12px}
 
 /* Jigsaw */
-.jigsaw-area{display:grid;gap:8px;margin-bottom:16px}
 .jigsaw-slots{display:grid;gap:8px;margin-bottom:16px}
 .jigsaw-slot{background:rgba(180,74,255,.08);border:2px dashed rgba(180,74,255,.3);border-radius:10px;min-height:60px;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--text3);transition:all .3s}
 .jigsaw-slot.hover{border-color:var(--cyan);background:rgba(0,229,255,.1)}
@@ -188,28 +189,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .dial-lock-btn:hover{box-shadow:0 4px 15px rgba(180,74,255,.4)}
 .dial-result{font-size:.9rem;margin-top:8px;min-height:24px}
 
-/* Piano */
-.piano-area{margin-bottom:16px}
-.piano-keys{display:flex;gap:4px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
-.piano-key{width:48px;height:120px;border-radius:0 0 8px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:10px;font-size:.75rem;font-weight:700;transition:all .1s;user-select:none;border:1px solid rgba(255,255,255,.1)}
-.piano-key.white{background:linear-gradient(180deg,#e8e8e8,#fff);color:#333}
-.piano-key.black{background:linear-gradient(180deg,#222,#444);color:#aaa;height:80px;width:36px;margin:0 -10px;z-index:2;border-color:rgba(0,0,0,.3)}
-.piano-key:active,.piano-key.pressed{transform:scaleY(.97);filter:brightness(.8)}
-.piano-key.correct-flash{background:var(--success)!important;color:#000!important}
-.piano-sequence{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
-.piano-seq-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--text3);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--text3)}
-.piano-seq-dot.hit{border-color:var(--success);color:var(--success);background:rgba(0,255,136,.1)}
-.piano-seq-dot.miss{border-color:var(--danger);color:var(--danger);background:rgba(255,68,68,.1)}
-.piano-display{text-align:center;color:var(--text2);font-size:.85rem;margin-bottom:12px}
-
-/* Hidden Text */
-.hidden-text-area{padding:20px;background:var(--bg2);border-radius:12px;margin-bottom:16px;line-height:2.2;font-size:1rem;user-select:text;cursor:text}
-.hidden-text-area .secret{color:transparent;background:transparent;transition:color .3s,background .3s;border-radius:4px;padding:2px 4px}
-.hidden-text-area .secret::selection{color:var(--cyan);background:rgba(0,229,255,.2)}
-.hidden-text-area .secret::-moz-selection{color:var(--cyan);background:rgba(0,229,255,.2)}
-.hidden-text-area .secret.revealed{color:var(--cyan);background:rgba(0,229,255,.1)}
-.hidden-text-hint{text-align:center;color:var(--text3);font-size:.8rem;margin-bottom:12px;font-style:italic}
-
 /* Timing */
 .timing-area{margin-bottom:16px}
 .timing-track{position:relative;width:100%;height:50px;background:var(--bg2);border-radius:25px;overflow:hidden;margin-bottom:12px;border:1px solid var(--card-border)}
@@ -223,47 +202,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .timing-pip.hit{border-color:var(--success);color:var(--success);background:rgba(0,255,136,.1)}
 .timing-pip.miss{border-color:var(--danger);color:var(--danger);background:rgba(255,68,68,.1)}
 
-/* Connect Dots */
-.dots-area{position:relative;width:100%;height:300px;background:var(--bg2);border-radius:12px;margin-bottom:16px;overflow:hidden;touch-action:none}
-.dots-area svg{position:absolute;inset:0;width:100%;height:100%}
-.dot-point{cursor:pointer;transition:all .2s}
-.dot-point:hover circle{r:14;fill:rgba(180,74,255,.3)}
-.dot-label{font-size:12px;fill:var(--text);font-weight:700;pointer-events:none;text-anchor:middle;dominant-baseline:central}
-.dot-line{stroke:var(--cyan);stroke-width:2;stroke-linecap:round;fill:none;opacity:.7}
-.dots-reveal{text-align:center;font-size:1.2rem;font-weight:700;color:var(--success);padding:12px;animation:fadeIn .5s}
-
-/* Color Code */
-.color-grid{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-.color-item{display:flex;flex-direction:column;align-items:center;gap:6px}
-.color-circle{width:56px;height:56px;border-radius:50%;border:3px solid rgba(255,255,255,.1);box-shadow:0 4px 12px rgba(0,0,0,.3)}
-.color-name{font-size:.75rem;color:var(--text2)}
-.color-hint{text-align:center;color:var(--text2);font-size:.9rem;margin-bottom:16px;line-height:1.8}
-
-/* Mirror */
-.mirror-area{padding:24px;background:var(--bg2);border-radius:12px;margin-bottom:16px;text-align:center;overflow:hidden}
-.mirror-text{font-size:1.8rem;font-weight:900;color:var(--text);letter-spacing:.15em;display:inline-block;line-height:1.6}
-.mirror-text.flip-h{transform:scaleX(-1)}
-.mirror-text.flip-v{transform:scaleY(-1)}
-.mirror-text.flip-both{transform:scale(-1)}
-.mirror-label{color:var(--text3);font-size:.8rem;margin-top:10px}
-
-/* Shake */
-.shake-area{text-align:center;margin-bottom:16px}
-.shake-icon{font-size:4rem;display:inline-block;animation:none}
-.shake-icon.shaking{animation:shakeAnim .1s infinite}
-@keyframes shakeAnim{0%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}100%{transform:rotate(-5deg)}}
-.shake-progress{margin:16px auto;width:80%;max-width:300px}
-.shake-bar{height:12px;background:var(--bg3);border-radius:6px;overflow:hidden;border:1px solid var(--card-border)}
-.shake-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:6px;transition:width .15s;width:0%}
-.shake-count{font-size:.85rem;color:var(--text2);margin-top:8px}
-.shake-instruction{font-size:.9rem;color:var(--text2);margin-bottom:12px}
-.shake-reveal{font-size:1.1rem;color:var(--cyan);font-weight:700;margin-top:16px;animation:fadeIn .5s}
-.shake-spacebar{padding:14px 32px;background:var(--bg3);border:2px solid var(--accent);color:var(--text);border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .1s;font-family:inherit;margin-top:8px}
-.shake-spacebar:active{background:var(--accent);color:#000;transform:scale(.97)}
-.hint-penalty-notice{position:fixed;top:20%;left:50%;transform:translateX(-50%);background:rgba(255,68,68,.95);color:#fff;padding:14px 28px;border-radius:12px;font-size:1.1rem;font-weight:700;z-index:1000;animation:penaltyFade 2s ease forwards;pointer-events:none;text-align:center}
-@keyframes penaltyFade{0%{opacity:1;transform:translateX(-50%) translateY(0)}70%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-30px)}}
-.hint-bonus{color:var(--success);font-weight:700;font-size:1rem;margin-top:8px}
-
 /* Trivia */
 .trivia-area{margin-bottom:16px}
 .trivia-question{font-size:1.1rem;color:var(--text);line-height:1.8;margin-bottom:16px;font-weight:700}
@@ -271,35 +209,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .trivia-option{padding:14px 18px;background:var(--bg3);border:1px solid var(--card-border);border-radius:12px;cursor:pointer;font-size:.95rem;color:var(--text);transition:all .2s;text-align:left}
 .trivia-option:hover{border-color:var(--accent);background:rgba(180,74,255,.08)}
 .trivia-option.selected{border-color:var(--accent);background:rgba(180,74,255,.15)}
-/* Caesar */
-.caesar-area{margin-bottom:16px}
-.caesar-cipher{font-size:1.4rem;font-weight:900;letter-spacing:.2em;color:var(--cyan);text-align:center;padding:20px;background:var(--bg2);border-radius:12px;margin-bottom:12px;font-family:monospace}
-.caesar-shift{text-align:center;color:var(--text2);font-size:.9rem;margin-bottom:12px}
-.caesar-table{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:16px;font-size:.7rem;color:var(--text3)}
-.caesar-table span{padding:2px 5px;background:var(--bg3);border-radius:4px}
-/* Morse */
-.morse-area{margin-bottom:16px}
-.morse-code{font-size:1.6rem;font-weight:900;letter-spacing:.15em;color:var(--cyan);text-align:center;padding:20px;background:var(--bg2);border-radius:12px;margin-bottom:12px;font-family:monospace;word-break:break-all;line-height:2}
-.morse-play-btn{display:block;margin:0 auto 16px;padding:12px 32px;background:linear-gradient(135deg,var(--accent),var(--cyan));color:#000;border:none;border-radius:50px;cursor:pointer;font-weight:700;font-size:.95rem;transition:all .2s}
-.morse-play-btn:hover{box-shadow:0 4px 15px rgba(180,74,255,.4)}
-.morse-ref{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:4px;margin-bottom:16px;font-size:.7rem}
-.morse-ref span{padding:3px 5px;background:var(--bg3);border-radius:4px;text-align:center;color:var(--text2)}
-/* Konami */
-.konami-area{margin-bottom:16px;text-align:center}
-.konami-sequence{font-size:1.8rem;letter-spacing:.4em;color:var(--cyan);padding:16px;background:var(--bg2);border-radius:12px;margin-bottom:16px;line-height:1.6}
-.konami-buttons{display:grid;grid-template-columns:repeat(3,64px);gap:8px;justify-content:center;margin-bottom:16px}
-.konami-buttons button{width:64px;height:64px;background:var(--bg3);border:2px solid var(--card-border);border-radius:12px;color:var(--text);font-size:1.5rem;cursor:pointer;transition:all .15s}
-.konami-buttons button:hover{border-color:var(--accent)}
-.konami-buttons button:active{background:var(--accent);color:#000;transform:scale(.95)}
-.konami-progress{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
-.konami-pip{width:28px;height:28px;border-radius:50%;border:2px solid var(--text3);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--text3)}
-.konami-pip.hit{border-color:var(--success);color:var(--success);background:rgba(0,255,136,.1)}
-.konami-pip.miss{border-color:var(--danger);color:var(--danger);background:rgba(255,68,68,.1)}
-/* Acrostic */
-.acrostic-area{margin-bottom:16px}
-.acrostic-text{padding:20px;background:var(--bg2);border-radius:12px;line-height:2.4;font-size:.95rem;color:var(--text2)}
-.acrostic-text .first-char{color:var(--accent);font-weight:900;font-size:1.15em}
-.acrostic-hint{text-align:center;color:var(--text3);font-size:.85rem;margin-top:12px;margin-bottom:16px;font-style:italic}
+
 /* Logic */
 .logic-area{margin-bottom:16px}
 .logic-scenario{padding:20px;background:var(--bg2);border-radius:12px;line-height:2;font-size:.95rem;color:var(--text2);margin-bottom:16px}
@@ -308,17 +218,101 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .logic-choice{padding:14px 18px;background:var(--bg3);border:1px solid var(--card-border);border-radius:12px;cursor:pointer;font-size:.95rem;color:var(--text);transition:all .2s}
 .logic-choice:hover{border-color:var(--accent);background:rgba(180,74,255,.08)}
 .logic-choice.selected{border-color:var(--cyan);background:rgba(0,229,255,.1)}
-/* Book Cipher */
-.book-area{margin-bottom:16px}
-.book-text{padding:20px;background:var(--bg2);border-radius:12px;line-height:2.2;font-size:.85rem;color:var(--text2);font-family:monospace;white-space:pre-wrap;margin-bottom:12px}
-.book-coords{text-align:center;color:var(--cyan);font-size:1rem;font-weight:700;margin-bottom:16px;line-height:2}
-/* Hidden Interaction */
-.hidden-int-area{margin-bottom:16px;text-align:center}
-.hidden-int-target{width:180px;height:180px;margin:0 auto 16px;background:var(--bg3);border:2px solid var(--card-border);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:3rem;cursor:pointer;user-select:none;transition:all .3s}
-.hidden-int-target:hover{border-color:var(--accent)}
-.hidden-int-target.active{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,229,255,.3);background:rgba(0,229,255,.05)}
-.hidden-int-instruction{color:var(--text2);font-size:.9rem;margin-bottom:16px}
-.hidden-int-reveal{color:var(--cyan);font-size:1.1rem;font-weight:700;animation:fadeIn .5s;margin-top:12px}
+
+/* Skill Check */
+.skillcheck-area{text-align:center;margin-bottom:16px}
+.skillcheck-gauge{position:relative;width:200px;height:200px;margin:0 auto 16px}
+.skillcheck-gauge svg{width:100%;height:100%}
+.skillcheck-info{display:flex;justify-content:center;gap:16px;margin-bottom:12px;font-size:.9rem;color:var(--text2)}
+.skillcheck-info b{color:var(--text)}
+.skillcheck-btn{display:block;width:80%;margin:0 auto;padding:16px;background:linear-gradient(135deg,var(--accent),var(--cyan));color:#000;border:none;border-radius:12px;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .1s}
+.skillcheck-btn:active{transform:scale(.97)}
+.skillcheck-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* Mini Sudoku */
+.sudoku-area{margin-bottom:16px}
+.sudoku-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-width:280px;margin:0 auto 16px;background:var(--accent);padding:2px;border-radius:8px}
+.sudoku-cell{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:900;background:var(--bg2);border-radius:4px}
+.sudoku-cell.fixed{color:var(--text)}
+.sudoku-cell input{width:100%;height:100%;background:transparent;border:2px solid var(--card-border);border-radius:4px;color:var(--cyan);font-size:1.4rem;font-weight:900;text-align:center;outline:none;font-family:inherit}
+.sudoku-cell input:focus{border-color:var(--accent)}
+.sudoku-cell input.correct{border-color:var(--success);color:var(--success)}
+.sudoku-cell input.wrong{border-color:var(--danger);color:var(--danger)}
+.sudoku-cell:nth-child(2n+1):nth-child(-n+8){border-right:none}
+.sudoku-status{text-align:center;font-size:.9rem;color:var(--text2);min-height:24px;margin-top:8px}
+
+/* Pipe Connect */
+.pipe-area{margin-bottom:16px}
+.pipe-grid{display:grid;gap:2px;max-width:320px;margin:0 auto 16px;background:var(--bg3);padding:4px;border-radius:8px}
+.pipe-cell{aspect-ratio:1;background:var(--bg2);border-radius:4px;position:relative;cursor:pointer;transition:all .2s;overflow:hidden}
+.pipe-cell:hover{background:rgba(180,74,255,.08)}
+.pipe-cell.empty{cursor:default;background:var(--bg)}
+.pipe-cell.start{box-shadow:inset 0 0 0 2px var(--success)}
+.pipe-cell.end{box-shadow:inset 0 0 0 2px var(--danger)}
+.pipe-seg{position:absolute;background:var(--cyan);border-radius:2px}
+.pipe-seg-top{left:calc(50% - 3px);top:0;width:6px;height:calc(50% + 3px)}
+.pipe-seg-right{top:calc(50% - 3px);right:0;width:calc(50% + 3px);height:6px}
+.pipe-seg-bottom{left:calc(50% - 3px);bottom:0;width:6px;height:calc(50% + 3px)}
+.pipe-seg-left{top:calc(50% - 3px);left:0;width:calc(50% + 3px);height:6px}
+.pipe-center{position:absolute;left:calc(50% - 5px);top:calc(50% - 5px);width:10px;height:10px;border-radius:50%;background:var(--cyan)}
+.pipe-status{text-align:center;font-size:.9rem;color:var(--text2);min-height:24px}
+
+/* Wire Cutting */
+.wire-area{margin-bottom:16px}
+.wire-container{position:relative;padding:20px;background:var(--bg2);border-radius:12px;margin-bottom:12px}
+.wire-line{display:flex;align-items:center;gap:12px;padding:12px 0;cursor:pointer;transition:all .2s;position:relative}
+.wire-line:hover:not(.cut){filter:brightness(1.3)}
+.wire-line .wire-visual{flex:1;height:8px;border-radius:4px;position:relative;overflow:hidden}
+.wire-line .wire-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:wireShine 2s infinite}
+@keyframes wireShine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.wire-line.cut .wire-visual{clip-path:polygon(0 0,45% 0,43% 100%,0 100%,0 0,57% 0,55% 100%,100% 100%,100% 0);opacity:.5}
+.wire-line.cut{cursor:default;opacity:.6}
+.wire-label{font-size:.85rem;font-weight:700;width:50px;text-align:center}
+.wire-status{text-align:center;font-size:.9rem;min-height:24px}
+.wire-status.error{color:var(--danger)}
+.wire-status.success{color:var(--success)}
+.wire-hint-text{text-align:center;color:var(--text2);font-size:.85rem;margin-bottom:12px;line-height:1.8}
+
+/* Mastermind */
+.mastermind-area{margin-bottom:16px}
+.mastermind-history{max-height:280px;overflow-y:auto;margin-bottom:12px}
+.mastermind-row{display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg2);border-radius:8px;margin-bottom:4px}
+.mastermind-guess{display:flex;gap:4px}
+.mastermind-digit{width:36px;height:36px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:var(--text)}
+.mastermind-feedback{display:flex;gap:4px;margin-left:auto}
+.mastermind-input{display:flex;gap:4px;justify-content:center;margin-bottom:12px}
+.mastermind-input input{width:44px;height:44px;background:var(--bg3);border:2px solid var(--card-border);border-radius:10px;color:var(--cyan);font-size:1.3rem;font-weight:700;text-align:center;outline:none;font-family:inherit}
+.mastermind-input input:focus{border-color:var(--accent)}
+.mastermind-submit{display:block;width:60%;margin:0 auto;padding:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:50px;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit;transition:all .2s}
+.mastermind-submit:hover{box-shadow:0 4px 15px rgba(180,74,255,.4)}
+.mastermind-submit:disabled{opacity:.5;cursor:not-allowed}
+.mastermind-info{text-align:center;font-size:.85rem;color:var(--text2);margin-bottom:12px}
+.mastermind-status{text-align:center;font-size:.9rem;min-height:24px;margin-top:8px}
+
+/* Memory Card */
+.memory-area{margin-bottom:16px}
+.memory-grid{display:grid;gap:8px;max-width:360px;margin:0 auto 16px}
+.memory-card{aspect-ratio:1;background:var(--bg3);border:2px solid var(--card-border);border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:2rem;transition:all .3s;user-select:none}
+.memory-card.hidden-card{background:linear-gradient(135deg,var(--accent2),var(--accent));border-color:var(--accent)}
+.memory-card.hidden-card::after{content:'?';font-size:1.5rem;color:rgba(255,255,255,.5)}
+.memory-card.revealed{border-color:var(--cyan);background:var(--bg2)}
+.memory-card.matched{border-color:var(--success);background:rgba(0,255,136,.08);cursor:default}
+.memory-info{text-align:center;font-size:.85rem;color:var(--text2);margin-bottom:12px}
+.memory-status{text-align:center;font-size:.9rem;min-height:24px}
+
+/* Simon */
+.simon-area{text-align:center;margin-bottom:16px}
+.simon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:260px;margin:0 auto 16px}
+.simon-btn{aspect-ratio:1;border-radius:16px;border:3px solid transparent;cursor:pointer;transition:all .15s;opacity:.6}
+.simon-btn:active{transform:scale(.95)}
+.simon-btn.active{opacity:1;transform:scale(1.05);box-shadow:0 0 20px currentColor}
+.simon-btn.red{background:#c0392b;border-color:#e74c3c;color:#e74c3c}
+.simon-btn.blue{background:#2980b9;border-color:#3498db;color:#3498db}
+.simon-btn.green{background:#27ae60;border-color:#2ecc71;color:#2ecc71}
+.simon-btn.yellow{background:#f39c12;border-color:#f1c40f;color:#f1c40f}
+.simon-btn.disabled{pointer-events:none;opacity:.3}
+.simon-info{font-size:.9rem;color:var(--text2);margin-bottom:12px}
+.simon-status{font-size:.9rem;min-height:24px;margin-top:8px}
 
 @media(max-width:600px){
   .hero h1{letter-spacing:.05em}
@@ -326,11 +320,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   .result-stats{gap:12px}
   .series-card{padding:1.3rem}
   .chapter-timeline{padding-left:28px}
-  .piano-key{width:38px;height:100px}
-  .piano-key.black{width:28px;height:65px;margin:0 -8px}
   .dial-ring{width:56px;height:56px;font-size:1.4rem}
   .flashlight-area{height:250px}
-  .dots-area{height:250px}
+  .sudoku-grid{max-width:240px}
+  .pipe-grid{max-width:260px}
+  .simon-grid{max-width:220px}
+  .memory-grid{max-width:300px}
+  .mastermind-input input{width:38px;height:38px}
 }
 </style>
 </head>
@@ -379,648 +375,421 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 <script>
 var API = 'https://qube-api.harpy922.workers.dev';
-
-/* ═══════════════════════════════════════
-   Interactive Puzzle Renderers
-   ═══════════════════════════════════════ */
-
 var _activeTimingAnim = null;
-var _activePianoCtx = null;
+var _activeSkillAnim = null;
+var _activeSimonTimeout = null;
+var _audioCtx = null;
+function getAudioCtx(){if(!_audioCtx)try{_audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}return _audioCtx;}
+function cleanupInteractive(){if(_activeTimingAnim){cancelAnimationFrame(_activeTimingAnim);_activeTimingAnim=null;}if(_activeSkillAnim){cancelAnimationFrame(_activeSkillAnim);_activeSkillAnim=null;}if(_activeSimonTimeout){clearTimeout(_activeSimonTimeout);_activeSimonTimeout=null;}}
 
-function cleanupInteractive() {
-  if (_activeTimingAnim) { cancelAnimationFrame(_activeTimingAnim); _activeTimingAnim = null; }
+/* ═══ Flashlight ═══ */
+function initFlashlight(cfg){
+  var area=document.getElementById('interactiveArea');
+  var h='<div class="flashlight-hint-text">🔦 어둠 속을 비춰 숨겨진 단서를 찾으세요</div><div class="flashlight-area" id="flArea">';
+  cfg.items.forEach(function(it){h+='<div class="flashlight-item" style="left:'+it.x+'%;top:'+it.y+'%">'+it.text+'</div>';});
+  h+='<div class="flashlight-overlay" id="flOverlay"></div></div>';
+  area.innerHTML=h;
+  var el=document.getElementById('flArea'),ov=document.getElementById('flOverlay');
+  function up(x,y){var r=el.getBoundingClientRect();ov.style.setProperty('--fx',(x-r.left)/r.width*100+'%');ov.style.setProperty('--fy',(y-r.top)/r.height*100+'%');}
+  el.addEventListener('mousemove',function(e){up(e.clientX,e.clientY);});
+  el.addEventListener('touchmove',function(e){e.preventDefault();up(e.touches[0].clientX,e.touches[0].clientY);},{passive:false});
 }
 
-// ── Flashlight ──
-function initFlashlight(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var itemsHtml = '';
-  cfg.items.forEach(function(it) {
-    itemsHtml += '<div class="flashlight-item" style="left:'+it.x+'%;top:'+it.y+'%">'+it.text+'</div>';
+/* ═══ Jigsaw ═══ */
+function initJigsaw(cfg){
+  var area=document.getElementById('interactiveArea');
+  var sh='<div class="jigsaw-slots" style="grid-template-columns:repeat('+cfg.cols+',1fr)">';
+  for(var i=0;i<cfg.pieces.length;i++)sh+='<div class="jigsaw-slot" data-slot="'+i+'" id="jslot'+i+'"><span>슬롯 '+(i+1)+'</span></div>';
+  sh+='</div>';
+  var idx=cfg.pieces.map(function(_,i){return i;});
+  for(var j=idx.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1)),t=idx[j];idx[j]=idx[k];idx[k]=t;}
+  var th='<div class="jigsaw-tray" id="jigsawTray">';
+  idx.forEach(function(pi){th+='<div class="jigsaw-piece" draggable="true" data-piece="'+pi+'" id="jpiece'+pi+'">'+cfg.pieces[pi]+'</div>';});
+  th+='</div>';
+  area.innerHTML=th+sh+'<div id="jigsawReveal"></div>';
+  var placed={};
+  document.querySelectorAll('.jigsaw-piece').forEach(function(p){
+    p.addEventListener('dragstart',function(e){e.dataTransfer.setData('text/plain',p.dataset.piece);});
+    var clone;
+    p.addEventListener('touchstart',function(e){var tc=e.touches[0];clone=p.cloneNode(true);clone.style.cssText='position:fixed;z-index:999;opacity:.8;pointer-events:none;width:'+p.offsetWidth+'px;left:'+(tc.clientX-30)+'px;top:'+(tc.clientY-20)+'px';document.body.appendChild(clone);},{passive:true});
+    p.addEventListener('touchmove',function(e){e.preventDefault();if(clone){clone.style.left=(e.touches[0].clientX-30)+'px';clone.style.top=(e.touches[0].clientY-20)+'px';}},{passive:false});
+    p.addEventListener('touchend',function(e){if(clone){clone.remove();clone=null;}var el2=document.elementFromPoint(e.changedTouches[0].clientX,e.changedTouches[0].clientY);if(el2&&el2.classList.contains('jigsaw-slot'))handleDrop(el2,p.dataset.piece);});
   });
-  area.innerHTML = '<div class="flashlight-hint-text">🔦 어둠 속을 비춰 숨겨진 단서를 찾으세요 (마우스/터치 이동)</div>' +
-    '<div class="flashlight-area" id="flArea">' + itemsHtml +
-    '<div class="flashlight-overlay" id="flOverlay"></div></div>';
-  var el = document.getElementById('flArea');
-  var ov = document.getElementById('flOverlay');
-  function updatePos(x, y) {
-    var r = el.getBoundingClientRect();
-    var px = ((x - r.left) / r.width * 100);
-    var py = ((y - r.top) / r.height * 100);
-    ov.style.setProperty('--fx', px + '%');
-    ov.style.setProperty('--fy', py + '%');
+  document.querySelectorAll('.jigsaw-slot').forEach(function(s){
+    s.addEventListener('dragover',function(e){e.preventDefault();s.classList.add('hover');});
+    s.addEventListener('dragleave',function(){s.classList.remove('hover');});
+    s.addEventListener('drop',function(e){e.preventDefault();s.classList.remove('hover');handleDrop(s,e.dataTransfer.getData('text/plain'));});
+  });
+  function handleDrop(slot,pid){
+    var si=parseInt(slot.dataset.slot),pi=parseInt(pid);
+    if(cfg.correctOrder[pi]===si){placed[pi]=true;slot.classList.add('correct');slot.innerHTML='<span style="color:var(--success)">'+cfg.pieces[pi]+'</span>';var pc=document.getElementById('jpiece'+pi);if(pc)pc.classList.add('placed');
+      if(Object.keys(placed).length===cfg.pieces.length)document.getElementById('jigsawReveal').innerHTML='<div class="jigsaw-reveal">🧩 '+cfg.revealText+'</div>';
+    }else{slot.classList.add('hover');setTimeout(function(){slot.classList.remove('hover');},300);}
   }
-  el.addEventListener('mousemove', function(e) { updatePos(e.clientX, e.clientY); });
-  el.addEventListener('touchmove', function(e) {
-    e.preventDefault();
-    var t = e.touches[0];
-    updatePos(t.clientX, t.clientY);
-  }, {passive:false});
 }
 
-// ── Jigsaw ──
-function initJigsaw(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var slotsHtml = '<div class="jigsaw-slots" style="grid-template-columns:repeat('+cfg.cols+',1fr)">';
-  for (var i = 0; i < cfg.pieces.length; i++) {
-    slotsHtml += '<div class="jigsaw-slot" data-slot="'+i+'" id="jslot'+i+'"><span>슬롯 '+(i+1)+'</span></div>';
+/* ═══ Dial ═══ */
+function initDial(cfg){
+  var area=document.getElementById('interactiveArea');
+  var h='<div class="dial-container"><div class="dial-row">';
+  cfg.combination.forEach(function(_,i){
+    h+='<div class="dial-digit"><div class="dial-arrows"><button class="dial-arrow" onclick="dialChange('+i+',1)">▲</button></div>';
+    h+='<div class="dial-ring" id="dialRing'+i+'" onclick="dialChange('+i+',1)">0</div>';
+    h+='<div class="dial-arrows"><button class="dial-arrow" onclick="dialChange('+i+',-1)">▼</button></div>';
+    if(cfg.labels&&cfg.labels[i])h+='<div class="label">'+cfg.labels[i]+'</div>';
+    h+='</div>';
+  });
+  h+='</div><button class="dial-lock-btn" onclick="dialCheck()">🔓 자물쇠 열기</button><div class="dial-result" id="dialResult"></div></div>';
+  area.innerHTML=h;
+  window._dialValues=cfg.combination.map(function(){return 0;});
+  window._dialTarget=cfg.combination;
+}
+function dialChange(i,dir){window._dialValues[i]=(window._dialValues[i]+dir+10)%10;document.getElementById('dialRing'+i).textContent=window._dialValues[i];}
+function dialCheck(){
+  var ok=true;for(var i=0;i<window._dialTarget.length;i++)if(window._dialValues[i]!==window._dialTarget[i])ok=false;
+  var res=document.getElementById('dialResult');
+  if(ok){res.innerHTML='<span style="color:var(--success)">🔓 자물쇠가 열렸다!</span>';var inp=document.getElementById('answerInput');if(inp)inp.value=window._dialTarget.join('');}
+  else{res.innerHTML='<span style="color:var(--danger)">딸깍... 열리지 않는다.</span>';setTimeout(function(){res.innerHTML='';},1500);}
+}
+
+/* ═══ Timing ═══ */
+function initTiming(cfg){
+  var area=document.getElementById('interactiveArea');
+  var zs=(cfg.zoneStart||0.35)*100,ze=(cfg.zoneEnd||0.55)*100,req=cfg.required||3;
+  var h='<div class="timing-area"><div class="timing-progress" id="timingPips">';
+  for(var i=0;i<req;i++)h+='<div class="timing-pip" id="tpip'+i+'">'+(i+1)+'</div>';
+  h+='</div><div class="timing-track"><div class="timing-zone" style="left:'+zs+'%;width:'+(ze-zs)+'%"></div><div class="timing-cursor" id="timingCursor"></div></div>';
+  h+='<button class="timing-btn" id="timingBtn" onclick="timingHit()">⚡ 타이밍 맞추기!</button></div>';
+  area.innerHTML=h;
+  window._timingState={hits:0,required:req,zs:cfg.zoneStart||0.35,ze:cfg.zoneEnd||0.55,pos:0,dir:1,speed:cfg.speed||0.008,running:true,revealText:cfg.revealText||''};
+  var cursor=document.getElementById('timingCursor');
+  function anim(){if(!window._timingState.running)return;var s=window._timingState;s.pos+=s.dir*s.speed;if(s.pos>=1){s.pos=1;s.dir=-1;}if(s.pos<=0){s.pos=0;s.dir=1;}cursor.style.left=(s.pos*95)+'%';_activeTimingAnim=requestAnimationFrame(anim);}
+  anim();
+}
+function timingHit(){
+  var s=window._timingState;if(!s||!s.running)return;
+  var inZ=s.pos>=s.zs&&s.pos<=s.ze,pip=document.getElementById('tpip'+s.hits);
+  if(inZ){if(pip)pip.classList.add('hit');s.hits++;if(s.hits>=s.required){s.running=false;document.getElementById('timingBtn').disabled=true;document.getElementById('timingBtn').textContent='✅ 성공!';if(s.revealText){var inp=document.getElementById('answerInput');if(inp)inp.value=s.revealText;}}else s.speed+=0.003;}
+  else{if(pip)pip.classList.add('miss');setTimeout(function(){s.hits=0;document.querySelectorAll('.timing-pip').forEach(function(p){p.classList.remove('hit','miss');});},500);}
+}
+
+/* ═══ Trivia ═══ */
+function initTrivia(cfg){
+  var area=document.getElementById('interactiveArea');
+  var h='<div class="trivia-area"><div class="trivia-question">'+cfg.question+'</div><div class="trivia-options">';
+  cfg.options.forEach(function(opt){h+='<div class="trivia-option" onclick="triviaSelect(this)">'+opt+'</div>';});
+  h+='</div></div>';area.innerHTML=h;
+}
+function triviaSelect(el){document.querySelectorAll('.trivia-option').forEach(function(o){o.classList.remove('selected');});el.classList.add('selected');var inp=document.getElementById('answerInput');if(inp)inp.value=el.textContent.trim();}
+
+/* ═══ Logic ═══ */
+function initLogic(cfg){
+  var area=document.getElementById('interactiveArea');
+  var h='<div class="logic-area"><div class="logic-scenario">'+cfg.scenario+'</div><div class="logic-choices">';
+  cfg.choices.forEach(function(ch){h+='<div class="logic-choice" onclick="logicSelect(this)">'+ch+'</div>';});
+  h+='</div></div>';area.innerHTML=h;
+}
+function logicSelect(el){document.querySelectorAll('.logic-choice').forEach(function(o){o.classList.remove('selected');});el.classList.add('selected');var inp=document.getElementById('answerInput');if(inp)inp.value=el.textContent.trim();}
+
+/* ═══ Skill Check ═══ */
+function initSkillCheck(cfg){
+  var area=document.getElementById('interactiveArea');
+  var total=cfg.total||10,req=cfg.required||7,speed=cfg.speed||3,tgtSize=cfg.targetSize||15;
+  var tgtStart=Math.floor(Math.random()*360);
+  var h='<div class="skillcheck-area">';
+  h+='<div class="skillcheck-gauge" id="scGauge"><svg viewBox="0 0 200 200">';
+  h+='<circle cx="100" cy="100" r="85" fill="none" stroke="'+getComputedStyle(document.documentElement).getPropertyValue('--bg3').trim()+'" stroke-width="14"/>';
+  var arcDeg=tgtSize/100*360;
+  h+='<path d="'+describeArc(100,100,85,tgtStart,tgtStart+arcDeg)+'" fill="none" stroke="rgba(0,255,136,.4)" stroke-width="14" stroke-linecap="round"/>';
+  h+='<line id="scNeedle" x1="100" y1="100" x2="100" y2="22" stroke="#b44aff" stroke-width="3" stroke-linecap="round"/>';
+  h+='<circle cx="100" cy="100" r="6" fill="#b44aff"/>';
+  h+='</svg></div>';
+  h+='<div class="skillcheck-info"><span>성공: <b id="scHits">0</b>/'+req+'</span><span>시도: <b id="scTries">0</b>/'+total+'</span></div>';
+  h+='<button class="skillcheck-btn" id="scBtn" onclick="skillCheckHit()">⚡ 클릭!</button>';
+  h+='<div class="skillcheck-info" id="scStatus"></div></div>';
+  area.innerHTML=h;
+  window._scState={total:total,required:req,speed:speed,tgtStart:tgtStart,tgtEnd:tgtStart+arcDeg,angle:0,hits:0,tries:0,running:true,answer:cfg.answer||''};
+  var needle=document.getElementById('scNeedle');
+  function anim(){if(!window._scState.running)return;var s=window._scState;s.angle=(s.angle+s.speed)%360;needle.setAttribute('transform','rotate('+s.angle+',100,100)');_activeSkillAnim=requestAnimationFrame(anim);}
+  anim();
+}
+function describeArc(cx,cy,r,startAngle,endAngle){
+  var s=startAngle-90,e=endAngle-90;
+  var sr=s*Math.PI/180,er=e*Math.PI/180;
+  var x1=cx+r*Math.cos(sr),y1=cy+r*Math.sin(sr),x2=cx+r*Math.cos(er),y2=cy+r*Math.sin(er);
+  var large=(endAngle-startAngle)>180?1:0;
+  return 'M '+x1+' '+y1+' A '+r+' '+r+' 0 '+large+' 1 '+x2+' '+y2;
+}
+function skillCheckHit(){
+  var s=window._scState;if(!s||!s.running)return;
+  s.tries++;
+  var a=s.angle,ts=s.tgtStart%360,te=s.tgtEnd%360;
+  var inZone=te>ts?(a>=ts&&a<=te):(a>=ts||a<=te);
+  if(inZone)s.hits++;
+  document.getElementById('scHits').textContent=s.hits;
+  document.getElementById('scTries').textContent=s.tries;
+  if(s.hits>=s.required){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--success)">✅ 성공!</span>';var inp=document.getElementById('answerInput');if(inp)inp.value=s.answer;}
+  else if(s.tries>=s.total){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--danger)">❌ 실패... 다시 시도하세요</span>';setTimeout(function(){var cfg=window._scState;initSkillCheck({total:cfg.total,required:cfg.required,speed:cfg.speed,targetSize:Math.round((cfg.tgtEnd-cfg.tgtStart)/360*100),answer:cfg.answer});},1500);}
+}
+
+/* ═══ Mini Sudoku ═══ */
+function initSudoku(cfg){
+  var area=document.getElementById('interactiveArea');
+  var h='<div class="sudoku-area"><div class="sudoku-grid">';
+  for(var r=0;r<4;r++)for(var c=0;c<4;c++){
+    if(cfg.grid[r][c]!==0)h+='<div class="sudoku-cell fixed">'+cfg.grid[r][c]+'</div>';
+    else h+='<div class="sudoku-cell"><input type="number" min="1" max="4" data-r="'+r+'" data-c="'+c+'" oninput="sudokuCheck()"></div>';
   }
-  slotsHtml += '</div>';
-  // Shuffle pieces
-  var indices = cfg.pieces.map(function(_,i){return i;});
-  for(var j=indices.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var tmp=indices[j];indices[j]=indices[k];indices[k]=tmp;}
-  var trayHtml = '<div class="jigsaw-tray" id="jigsawTray">';
-  indices.forEach(function(pi) {
-    trayHtml += '<div class="jigsaw-piece" draggable="true" data-piece="'+pi+'" id="jpiece'+pi+'">'+cfg.pieces[pi]+'</div>';
+  h+='</div><div class="sudoku-status" id="sudokuStatus">빈 칸에 1~4를 채우세요 (행/열/2×2 블록에 중복 없이)</div></div>';
+  area.innerHTML=h;
+  window._sudokuSolution=cfg.solution;
+  window._sudokuAnswer=cfg.answer||'';
+}
+function sudokuCheck(){
+  var sol=window._sudokuSolution,allCorrect=true,allFilled=true;
+  document.querySelectorAll('.sudoku-cell input').forEach(function(inp){
+    var v=parseInt(inp.value),r=parseInt(inp.dataset.r),c=parseInt(inp.dataset.c);
+    if(!v||isNaN(v)){allFilled=false;inp.className='';return;}
+    if(v===sol[r][c]){inp.className='correct';}else{inp.className='wrong';allCorrect=false;}
   });
-  trayHtml += '</div>';
-  area.innerHTML = trayHtml + slotsHtml + '<div id="jigsawReveal"></div>';
+  if(allFilled&&allCorrect){
+    document.getElementById('sudokuStatus').innerHTML='<span style="color:var(--success)">✅ 스도쿠 완성!</span>';
+    var inp=document.getElementById('answerInput');if(inp)inp.value=window._sudokuAnswer;
+  }
+}
 
-  // State
-  var placed = {};
-  var pieces = document.querySelectorAll('.jigsaw-piece');
-  var slots = document.querySelectorAll('.jigsaw-slot');
-
-  // Drag events
-  pieces.forEach(function(p) {
-    p.addEventListener('dragstart', function(e) { e.dataTransfer.setData('text/plain', p.dataset.piece); });
-    // Touch drag
-    var startX, startY, clone;
-    p.addEventListener('touchstart', function(e) {
-      var t = e.touches[0];
-      startX = t.clientX; startY = t.clientY;
-      clone = p.cloneNode(true);
-      clone.style.position='fixed'; clone.style.zIndex='999'; clone.style.opacity='.8';
-      clone.style.pointerEvents='none'; clone.style.width=p.offsetWidth+'px';
-      document.body.appendChild(clone);
-      clone.style.left=(t.clientX-30)+'px'; clone.style.top=(t.clientY-20)+'px';
-    }, {passive:true});
-    p.addEventListener('touchmove', function(e) {
-      e.preventDefault();
-      if(clone){var t=e.touches[0]; clone.style.left=(t.clientX-30)+'px'; clone.style.top=(t.clientY-20)+'px';}
-    }, {passive:false});
-    p.addEventListener('touchend', function(e) {
-      if(clone){clone.remove();clone=null;}
-      var t = e.changedTouches[0];
-      var el = document.elementFromPoint(t.clientX, t.clientY);
-      if(el && el.classList.contains('jigsaw-slot')) {
-        handleDrop(el, p.dataset.piece);
-      }
-    });
-  });
-
-  slots.forEach(function(s) {
-    s.addEventListener('dragover', function(e){e.preventDefault();s.classList.add('hover');});
-    s.addEventListener('dragleave', function(){s.classList.remove('hover');});
-    s.addEventListener('drop', function(e){
-      e.preventDefault(); s.classList.remove('hover');
-      handleDrop(s, e.dataTransfer.getData('text/plain'));
-    });
-  });
-
-  function handleDrop(slot, pieceId) {
-    var si = parseInt(slot.dataset.slot);
-    var pi = parseInt(pieceId);
-    if(cfg.correctOrder[pi] === si) {
-      placed[pi] = true;
-      slot.classList.add('correct');
-      slot.innerHTML = '<span style="color:var(--success)">'+cfg.pieces[pi]+'</span>';
-      var pc = document.getElementById('jpiece'+pi);
-      if(pc) pc.classList.add('placed');
-      if(Object.keys(placed).length === cfg.pieces.length) {
-        document.getElementById('jigsawReveal').innerHTML = '<div class="jigsaw-reveal">🧩 '+cfg.revealText+'</div>';
-      }
-    } else {
-      slot.classList.add('hover');
-      setTimeout(function(){slot.classList.remove('hover');},300);
+/* ═══ Pipe Connect ═══ */
+function initPipe(cfg){
+  var area=document.getElementById('interactiveArea');
+  var sz=cfg.size;
+  var h='<div class="pipe-area"><div class="pipe-grid" style="grid-template-columns:repeat('+sz+',1fr)">';
+  for(var r=0;r<sz;r++)for(var c=0;c<sz;c++){
+    var p=null;cfg.pipes.forEach(function(pp){if(pp.r===r&&pp.c===c)p=pp;});
+    if(p){
+      var cls='pipe-cell';
+      if(cfg.start&&cfg.start.r===r&&cfg.start.c===c)cls+=' start';
+      if(cfg.end&&cfg.end.r===r&&cfg.end.c===c)cls+=' end';
+      h+='<div class="'+cls+'" data-r="'+r+'" data-c="'+c+'" onclick="pipeRotate(this)">';
+      h+=getPipeHtml(p.type,p.initial);
+      h+='</div>';
+    }else{
+      h+='<div class="pipe-cell empty"></div>';
     }
   }
+  h+='</div><div class="pipe-status" id="pipeStatus">파이프를 클릭하여 회전시키세요. 입구→출구를 연결!</div></div>';
+  area.innerHTML=h;
+  window._pipeState={pipes:cfg.pipes.map(function(p){return{r:p.r,c:p.c,type:p.type,rotation:p.initial,correct:p.correct};}),answer:cfg.answer||''};
 }
-
-// ── Dial ──
-function initDial(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var html = '<div class="dial-container">';
-  html += '<div class="dial-row">';
-  cfg.combination.forEach(function(_, i) {
-    html += '<div class="dial-digit">';
-    html += '<div class="dial-arrows"><button class="dial-arrow" onclick="dialChange('+i+',1)">▲</button></div>';
-    html += '<div class="dial-ring" id="dialRing'+i+'" onclick="dialChange('+i+',1)">0</div>';
-    html += '<div class="dial-arrows"><button class="dial-arrow" onclick="dialChange('+i+',-1)">▼</button></div>';
-    if(cfg.labels && cfg.labels[i]) html += '<div class="label">'+cfg.labels[i]+'</div>';
-    html += '</div>';
-  });
-  html += '</div>';
-  html += '<button class="dial-lock-btn" onclick="dialCheck()">🔓 자물쇠 열기</button>';
-  html += '<div class="dial-result" id="dialResult"></div>';
-  html += '</div>';
-  area.innerHTML = html;
-  window._dialValues = cfg.combination.map(function(){return 0;});
-  window._dialTarget = cfg.combination;
+function getPipeOpenings(type,rot){
+  var r=rot%4;
+  if(type==='straight')return r%2===0?{left:1,right:1}:{top:1,bottom:1};
+  if(type==='corner'){var m=[{top:1,right:1},{right:1,bottom:1},{bottom:1,left:1},{left:1,top:1}];return m[r];}
+  if(type==='tee'){var m2=[{left:1,top:1,right:1},{top:1,right:1,bottom:1},{right:1,bottom:1,left:1},{bottom:1,left:1,top:1}];return m2[r];}
+  if(type==='cross')return{top:1,right:1,bottom:1,left:1};
+  return{};
 }
-function dialChange(i, dir) {
-  window._dialValues[i] = (window._dialValues[i] + dir + 10) % 10;
-  document.getElementById('dialRing'+i).textContent = window._dialValues[i];
+function getPipeHtml(type,rot){
+  var o=getPipeOpenings(type,rot),h='<div class="pipe-center"></div>';
+  if(o.top)h+='<div class="pipe-seg pipe-seg-top"></div>';
+  if(o.right)h+='<div class="pipe-seg pipe-seg-right"></div>';
+  if(o.bottom)h+='<div class="pipe-seg pipe-seg-bottom"></div>';
+  if(o.left)h+='<div class="pipe-seg pipe-seg-left"></div>';
+  return h;
 }
-function dialCheck() {
-  var ok = true;
-  for(var i=0;i<window._dialTarget.length;i++){
-    if(window._dialValues[i] !== window._dialTarget[i]) ok=false;
-  }
-  var res = document.getElementById('dialResult');
-  if(ok) {
-    res.innerHTML = '<span style="color:var(--success)">🔓 자물쇠가 열렸다!</span>';
-    var inp = document.getElementById('answerInput');
-    if(inp) inp.value = window._dialTarget.join('');
-  } else {
-    res.innerHTML = '<span style="color:var(--danger)">딸깍... 열리지 않는다.</span>';
-    setTimeout(function(){res.innerHTML='';},1500);
+function pipeRotate(el){
+  var r=parseInt(el.dataset.r),c=parseInt(el.dataset.c),ps=window._pipeState;
+  ps.pipes.forEach(function(p){if(p.r===r&&p.c===c){p.rotation=(p.rotation+1)%4;el.innerHTML=getPipeHtml(p.type,p.rotation);}});
+  var allOk=true;
+  ps.pipes.forEach(function(p){if(p.rotation!==p.correct)allOk=false;});
+  if(allOk){
+    document.getElementById('pipeStatus').innerHTML='<span style="color:var(--success)">✅ 파이프 연결 완료!</span>';
+    document.querySelectorAll('.pipe-cell:not(.empty)').forEach(function(c2){c2.style.pointerEvents='none';});
+    var inp=document.getElementById('answerInput');if(inp)inp.value=ps.answer;
   }
 }
 
-// ── Piano ──
-function initPiano(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var notes = cfg.keys || ['C','D','E','F','G','A','B'];
-  var noteNames = {'C':'도','D':'레','E':'미','F':'파','G':'솔','A':'라','B':'시'};
-  var freqs = {'C':261.63,'D':293.66,'E':329.63,'F':349.23,'G':392,'A':440,'B':493.88};
-  var isBlack = {'C':false,'D':false,'E':false,'F':false,'G':false,'A':false,'B':false,'C#':true,'D#':true,'F#':true,'G#':true,'A#':true};
-
-  var keysHtml = '<div class="piano-keys">';
-  notes.forEach(function(n) {
-    var cls = isBlack[n] ? 'black' : 'white';
-    keysHtml += '<div class="piano-key '+cls+'" data-note="'+n+'" onclick="pianoPress(\''+n+'\')">'+(noteNames[n]||n)+'</div>';
+/* ═══ Wire Cutting ═══ */
+function initWire(cfg){
+  var area=document.getElementById('interactiveArea');
+  var h='<div class="wire-area">';
+  if(cfg.hintText)h+='<div class="wire-hint-text">'+cfg.hintText+'</div>';
+  h+='<div class="wire-container" id="wireContainer">';
+  cfg.wires.forEach(function(w,i){
+    h+='<div class="wire-line" id="wire'+i+'" data-idx="'+i+'" onclick="wireCut('+i+')">';
+    h+='<div class="wire-label" style="color:'+w.color+'">'+w.label+'</div>';
+    h+='<div class="wire-visual" style="background:'+w.color+'"></div>';
+    h+='</div>';
   });
-  keysHtml += '</div>';
-
-  var seqHtml = '<div class="piano-display">연주할 순서: <b>'+cfg.display+'</b></div>';
-  seqHtml += '<div class="piano-sequence" id="pianoSeq">';
-  cfg.sequence.forEach(function(_, i) {
-    seqHtml += '<div class="piano-seq-dot" id="pseq'+i+'">'+(i+1)+'</div>';
-  });
-  seqHtml += '</div>';
-
-  area.innerHTML = seqHtml + keysHtml;
-  window._pianoSeq = cfg.sequence;
-  window._pianoPos = 0;
-  window._pianoFailed = false;
-
-  // Setup audio
-  try { if(!_activePianoCtx) _activePianoCtx = new (window.AudioContext||window.webkitAudioContext)(); }
-  catch(e) { _activePianoCtx = null; }
-  window._pianoFreqs = freqs;
+  h+='</div><div class="wire-status" id="wireStatus">올바른 순서로 전선을 절단하세요</div></div>';
+  area.innerHTML=h;
+  window._wireState={correctOrder:cfg.correctOrder,cutIdx:0,answer:cfg.answer||''};
 }
-function pianoPress(note) {
-  // Play sound
-  if(_activePianoCtx) {
-    try {
-      var osc = _activePianoCtx.createOscillator();
-      var gain = _activePianoCtx.createGain();
-      osc.connect(gain); gain.connect(_activePianoCtx.destination);
-      osc.frequency.value = window._pianoFreqs[note] || 440;
-      osc.type = 'sine';
-      gain.gain.setValueAtTime(0.3, _activePianoCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, _activePianoCtx.currentTime + 0.5);
-      osc.start(); osc.stop(_activePianoCtx.currentTime + 0.5);
-    } catch(e){}
-  }
-  // Visual feedback
-  var keys = document.querySelectorAll('.piano-key[data-note="'+note+'"]');
-  keys.forEach(function(k){k.classList.add('pressed');setTimeout(function(){k.classList.remove('pressed');},200);});
-
-  if(window._pianoFailed) return;
-  var expected = window._pianoSeq[window._pianoPos];
-  var dot = document.getElementById('pseq'+window._pianoPos);
-  if(note === expected) {
-    dot.classList.add('hit');
-    window._pianoPos++;
-    if(window._pianoPos >= window._pianoSeq.length) {
-      // Auto-fill answer
-      var inp = document.getElementById('answerInput');
-      if(inp && window._pianoAnswer) inp.value = window._pianoAnswer;
-      keys.forEach(function(k){k.classList.add('correct-flash');});
+function wireCut(idx){
+  var s=window._wireState;if(!s)return;
+  var el=document.getElementById('wire'+idx);
+  if(el.classList.contains('cut'))return;
+  if(idx===s.correctOrder[s.cutIdx]){
+    el.classList.add('cut');s.cutIdx++;
+    if(s.cutIdx>=s.correctOrder.length){
+      document.getElementById('wireStatus').innerHTML='<span class="success" style="color:var(--success)">✅ 모든 전선 해제 완료!</span>';
+      var inp=document.getElementById('answerInput');if(inp)inp.value=s.answer;
     }
-  } else {
-    dot.classList.add('miss');
-    window._pianoFailed = true;
+  }else{
+    document.getElementById('wireStatus').innerHTML='<span class="error" style="color:var(--danger)">💥 잘못된 순서! 다시 시도...</span>';
     setTimeout(function(){
-      window._pianoPos = 0;
-      window._pianoFailed = false;
-      document.querySelectorAll('.piano-seq-dot').forEach(function(d){d.classList.remove('hit','miss');});
-    }, 800);
+      document.querySelectorAll('.wire-line').forEach(function(w){w.classList.remove('cut');});
+      s.cutIdx=0;
+      document.getElementById('wireStatus').textContent='올바른 순서로 전선을 절단하세요';
+    },1000);
   }
 }
 
-// ── Hidden Text ──
-function initHiddenText(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var html = '<div class="hidden-text-hint">💡 텍스트를 드래그(선택)하여 숨겨진 글자를 찾으세요</div>';
-  html += '<div class="hidden-text-area" id="htArea">';
-  cfg.segments.forEach(function(seg) {
-    if(seg.hidden) {
-      html += '<span class="secret" onclick="this.classList.toggle(\'revealed\')">'+seg.text+'</span>';
-    } else {
-      html += '<span>'+seg.text+'</span>';
-    }
-  });
-  html += '</div>';
-  area.innerHTML = html;
+/* ═══ Mastermind ═══ */
+function initMastermind(cfg){
+  var area=document.getElementById('interactiveArea');
+  var digits=cfg.digits||4,maxA=cfg.maxAttempts||8,maxN=cfg.maxNum||6;
+  var h='<div class="mastermind-area">';
+  h+='<div class="mastermind-info">'+digits+'자리 숫자를 맞추세요 (1~'+maxN+'). 최대 '+maxA+'회 시도.</div>';
+  h+='<div class="mastermind-info">🟢 스트라이크: 위치+숫자 맞음 | 🟡 볼: 숫자만 맞음</div>';
+  h+='<div class="mastermind-history" id="mmHistory"></div>';
+  h+='<div class="mastermind-input" id="mmInput">';
+  for(var i=0;i<digits;i++)h+='<input type="number" min="1" max="'+maxN+'" id="mmD'+i+'" onkeydown="mmKeyNav(event,'+i+','+digits+')">';
+  h+='</div>';
+  h+='<button class="mastermind-submit" id="mmBtn" onclick="mmSubmit()">제출</button>';
+  h+='<div class="mastermind-status" id="mmStatus"></div></div>';
+  area.innerHTML=h;
+  window._mmState={answer:cfg.answer,digits:digits,maxAttempts:maxA,maxNum:maxN,attempts:0,answerStr:cfg.answerStr||''};
+  document.getElementById('mmD0').focus();
 }
-
-// ── Timing ──
-function initTiming(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var zoneStart = (cfg.zoneStart || 0.35) * 100;
-  var zoneEnd = (cfg.zoneEnd || 0.55) * 100;
-  var required = cfg.required || 3;
-  var html = '<div class="timing-area">';
-  html += '<div class="timing-progress" id="timingPips">';
-  for(var i=0;i<required;i++) html += '<div class="timing-pip" id="tpip'+i+'">'+(i+1)+'</div>';
-  html += '</div>';
-  html += '<div class="timing-track"><div class="timing-zone" style="left:'+zoneStart+'%;width:'+(zoneEnd-zoneStart)+'%"></div>';
-  html += '<div class="timing-cursor" id="timingCursor"></div></div>';
-  html += '<button class="timing-btn" id="timingBtn" onclick="timingHit()">⚡ 타이밍 맞추기!</button>';
-  html += '</div>';
-  area.innerHTML = html;
-
-  window._timingState = {hits:0, required:required, zs:cfg.zoneStart||0.35, ze:cfg.zoneEnd||0.55, pos:0, dir:1, speed:cfg.speed||0.008, running:true, revealText:cfg.revealText||''};
-  var cursor = document.getElementById('timingCursor');
-  function animate() {
-    if(!window._timingState.running) return;
-    var s = window._timingState;
-    s.pos += s.dir * s.speed;
-    if(s.pos >= 1) { s.pos = 1; s.dir = -1; }
-    if(s.pos <= 0) { s.pos = 0; s.dir = 1; }
-    cursor.style.left = (s.pos * 95) + '%';
-    _activeTimingAnim = requestAnimationFrame(animate);
+function mmKeyNav(e,i,total){if(e.key>='1'&&e.key<='9'&&i<total-1)setTimeout(function(){document.getElementById('mmD'+(i+1)).focus();},50);}
+function mmSubmit(){
+  var s=window._mmState;if(!s)return;
+  var guess=[];
+  for(var i=0;i<s.digits;i++){var v=parseInt(document.getElementById('mmD'+i).value);if(!v||v<1||v>s.maxNum){document.getElementById('mmStatus').innerHTML='<span style="color:var(--danger)">1~'+s.maxNum+' 범위의 숫자를 입력하세요</span>';return;}guess.push(v);}
+  s.attempts++;
+  var strike=0,ball=0,ansUsed=[],guessUsed=[];
+  for(var i2=0;i2<s.digits;i2++){if(guess[i2]===s.answer[i2]){strike++;ansUsed[i2]=true;guessUsed[i2]=true;}}
+  for(var i3=0;i3<s.digits;i3++){if(guessUsed[i3])continue;for(var j=0;j<s.digits;j++){if(ansUsed[j])continue;if(guess[i3]===s.answer[j]){ball++;ansUsed[j]=true;break;}}}
+  var h2='<div class="mastermind-row"><div class="mastermind-guess">';
+  guess.forEach(function(g){h2+='<div class="mastermind-digit">'+g+'</div>';});
+  h2+='</div><div class="mastermind-feedback">';
+  for(var x=0;x<strike;x++)h2+='🟢';for(var y=0;y<ball;y++)h2+='🟡';
+  if(strike===0&&ball===0)h2+='✖';
+  h2+='</div></div>';
+  document.getElementById('mmHistory').innerHTML+=h2;
+  for(var i4=0;i4<s.digits;i4++)document.getElementById('mmD'+i4).value='';
+  document.getElementById('mmD0').focus();
+  if(strike===s.digits){
+    document.getElementById('mmBtn').disabled=true;
+    document.getElementById('mmStatus').innerHTML='<span style="color:var(--success)">✅ 정답! '+s.attempts+'회 만에 성공!</span>';
+    var inp=document.getElementById('answerInput');if(inp)inp.value=s.answerStr;
+  }else if(s.attempts>=s.maxAttempts){
+    document.getElementById('mmBtn').disabled=true;
+    document.getElementById('mmStatus').innerHTML='<span style="color:var(--danger)">❌ 실패... 정답: '+s.answer.join('')+'</span>';
+    setTimeout(function(){initMastermind({answer:s.answer,digits:s.digits,maxAttempts:s.maxAttempts,maxNum:s.maxNum,answerStr:s.answerStr});},2500);
+  }else{
+    document.getElementById('mmStatus').textContent='남은 시도: '+(s.maxAttempts-s.attempts)+'회';
   }
-  animate();
 }
-function timingHit() {
-  var s = window._timingState;
-  if(!s || !s.running) return;
-  var inZone = s.pos >= s.zs && s.pos <= s.ze;
-  var pip = document.getElementById('tpip'+s.hits);
-  if(inZone) {
-    if(pip) pip.classList.add('hit');
-    s.hits++;
-    if(s.hits >= s.required) {
-      s.running = false;
-      document.getElementById('timingBtn').disabled = true;
-      document.getElementById('timingBtn').textContent = '✅ 성공!';
-      if(s.revealText) {
-        var inp = document.getElementById('answerInput');
-        if(inp) inp.value = s.revealText;
+
+/* ═══ Memory Card ═══ */
+function initMemory(cfg){
+  var area=document.getElementById('interactiveArea');
+  var cards=[],pairs=cfg.pairs;
+  pairs.forEach(function(p,i){cards.push({id:i*2,pairId:i,emoji:p});cards.push({id:i*2+1,pairId:i,emoji:p});});
+  for(var j=cards.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1)),t=cards[j];cards[j]=cards[k];cards[k]=t;}
+  var cols=cards.length<=8?4:(cards.length<=12?4:5);
+  var h='<div class="memory-area"><div class="memory-info">카드를 뒤집어 같은 짝을 찾으세요</div>';
+  h+='<div class="memory-grid" style="grid-template-columns:repeat('+cols+',1fr)">';
+  cards.forEach(function(c){h+='<div class="memory-card hidden-card" data-id="'+c.id+'" data-pair="'+c.pairId+'" data-emoji="'+c.emoji+'" onclick="memFlip(this)"></div>';});
+  h+='</div><div class="memory-status" id="memStatus"></div></div>';
+  area.innerHTML=h;
+  window._memState={flipped:[],matched:0,total:pairs.length,locked:false,answer:cfg.answer||''};
+}
+function memFlip(el){
+  var s=window._memState;if(!s||s.locked)return;
+  if(el.classList.contains('revealed')||el.classList.contains('matched'))return;
+  el.classList.remove('hidden-card');el.classList.add('revealed');el.textContent=el.dataset.emoji;
+  s.flipped.push(el);
+  if(s.flipped.length===2){
+    s.locked=true;
+    var a=s.flipped[0],b=s.flipped[1];
+    if(a.dataset.pair===b.dataset.pair){
+      a.classList.add('matched');b.classList.add('matched');
+      s.matched++;s.flipped=[];s.locked=false;
+      if(s.matched>=s.total){
+        document.getElementById('memStatus').innerHTML='<span style="color:var(--success)">✅ 모든 짝을 찾았습니다!</span>';
+        var inp=document.getElementById('answerInput');if(inp)inp.value=s.answer;
       }
-    } else {
-      s.speed += 0.003; // gets faster
-    }
-  } else {
-    if(pip) pip.classList.add('miss');
-    setTimeout(function(){
-      s.hits = 0;
-      document.querySelectorAll('.timing-pip').forEach(function(p){p.classList.remove('hit','miss');});
-    }, 500);
-  }
-}
-
-// ── Connect Dots ──
-function initConnectDots(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var html = '<div class="dots-area" id="dotsArea"><svg id="dotsSvg">';
-  // Lines placeholder
-  html += '<g id="dotsLines"></g>';
-  // Dots
-  cfg.dots.forEach(function(d, i) {
-    html += '<g class="dot-point" data-order="'+d.order+'" onclick="dotClick('+d.order+')">';
-    html += '<circle cx="'+d.x+'%" cy="'+d.y+'%" r="12" fill="rgba(180,74,255,.15)" stroke="var(--accent)" stroke-width="2"/>';
-    html += '<text class="dot-label" x="'+d.x+'%" y="'+d.y+'%">'+d.order+'</text>';
-    html += '</g>';
-  });
-  html += '</svg></div><div id="dotsReveal"></div>';
-  area.innerHTML = html;
-  window._dotsState = {current:1, total:cfg.dots.length, dots:cfg.dots, revealText:cfg.revealText||''};
-}
-function dotClick(order) {
-  var s = window._dotsState;
-  if(order !== s.current) return;
-  // Highlight dot
-  var dot = document.querySelector('.dot-point[data-order="'+order+'"] circle');
-  if(dot) { dot.setAttribute('fill','rgba(0,255,136,.3)'); dot.setAttribute('stroke','var(--success)'); }
-  // Draw line from previous
-  if(s.current > 1) {
-    var prev = s.dots.find(function(d){return d.order===s.current-1;});
-    var curr = s.dots.find(function(d){return d.order===s.current;});
-    if(prev && curr) {
-      var svg = document.getElementById('dotsLines');
-      var line = document.createElementNS('http://www.w3.org/2000/svg','line');
-      line.setAttribute('x1',prev.x+'%'); line.setAttribute('y1',prev.y+'%');
-      line.setAttribute('x2',curr.x+'%'); line.setAttribute('y2',curr.y+'%');
-      line.setAttribute('class','dot-line');
-      svg.appendChild(line);
+    }else{
+      setTimeout(function(){
+        a.classList.remove('revealed');a.classList.add('hidden-card');a.textContent='';
+        b.classList.remove('revealed');b.classList.add('hidden-card');b.textContent='';
+        s.flipped=[];s.locked=false;
+      },800);
     }
   }
-  s.current++;
-  if(s.current > s.total) {
-    document.getElementById('dotsReveal').innerHTML = '<div class="dots-reveal">✨ '+s.revealText+'</div>';
-    var inp = document.getElementById('answerInput');
-    if(inp && s.answerFill) inp.value = s.answerFill;
+}
+
+/* ═══ Simon ═══ */
+function initSimon(cfg){
+  var area=document.getElementById('interactiveArea');
+  var rounds=cfg.rounds||5;
+  var colors=['red','blue','green','yellow'];
+  var labels=['빨강','파랑','초록','노랑'];
+  var h='<div class="simon-area"><div class="simon-info" id="simonInfo">패턴을 기억하고 따라하세요! ('+rounds+'라운드)</div>';
+  h+='<div class="simon-grid">';
+  colors.forEach(function(c,i){h+='<div class="simon-btn '+c+' disabled" id="simonBtn'+i+'" onclick="simonPress('+i+')"><br>'+labels[i]+'</div>';});
+  h+='</div><div class="simon-status" id="simonStatus">준비 중...</div></div>';
+  area.innerHTML=h;
+  var seq=[];
+  for(var i=0;i<rounds;i++)seq.push(Math.floor(Math.random()*4));
+  window._simonState={sequence:seq,round:1,playerPos:0,playing:false,answer:cfg.answer||''};
+  setTimeout(function(){simonPlayRound();},800);
+}
+function simonPlayTone(idx){
+  var ctx=getAudioCtx();if(!ctx)return;
+  var freqs=[261.63,329.63,392,523.25];
+  try{var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.frequency.value=freqs[idx];osc.type='sine';gain.gain.setValueAtTime(0.3,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.01,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}
+}
+function simonFlash(idx,dur){
+  var btn=document.getElementById('simonBtn'+idx);btn.classList.add('active');simonPlayTone(idx);
+  setTimeout(function(){btn.classList.remove('active');},dur||400);
+}
+function simonPlayRound(){
+  var s=window._simonState;if(!s)return;
+  s.playing=true;s.playerPos=0;
+  document.querySelectorAll('.simon-btn').forEach(function(b){b.classList.add('disabled');});
+  document.getElementById('simonInfo').textContent='라운드 '+s.round+'/'+s.sequence.length+' — 패턴을 보세요!';
+  document.getElementById('simonStatus').textContent='';
+  var i=0;
+  function playNext(){
+    if(i>=s.round){s.playing=false;document.querySelectorAll('.simon-btn').forEach(function(b){b.classList.remove('disabled');});document.getElementById('simonInfo').textContent='라운드 '+s.round+'/'+s.sequence.length+' — 따라하세요!';return;}
+    simonFlash(s.sequence[i],350);i++;
+    _activeSimonTimeout=setTimeout(playNext,550);
   }
+  _activeSimonTimeout=setTimeout(playNext,500);
 }
-
-// ── Color Code ──
-function initColorCode(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var html = '<div class="color-grid">';
-  cfg.colors.forEach(function(c) {
-    html += '<div class="color-item"><div class="color-circle" style="background:'+c.color+'"></div><div class="color-name">'+c.name+'</div></div>';
-  });
-  html += '</div>';
-  html += '<div class="color-hint">'+cfg.clueText+'</div>';
-  area.innerHTML = html;
-}
-
-// ── Mirror ──
-function initMirror(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var cls = 'mirror-text';
-  if(cfg.direction === 'horizontal') cls += ' flip-h';
-  else if(cfg.direction === 'vertical') cls += ' flip-v';
-  else if(cfg.direction === 'both') cls += ' flip-both';
-  area.innerHTML = '<div class="mirror-area"><div class="'+cls+'">'+cfg.text+'</div>' +
-    '<div class="mirror-label">🪞 거울에 비친 글자를 해독하세요</div></div>';
-}
-
-// ── Shake ──
-function initShake(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var required = cfg.required || 20;
-  var html = '<div class="shake-area">';
-  html += '<div class="shake-icon" id="shakeIcon">📱</div>';
-  html += '<div class="shake-instruction" id="shakeInst"></div>';
-  html += '<div class="shake-progress"><div class="shake-bar"><div class="shake-fill" id="shakeFill"></div></div></div>';
-  html += '<div class="shake-count" id="shakeCount">0 / '+required+'</div>';
-  html += '<div id="shakeReveal"></div>';
-  html += '</div>';
-  area.innerHTML = html;
-
-  window._shakeState = {count:0, required:required, done:false, revealText:cfg.revealText||''};
-
-  // Check mobile
-  var isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-  if(isMobile && window.DeviceMotionEvent) {
-    document.getElementById('shakeInst').textContent = '📱 기기를 흔들어 단서를 찾으세요!';
-    // Request permission for iOS
-    if(typeof DeviceMotionEvent.requestPermission === 'function') {
-      DeviceMotionEvent.requestPermission().then(function(p){
-        if(p==='granted') window.addEventListener('devicemotion', shakeHandler);
-      }).catch(function(){
-        // Fallback to button
-        addShakeButton();
-      });
-    } else {
-      window.addEventListener('devicemotion', shakeHandler);
-    }
-  } else {
-    document.getElementById('shakeInst').textContent = '⌨️ 스페이스바를 연타하세요!';
-    addShakeButton();
-    document.addEventListener('keydown', shakeKeyHandler);
-  }
-}
-function addShakeButton() {
-  var area = document.querySelector('.shake-area');
-  if(area && !document.getElementById('shakeBtn')) {
-    var btn = document.createElement('button');
-    btn.className = 'shake-spacebar';
-    btn.id = 'shakeBtn';
-    btn.textContent = '👊 두드리기!';
-    btn.onclick = doShake;
-    area.insertBefore(btn, document.getElementById('shakeReveal'));
-  }
-}
-function shakeHandler(e) {
-  var acc = e.accelerationIncludingGravity;
-  if(!acc) return;
-  var total = Math.abs(acc.x||0) + Math.abs(acc.y||0) + Math.abs(acc.z||0);
-  if(total > 30) doShake();
-}
-function shakeKeyHandler(e) {
-  if(e.code === 'Space' && window._shakeState && !window._shakeState.done) {
-    e.preventDefault();
-    doShake();
-  }
-}
-function doShake() {
-  var s = window._shakeState;
-  if(!s || s.done) return;
-  s.count++;
-  var pct = Math.min(100, s.count / s.required * 100);
-  document.getElementById('shakeFill').style.width = pct + '%';
-  document.getElementById('shakeCount').textContent = Math.min(s.count, s.required) + ' / ' + s.required;
-  document.getElementById('shakeIcon').classList.add('shaking');
-  setTimeout(function(){document.getElementById('shakeIcon').classList.remove('shaking');},100);
-  if(s.count >= s.required && !s.done) {
-    s.done = true;
-    document.getElementById('shakeReveal').innerHTML = '<div class="shake-reveal">💡 '+s.revealText+'</div>';
-    window.removeEventListener('devicemotion', shakeHandler);
-    document.removeEventListener('keydown', shakeKeyHandler);
-    var btn = document.getElementById('shakeBtn');
-    if(btn) btn.disabled = true;
-  }
-}
-
-// ── Trivia ──
-function initTrivia(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var html = '<div class="trivia-area"><div class="trivia-question">'+cfg.question+'</div><div class="trivia-options">';
-  cfg.options.forEach(function(opt, i) {
-    html += '<div class="trivia-option" onclick="triviaSelect(this)">'+opt+'</div>';
-  });
-  html += '</div></div>';
-  area.innerHTML = html;
-}
-function triviaSelect(el) {
-  document.querySelectorAll('.trivia-option').forEach(function(o){o.classList.remove('selected');});
-  el.classList.add('selected');
-  var inp = document.getElementById('answerInput');
-  if(inp) inp.value = el.textContent.trim();
-}
-
-// ── Caesar ──
-function initCaesar(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  var tableHtml = '<div class="caesar-table">';
-  for(var i=0;i<26;i++) tableHtml += '<span>'+alpha[i]+'→'+alpha[(i+26-cfg.shift)%26]+'</span>';
-  tableHtml += '</div>';
-  area.innerHTML = '<div class="caesar-area">' +
-    '<div class="caesar-cipher">'+cfg.cipherText+'</div>' +
-    '<div class="caesar-shift">🔑 힌트: 알파벳을 '+cfg.shift+'칸 뒤로 밀어라 ('+cfg.shiftHint+')</div>' +
-    tableHtml + '</div>';
-}
-
-// ── Morse ──
-var MORSE_MAP = {A:'·—',B:'—···',C:'—·—·',D:'—··',E:'·',F:'··—·',G:'——·',H:'····',I:'··',J:'·———',K:'—·—',L:'·—··',M:'——',N:'—·',O:'———',P:'·——·',Q:'——·—',R:'·—·',S:'···',T:'—',U:'··—',V:'···—',W:'·——',X:'—··—',Y:'—·——',Z:'——··','0':'—————','1':'·————','2':'··———','3':'···——','4':'····—','5':'·····','6':'—····','7':'——···','8':'———··','9':'————·'};
-function initMorse(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var refHtml = '<div class="morse-ref">';
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('').forEach(function(c){refHtml+='<span>'+c+' '+MORSE_MAP[c]+'</span>';});
-  refHtml += '</div>';
-  area.innerHTML = '<div class="morse-area">' +
-    '<div class="morse-code">'+cfg.code+'</div>' +
-    '<button class="morse-play-btn" onclick="playMorse(\''+cfg.answer+'\')">🔊 소리 재생</button>' +
-    refHtml + '</div>';
-}
-function playMorse(text) {
-  try {
-    var ctx = new (window.AudioContext||window.webkitAudioContext)();
-    var t = ctx.currentTime + 0.1;
-    var unit = 0.08;
-    text.toUpperCase().split('').forEach(function(ch) {
-      var code = MORSE_MAP[ch];
-      if(!code) { t += unit * 7; return; }
-      code.split('').forEach(function(sym) {
-        var dur = sym === '—' ? unit*3 : unit;
-        var osc = ctx.createOscillator();
-        var gain = ctx.createGain();
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.frequency.value = 700; osc.type = 'sine';
-        gain.gain.setValueAtTime(0.3, t);
-        gain.gain.setValueAtTime(0, t+dur);
-        osc.start(t); osc.stop(t+dur+0.01);
-        t += dur + unit;
-      });
-      t += unit * 2;
-    });
-  } catch(e){}
-}
-
-// ── Konami (Arrow Sequence) ──
-function initKonami(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var arrows = {up:'↑',down:'↓',left:'←',right:'→'};
-  var seqDisplay = cfg.sequence.map(function(s){return arrows[s]||s;}).join(' ');
-  var html = '<div class="konami-area">';
-  html += '<div class="konami-sequence">'+seqDisplay+'</div>';
-  html += '<div class="konami-progress" id="konamiPips">';
-  cfg.sequence.forEach(function(_,i){html+='<div class="konami-pip" id="kpip'+i+'">'+(i+1)+'</div>';});
-  html += '</div>';
-  html += '<div class="konami-buttons">';
-  html += '<div></div><button onclick="konamiPress(\'up\')">↑</button><div></div>';
-  html += '<button onclick="konamiPress(\'left\')">←</button><button onclick="konamiPress(\'down\')">↓</button><button onclick="konamiPress(\'right\')">→</button>';
-  html += '</div></div>';
-  area.innerHTML = html;
-  window._konamiState = {sequence:cfg.sequence, pos:0, failed:false, answer:cfg.answer||''};
-  document.addEventListener('keydown', konamiKeyHandler);
-}
-function konamiKeyHandler(e) {
-  var map = {ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'};
-  if(map[e.key]) { e.preventDefault(); konamiPress(map[e.key]); }
-}
-function konamiPress(dir) {
-  var s = window._konamiState;
-  if(!s || s.done) return;
-  if(s.failed) return;
-  var expected = s.sequence[s.pos];
-  var pip = document.getElementById('kpip'+s.pos);
-  if(dir === expected) {
-    if(pip) pip.classList.add('hit');
-    s.pos++;
-    if(s.pos >= s.sequence.length) {
-      s.done = true;
-      document.removeEventListener('keydown', konamiKeyHandler);
-      var inp = document.getElementById('answerInput');
-      if(inp) inp.value = s.answer;
-    }
-  } else {
-    if(pip) pip.classList.add('miss');
-    s.failed = true;
-    setTimeout(function(){
-      s.pos = 0; s.failed = false;
-      document.querySelectorAll('.konami-pip').forEach(function(p){p.classList.remove('hit','miss');});
-    }, 600);
-  }
-}
-
-// ── Acrostic ──
-function initAcrostic(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var html = '<div class="acrostic-area"><div class="acrostic-text">';
-  cfg.lines.forEach(function(line) {
-    html += '<div><span class="first-char">'+line.charAt(0)+'</span>'+line.substring(1)+'</div>';
-  });
-  html += '</div><div class="acrostic-hint">💡 각 줄의 첫 글자를 모아 읽어보세요</div></div>';
-  area.innerHTML = html;
-}
-
-// ── Logic ──
-function initLogic(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var html = '<div class="logic-area"><div class="logic-scenario">'+cfg.scenario+'</div><div class="logic-choices">';
-  cfg.choices.forEach(function(ch) {
-    html += '<div class="logic-choice" onclick="logicSelect(this)">'+ch+'</div>';
-  });
-  html += '</div></div>';
-  area.innerHTML = html;
-}
-function logicSelect(el) {
-  document.querySelectorAll('.logic-choice').forEach(function(o){o.classList.remove('selected');});
-  el.classList.add('selected');
-  var inp = document.getElementById('answerInput');
-  if(inp) inp.value = el.textContent.trim();
-}
-
-// ── Book Cipher ──
-function initBookCipher(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var lines = cfg.text.split('\n');
-  var numberedText = lines.map(function(l,i){return '<span style="color:var(--accent);font-size:.75rem">'+(i+1)+'│</span> '+l;}).join('\n');
-  area.innerHTML = '<div class="book-area">' +
-    '<div class="book-text">'+numberedText+'</div>' +
-    '<div class="book-coords">📍 좌표: '+cfg.coordsText+'</div></div>';
-}
-
-// ── Hidden Interaction ──
-function initHiddenInteraction(cfg) {
-  var area = document.getElementById('interactiveArea');
-  var html = '<div class="hidden-int-area">';
-  html += '<div class="hidden-int-instruction">'+cfg.instruction+'</div>';
-  html += '<div class="hidden-int-target" id="hidIntTarget">'+cfg.icon+'</div>';
-  html += '<div id="hidIntReveal"></div></div>';
-  area.innerHTML = html;
-  var el = document.getElementById('hidIntTarget');
-  if(cfg.type === 'longpress') {
-    var timer = null;
-    function startPress(e) {
-      e.preventDefault();
-      el.classList.add('active');
-      timer = setTimeout(function(){
-        document.getElementById('hidIntReveal').innerHTML = '<div class="hidden-int-reveal">💡 '+cfg.revealText+'</div>';
-        var inp = document.getElementById('answerInput');
-        if(inp) inp.value = cfg.answer;
-      }, cfg.duration || 3000);
-    }
-    function endPress() { el.classList.remove('active'); if(timer) clearTimeout(timer); }
-    el.addEventListener('mousedown', startPress);
-    el.addEventListener('mouseup', endPress);
-    el.addEventListener('mouseleave', endPress);
-    el.addEventListener('touchstart', startPress, {passive:false});
-    el.addEventListener('touchend', endPress);
-    el.addEventListener('touchcancel', endPress);
-  } else if(cfg.type === 'doubleclick') {
-    var clickCount = 0, clickTimer = null;
-    el.addEventListener('click', function() {
-      clickCount++;
-      if(clickCount === 1) {
-        clickTimer = setTimeout(function(){ clickCount = 0; }, 400);
-      } else if(clickCount >= 2) {
-        clearTimeout(clickTimer); clickCount = 0;
-        el.classList.add('active');
-        document.getElementById('hidIntReveal').innerHTML = '<div class="hidden-int-reveal">💡 '+cfg.revealText+'</div>';
-        var inp = document.getElementById('answerInput');
-        if(inp) inp.value = cfg.answer;
+function simonPress(idx){
+  var s=window._simonState;if(!s||s.playing)return;
+  simonFlash(idx,250);
+  if(idx===s.sequence[s.playerPos]){
+    s.playerPos++;
+    if(s.playerPos>=s.round){
+      if(s.round>=s.sequence.length){
+        document.querySelectorAll('.simon-btn').forEach(function(b){b.classList.add('disabled');});
+        document.getElementById('simonStatus').innerHTML='<span style="color:var(--success)">✅ 모든 라운드 클리어!</span>';
+        var inp=document.getElementById('answerInput');if(inp)inp.value=s.answer;
+      }else{
+        s.round++;
+        document.getElementById('simonStatus').innerHTML='<span style="color:var(--success)">✓ 성공!</span>';
+        setTimeout(function(){simonPlayRound();},800);
       }
-    });
+    }
+  }else{
+    document.getElementById('simonStatus').innerHTML='<span style="color:var(--danger)">❌ 틀렸습니다! 다시...</span>';
+    document.querySelectorAll('.simon-btn').forEach(function(b){b.classList.add('disabled');});
+    setTimeout(function(){s.round=1;simonPlayRound();},1200);
   }
 }
 
@@ -1036,44 +805,30 @@ var SERIES = [
         id:'ch1_study', title:'Ch.1 — 교수의 서재', desc:'실종 3일째. 서재에 침입해 단서를 찾는다.', time:'12분',
         intro:'김동현 교수가 사라졌다.\n3일째 연락 두절. 경찰은 "자발적 잠적"이라 했지만, 당신은 믿지 않았다.\n마스터키로 서재에 들어선 순간, 등 뒤에서 문이 잠겼다.\n희미한 스탠드 불빛 아래, 급하게 찢긴 서류와 쓰러진 커피잔.\n교수는 뭔가를 숨기다 쫓긴 것이다.',
         puzzles:[
-          { type:'interactive', interactionType:'hidden-text', title:'📋 퍼즐 1: 책상 위의 암호 메모',
-            story:'책상 위, 피 묻은 포스트잇 하나. 교수의 떨리는 필체. 좌표 암호다.',
-            config:{ segments:[
-              {text:'격자에서 좌표 (1,1)=', hidden:false},
-              {text:'서', hidden:true},
-              {text:', (1,2)=', hidden:false},
-              {text:'랍', hidden:true},
-              {text:', (2,1)=', hidden:false},
-              {text:'열', hidden:true},
-              {text:', (2,2)=', hidden:false},
-              {text:'어', hidden:true},
-              {text:', (2,3)=', hidden:false},
-              {text:'고', hidden:true},
-              {text:' — 이 다섯 글자가 메시지다. 포스트잇의 나머지 부분은 핏자국으로 번져 있다.', hidden:false}
-            ]},
-            hint:'숨겨진 글자를 드래그하여 찾으세요. 다섯 글자를 이어서 입력.',
-            validate:function(i){return i.replace(/\s/g,'') === '서랍열어고'} },
-          { type:'interactive', interactionType:'trivia', title:'📦 퍼즐 2: 서랍 속 연구 노트',
-            story:'서랍이 열렸다. 안에는 교수의 연구 노트. 잠금장치에 질문이 적혀 있다.\n"고고학자만이 열 수 있다."',
-            config:{ question:'고고학 발굴 시, 유적지의 지층을 체계적으로 파내려가기 위해 파는 좁고 긴 구덩이를 무엇이라 하는가?', options:['트렌치','보링','필드워크','서베이'] },
-            hint:'영어로 trench. 발굴 현장에서 체계적으로 파는 구덩이입니다.',
-            validate:function(i){return i.trim() === '트렌치'} },
-          { type:'interactive', interactionType:'caesar', title:'🔢 퍼즐 3: 벽 속의 금고',
-            story:'노트 뒷면: "벽을 확인하라." 책장 세 번째 칸 뒤에 숨겨진 금고.\n금고 표면에 알파벳 암호가 새겨져 있다. 옆에 메모: "3칸 뒤로."',
-            config:{ cipherText:'VWXGB', shift:3, shiftHint:'A→X, B→Y, C→Z' },
-            hint:'각 글자를 알파벳에서 3칸 뒤로: V→S, W→T, X→U, G→D, B→Y → STUDY',
-            validate:function(i){return i.toUpperCase().trim() === 'STUDY'} },
-          { type:'interactive', interactionType:'flashlight', title:'📓 퍼즐 4: 금고 속 수첩',
-            story:'금고가 열렸다. "PRIVATE" 각인된 가죽 수첩.\n갑자기 정전. 손전등을 꺼내 비춰야 한다.\n어둠 속에 흩어진 글자들을 모아 단어를 완성하라.',
+          { type:'interactive', interactionType:'trivia', title:'📋 퍼즐 1: 서랍의 잠금장치',
+            story:'책상 서랍에 보안 질문이 적혀 있다.\n"고고학자만이 열 수 있다."',
+            config:{ question:'고고학에서 나이테를 이용하여 유물의 연대를 측정하는 학문은?', options:['연륜연대학','층서학','유형학','방사성탄소측정법'] },
+            hint:'나이테(年輪) = 연륜. 나이테로 연대를 측정하는 학문 = 연륜연대학.',
+            validate:function(i){return i.trim()==='연륜연대학'} },
+          { type:'interactive', interactionType:'flashlight', title:'🔦 퍼즐 2: 정전된 서재',
+            story:'갑자기 정전. 손전등을 꺼내 어둠 속에서 흩어진 글자를 찾아야 한다.',
             config:{ items:[
-              {x:15, y:25, text:'지'},
-              {x:65, y:40, text:'도'},
-              {x:35, y:70, text:'교'},
-              {x:80, y:75, text:'수'},
+              {x:15, y:25, text:'교'},{x:65, y:40, text:'수'},{x:35, y:70, text:'지'},{x:80, y:75, text:'도'},
               {x:50, y:15, text:'→ 네 글자를 조합하라'}
             ]},
             hint:'교, 수, 지, 도 → "교수지도" (교수의 지도)',
-            validate:function(i){return i.replace(/\s/g,'') === '교수지도'} },
+            validate:function(i){return i.replace(/\s/g,'')==='교수지도'} },
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 3: 벽 속 금고',
+            story:'서재 벽면에 숨겨진 금고. 다이얼을 정밀하게 맞춰야 한다.\n게이지의 초록 구간에 맞춰 클릭하라.',
+            config:{ total:10, required:5, speed:2, targetSize:20, answer:'금고열림' },
+            hint:'초록 구간에 바늘이 있을 때 클릭! 10번 중 5번 성공하면 됩니다.',
+            validate:function(i){return i.trim()==='금고열림'} },
+          { type:'interactive', interactionType:'jigsaw', title:'📄 퍼즐 4: 찢어진 메모',
+            story:'금고 안에서 찢어진 메모 조각이 나왔다. 올바른 순서로 맞추면 단서가 드러난다.',
+            config:{ pieces:['화물선에','연구 샘플을','실었다','아리아호'], cols:2,
+              correctOrder:[1,0,2,3], revealText:'키워드: "아리아호"' },
+            hint:'조각을 맞추세요: "연구 샘플을 화물선에 실었다 아리아호"',
+            validate:function(i){return i.replace(/\s/g,'')==='아리아호'} },
           { type:'cpq', cpqIndex:0,
             story:'수첩 마지막 장에 빨간 동그라미 친 주소.\n"여기가 핵심이다." 교수가 사라지기 직전, 마지막으로 향하려던 장소.',
             storyAfter:'코드가 맞았다. 수첩 뒷표지 안쪽, 교수의 마지막 메모가 드러났다.' }
@@ -1084,32 +839,29 @@ var SERIES = [
         id:'ch2_ship', title:'Ch.2 — 화물선 아리아호', desc:'교수가 마지막으로 탑승한 유령 화물선에 잠입한다.', time:'14분',
         intro:'인천항 2번 선착장.\n녹슨 화물선 "아리아호"가 안개 속에 정박해 있다.\n선원 12명이 타고 있었다. 지금은 아무도 없다. 구명보트도, 소지품도 그대로인 채.\n당신이 갑판에 올라선 순간, 해치가 닫혔다.\n비상등만 깜빡이고, 어딘가에서 금속이 삐걱거린다.',
         puzzles:[
-          { type:'interactive', interactionType:'morse', title:'🧭 퍼즐 1: 무전기의 모스부호',
-            story:'선장실. 비상등이 깜빡인다. 무전기에서 반복되는 신호음.\n모스부호를 해독해야 한다.',
-            config:{ code:'···  ———  ···', answer:'SOS' },
-            hint:'··· = S, ——— = O, ··· = S → SOS',
-            validate:function(i){return i.toUpperCase().trim() === 'SOS'} },
-          { type:'interactive', interactionType:'acrostic', title:'📦 퍼즐 2: 기관장의 항해 일지',
-            story:'금고 안에 기관장의 항해 일지. 마지막 기록.\n"첫 글자를 읽어라" — 일지 여백에 연필로 흐리게 적혀있다.',
-            config:{ lines:[
-              '화요일 새벽, 이상한 소리가 들렸다.',
-              '물결이 갑자기 멈췄다. 바다가 죽은 듯 고요했다.',
-              '창고에서 빛이 새어나왔다. 7번 화물이었다.',
-              '고함소리와 함께 선장이 달려왔다.',
-              '— 일지는 여기서 끊겨있다.'
-            ] },
-            hint:'각 줄의 첫 글자: 화, 물, 창, 고, — → "화물창고"',
-            validate:function(i){return i.replace(/[\s—-]/g,'') === '화물창고'} },
-          { type:'interactive', interactionType:'caesar', title:'⚓ 퍼즐 3: 기관실의 암호판',
-            story:'기관실. 엔진이 멈춰있다. 배전반에 알파벳 암호가 깜빡인다.\n옆에 메모: "알파벳을 5칸 뒤로."',
-            config:{ cipherText:'HFWLT', shift:5, shiftHint:'A→V, F→A, H→C' },
-            hint:'H→C, F→A, W→R, L→G, T→O → CARGO (화물)',
-            validate:function(i){return i.toUpperCase().trim() === 'CARGO'} },
-          { type:'interactive', interactionType:'trivia', title:'📻 퍼즐 4: 선장의 비상 매뉴얼',
-            story:'기관장 박철수의 노트.\n"선장이 화물 #7을 열었다. 그 안에 있던 건... 연구 샘플이 아니었다."\n비상 매뉴얼의 잠금장치에 질문이 적혀 있다.',
-            config:{ question:'국제 해상에서 음성으로 조난 신호를 보낼 때 사용하는 단어는? (영어 또는 한글)', options:['메이데이','로저','오버','브라보'] },
+          { type:'interactive', interactionType:'dial', title:'🧭 퍼즐 1: 선장실 금고',
+            story:'선장실. 금고의 다이얼 잠금장치.\n선장 책상 위 메모: "선박 번호가 열쇠다. A-7-2-9"',
+            config:{ combination:[7,2,9], labels:['첫째','둘째','셋째'] },
+            hint:'메모에 적힌 숫자: 7, 2, 9를 다이얼에 맞추세요.',
+            validate:function(i){return i.trim()==='729'} },
+          { type:'interactive', interactionType:'trivia', title:'📻 퍼즐 2: 선장의 비상 매뉴얼',
+            story:'금고 안 비상 매뉴얼의 잠금장치에 질문이 적혀 있다.\n"바다를 아는 자만 열 수 있다."',
+            config:{ question:'국제 해상에서 음성으로 조난 신호를 보낼 때 사용하는 단어는?', options:['메이데이','로저','오버','브라보'] },
             hint:'Mayday! 프랑스어 m\'aidez(도와주세요)에서 유래한 국제 조난 신호.',
             validate:function(i){var v=i.toUpperCase().trim();return v==='메이데이'||v==='MAYDAY'} },
+          { type:'interactive', interactionType:'timing', title:'⚓ 퍼즐 3: 기관실 밸브',
+            story:'기관실. 과열 경고등이 깜빡인다.\n정확한 타이밍에 밸브를 잠가야 폭발을 막을 수 있다.',
+            config:{ zoneStart:0.4, zoneEnd:0.6, required:3, speed:0.01, revealText:'화물창고' },
+            hint:'초록 구간에 커서가 있을 때 버튼을 누르세요. 3번 연속 성공!',
+            validate:function(i){return i.replace(/\s/g,'')==='화물창고'} },
+          { type:'interactive', interactionType:'flashlight', title:'🔦 퍼즐 4: 화물 창고',
+            story:'화물 창고가 깜깜하다. 손전등으로 벽에 흩어진 글자를 찾아라.',
+            config:{ items:[
+              {x:15, y:20, text:'인'},{x:55, y:55, text:'체'},{x:80, y:30, text:'조'},{x:35, y:75, text:'직'},
+              {x:50, y:15, text:'→ 네 글자를 조합'}
+            ]},
+            hint:'인, 체, 조, 직 → "인체조직"',
+            validate:function(i){return i.replace(/\s/g,'')==='인체조직'} },
           { type:'cpq', cpqIndex:0,
             story:'기관장의 노트 마지막 페이지.\n"화물 #7의 진짜 발송지를 찾았다. 이 주소다."',
             storyAfter:'맞았다. 기관장의 마지막 기록이 해독됐다.' }
@@ -1121,38 +873,29 @@ var SERIES = [
         intro:'그랜드 파크 호텔. 로비의 샹들리에가 차갑게 빛난다.\n1408호. VIP 전용 스위트룸. 교수가 마지막으로 목격된 곳.\n카드키를 대자 문이 열렸다. 안에 들어서는 순간, 자동 잠금.\n침대는 정돈되어 있지만, 욕실에서 희미한 물소리가 들린다.\n누군가 여기 있었다. 아주 최근까지.',
         puzzles:[
           { type:'interactive', interactionType:'trivia', title:'🔑 퍼즐 1: 노트북의 보안 질문',
-            story:'책상 위 노트북이 열려있다. 잠금 화면에 보안 질문이 떠 있다.\n"이 호텔에 13층이 없는 이유. 그 공포증의 이름은?"',
-            config:{ question:'숫자 13에 대한 공포증을 무엇이라 하는가? (한글로)', options:['트리스카이데카포비아','클라우스트로포비아','아크로포비아','아고라포비아'] },
-            hint:'Triskaidekaphobia. 그리스어 treiskaideka(13) + phobos(공포).',
+            story:'책상 위 노트북. 잠금 화면에 보안 질문이 떠 있다.\n"이 호텔에 13층이 없는 이유. 그 공포증의 이름은?"',
+            config:{ question:'숫자 13에 대한 공포증을 무엇이라 하는가?', options:['트리스카이데카포비아','클라우스트로포비아','아크로포비아','아고라포비아'] },
+            hint:'Triskaidekaphobia. 그리스어에서 유래한 13 공포증.',
             validate:function(i){return i.replace(/\s/g,'').indexOf('트리스카이데카포비아')!==-1} },
-          { type:'interactive', interactionType:'logic', title:'💻 퍼즐 2: 검색 기록 분석',
-            story:'노트북이 열렸다. 교수의 검색 기록 3건.\n누군가 교수를 미행했다. CCTV 증언이 엇갈린다.',
-            config:{ scenario:'<b>프론트 직원 A</b>: "1408호 투숙객은 혼자 들어갔습니다."<br><b>청소부 B</b>: "A가 거짓말을 합니다."<br><b>경비원 C</b>: "B의 말이 맞습니다."<br><br>A, B, C 중 한 명만 거짓말쟁이다. 거짓말쟁이는 누구인가?',
+          { type:'interactive', interactionType:'logic', title:'💻 퍼즐 2: CCTV 증언 분석',
+            story:'노트북이 열렸다. CCTV 증언이 엇갈린다.',
+            config:{ scenario:'<b>프론트 직원 A</b>: "1408호 투숙객은 혼자 들어갔습니다."<br><b>청소부 B</b>: "A가 거짓말을 합니다."<br><b>경비원 C</b>: "B의 말이 맞습니다."<br><br>A, B, C 중 한 명만 거짓말쟁이다. 거짓말쟁이는?',
               choices:['A','B','C'] },
-            hint:'B와 C는 서로의 말을 지지한다. A만 다른 주장을 한다. A가 거짓말쟁이.',
-            validate:function(i){return i.toUpperCase().trim() === 'A'} },
-          { type:'interactive', interactionType:'flashlight', title:'🪞 퍼즐 3: 욕실 거울의 메시지',
-            story:'"거울 뒤에 진실이 있다."\n욕실이 깜깜하다. 손전등으로 김 서린 거울을 비춰야 한다.\n글자가 흩어져 있다.',
+            hint:'B와 C는 서로의 말을 지지한다. A만 다른 주장. A가 거짓말쟁이.',
+            validate:function(i){return i.toUpperCase().trim()==='A'} },
+          { type:'interactive', interactionType:'flashlight', title:'🪞 퍼즐 3: 욕실의 메시지',
+            story:'욕실이 깜깜하다. 손전등으로 김 서린 거울을 비춰야 한다.',
             config:{ items:[
-              {x:20, y:35, text:'비'},
-              {x:45, y:55, text:'밀'},
-              {x:65, y:25, text:'통'},
-              {x:85, y:70, text:'로'},
+              {x:20, y:35, text:'비'},{x:45, y:55, text:'밀'},{x:65, y:25, text:'통'},{x:85, y:70, text:'로'},
               {x:50, y:85, text:'→ 네 글자를 조합'}
             ]},
             hint:'비, 밀, 통, 로 → "비밀통로"',
-            validate:function(i){return i.replace(/\s/g,'') === '비밀통로'} },
-          { type:'interactive', interactionType:'acrostic', title:'📅 퍼즐 4: 교수의 편지',
-            story:'욕실 타일 밑에 금고. 호텔 비품이 아니다. 안에 교수의 편지.\n"첫 글자에 답이 있다."',
-            config:{ lines:[
-              '헤아릴 수 없는 밤을 보냈다.',
-              '드디어 진실에 가까워졌다.',
-              '보이지 않는 적이 나를 쫓고 있다.',
-              '드높은 곳에서 모든 걸 내려다보는 자.',
-              '뒤를 돌아보지 마라. 앞으로만 가라.'
-            ] },
-            hint:'각 줄의 첫 글자: 헤, 드, 보, 드, 뒤 → "헤드보드뒤"',
-            validate:function(i){return i.replace(/\s/g,'') === '헤드보드뒤'} },
+            validate:function(i){return i.replace(/\s/g,'')==='비밀통로'} },
+          { type:'interactive', interactionType:'dial', title:'🔒 퍼즐 4: 욕실 타일 밑 금고',
+            story:'욕실 타일 밑에 금고. 다이얼 잠금.\n편지에 메모: "방 번호를 거꾸로. 1-4-0-8의 역순."',
+            config:{ combination:[8,0,4,1], labels:['1번','2번','3번','4번'] },
+            hint:'1408의 역순 = 8, 0, 4, 1',
+            validate:function(i){return i.trim()==='8041'} },
           { type:'cpq', cpqIndex:0,
             story:'금고 안 봉투. 교수의 편지.\n"이 호텔은 거점이다. 진짜 목적지의 위치를 남긴다."',
             storyAfter:'편지의 마지막 줄이 드러났다.' }
@@ -1169,27 +912,37 @@ var SERIES = [
         id:'ch1_magic', title:'Ch.1 — 마술사의 비밀 방', desc:'최현우의 개인 연습실. 무대장치와 거울로 가득한 방.', time:'12분',
         intro:'마술사 최현우. "대탈출" 공연 중 사라졌다.\n일주일째 행방불명. 경찰은 "자작극"이라 결론 내렸다.\n하지만 교수의 사진이 모든 걸 바꿨다.\n극장 뒤편 비밀 방에 잠입했지만, 마술 장치가 작동하며 문이 봉쇄됐다.\n오르골이 울린다. 최현우의 목소리: "진짜 탐정이라면 이것을 풀어라."',
         puzzles:[
-          { type:'interactive', interactionType:'caesar', title:'🃏 퍼즐 1: 마술사의 카드 암호',
-            story:'벨벳 테이블 위, 카드가 펼쳐져 있다.\n카드 뒷면에 알파벳 암호. 메모: "4칸 뒤로 밀어라."',
-            config:{ cipherText:'QEKMG', shift:4, shiftHint:'A→W, E→A, I→E' },
-            hint:'Q→M, E→A, K→G, M→I, G→C → MAGIC',
-            validate:function(i){return i.toUpperCase().trim() === 'MAGIC'} },
-          { type:'interactive', interactionType:'trivia', title:'📔 퍼즐 2: 다이어리의 잠금장치',
-            story:'금고 안 다이어리. 잠금장치에 질문이 적혀 있다.\n"진짜 마술사만 열 수 있다."',
-            config:{ question:'마술에서 관객이 특정 카드를 선택하도록 유도하지만, 관객은 자유롭게 선택했다고 느끼게 하는 기법의 이름은?', options:['포스','팜','미스디렉션','더블리프트'] },
-            hint:'Force(포스). 관객에게 자유 선택처럼 보이지만 마술사가 결과를 통제하는 기법.',
-            validate:function(i){return i.trim() === '포스'} },
-          { type:'interactive', interactionType:'mirror', title:'🪞 퍼즐 3: 마법의 거울',
-            story:'"마지막 단서는 거울 속에."\n거울에 글자가 좌우 반전되어 비친다.',
-            config:{ text:'출 탈 대', direction:'horizontal' },
-            hint:'좌우 반전된 글자를 바로 읽으면: "대탈출"',
-            validate:function(i){return i.replace(/\s/g,'') === '대탈출'} },
-          { type:'interactive', interactionType:'logic', title:'🎩 퍼즐 4: 세 개의 상자',
-            story:'거울이 회전하자 세 개의 상자가 나타났다.\n최현우의 목소리: "하나에만 열쇠가 있다."',
+          { type:'interactive', interactionType:'logic', title:'🎩 퍼즐 1: 세 개의 상자',
+            story:'세 개의 상자가 나타났다. 최현우의 목소리: "하나에만 열쇠가 있다."',
             config:{ scenario:'<b>금색 상자</b>에 적힌 글: "열쇠는 이 안에 없다."<br><b>은색 상자</b>에 적힌 글: "열쇠는 금색 상자에 있다."<br><b>동색 상자</b>에 적힌 글: "열쇠는 이 안에 없다."<br><br>세 문장 중 정확히 하나만 참이다. 열쇠는 어디에?',
               choices:['금색','은색','동색'] },
-            hint:'은색이 참이면 금색에 열쇠 → 금색 문장("없다")도 거짓 → 금색에 있다 = 일관됨. 그런데 동색("없다")이 참이 되면 2개가 참. 금색이 참이면("없다") 열쇠≠금색 → 은색 거짓 → 열쇠≠금색 OK. 동색 거짓 → 열쇠=동색. 확인: 금색 참, 은색 거짓, 동색 거짓. 참 1개. 정답: 동색.',
-            validate:function(i){return i.trim() === '동색'} },
+            hint:'금색이 참이면("없다") → 열쇠≠금색 → 은색 거짓 → 열쇠≠금색 OK. 동색 거짓 → 열쇠=동색. 참 1개. 정답: 동색.',
+            validate:function(i){return i.trim()==='동색'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'⚡ 퍼즐 2: 무대 전기 배선',
+            story:'무대 조명이 죽었다. 전기 배선 파이프를 연결해야 한다.\n파이프를 클릭하여 회전시켜 입구에서 출구까지 연결하라.',
+            config:{ size:4, answer:'배선완료',
+              start:{r:0,c:0}, end:{r:3,c:3},
+              pipes:[
+                {r:0,c:0,type:'straight',initial:1,correct:0},
+                {r:0,c:1,type:'corner',initial:0,correct:2},
+                {r:1,c:1,type:'straight',initial:0,correct:1},
+                {r:2,c:1,type:'corner',initial:2,correct:0},
+                {r:2,c:2,type:'straight',initial:1,correct:0},
+                {r:2,c:3,type:'corner',initial:0,correct:2},
+                {r:3,c:3,type:'corner',initial:2,correct:0}
+              ] },
+            hint:'입구(좌상)→출구(우하). 파이프를 클릭하여 올바른 방향으로 회전!',
+            validate:function(i){return i.trim()==='배선완료'} },
+          { type:'interactive', interactionType:'memory-card', title:'🃏 퍼즐 3: 마술 카드 매칭',
+            story:'테이블 위에 뒤집힌 카드들. 같은 짝을 맞추면 숨겨진 단서가 드러난다.',
+            config:{ pairs:['🎩','🪄','🐰','🎭','🔮'], answer:'대탈출' },
+            hint:'카드를 뒤집어 같은 이모지 짝을 찾으세요. 5쌍 모두 매칭!',
+            validate:function(i){return i.replace(/\s/g,'')==='대탈출'} },
+          { type:'interactive', interactionType:'timing', title:'⏱ 퍼즐 4: 탈출 장치 타이밍',
+            story:'벽이 천천히 좁아지고 있다!\n정확한 타이밍에 레버를 당겨 탈출 장치를 작동시켜라.',
+            config:{ zoneStart:0.35, zoneEnd:0.55, required:3, speed:0.01, revealText:'비밀방' },
+            hint:'초록 구간에 커서가 올 때 클릭! 3번 연속 성공하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='비밀방'} },
           { type:'cpq', cpqIndex:0,
             story:'"대탈출은 공연이 아니었다."\n최현우가 마지막으로 향하려던 장소의 단서.',
             storyAfter:'도구함 이중바닥 아래, 봉투 하나가 나왔다.' }
@@ -1198,81 +951,85 @@ var SERIES = [
       },
       {
         id:'ch2_school', title:'Ch.2 — 야간 학교', desc:'30년 전 화재로 폐교된 세종고. 그날 밤의 진실을 파헤친다.', time:'14분',
-        intro:'세종고등학교. 30년간 방치된 폐교.\n철조망을 넘어 정문에 들어섰다. 유리창은 깨져 있고, 복도에 낙서가 가득하다.\n3학년 2반 교실. 칠판에 누군가 최근에 적어놓은 글씨.\n"여기서 시작됐다."\n문이 안에서 잠겼다. 비상등만 깜빡이는 교실. 30년 전의 메아리가 들린다.',
+        intro:'세종고등학교. 30년간 방치된 폐교.\n철조망을 넘어 정문에 들어섰다. 유리창은 깨져 있고, 복도에 낙서가 가득하다.\n3학년 2반 교실. 칠판에 누군가 최근에 적어놓은 글씨.\n"여기서 시작됐다."\n문이 안에서 잠겼다. 비상등만 깜빡이는 교실.',
         puzzles:[
-          { type:'interactive', interactionType:'acrostic', title:'📚 퍼즐 1: 사물함의 쪽지',
-            story:'김동현의 사물함. 안에 접힌 쪽지가 있다.\n"첫 글자에 비밀번호가 숨어있다."',
-            config:{ lines:[
-              '지금 이 글을 읽고 있다면, 이미 늦었을지도 모른다.',
-              '하지만 아직 희망은 있다.',
-              '실험 기록은 칠판 뒤에 숨겼다.',
-              '아무에게도 말하지 마라.'
-            ] },
-            hint:'각 줄의 첫 글자: 지, 하, 실, 아 → "지하실아" → 지하실',
-            validate:function(i){return i.replace(/\s/g,'').indexOf('지하실') !== -1} },
-          { type:'interactive', interactionType:'trivia', title:'📝 퍼즐 2: 교무실 자료함',
-            story:'교무실 자료함의 잠금장치에 질문이 적혀 있다.\n"이 학교를 졸업한 학생만 열 수 있다."',
-            config:{ question:'세종대왕이 창제한 한국 고유의 문자 체계는 무엇인가?', options:['한글','이두','향찰','구결'] },
-            hint:'세종고등학교의 세종. 세종대왕이 만든 것은 한글(훈민정음).',
-            validate:function(i){return i.trim()==='한글'||i.trim()==='훈민정음'} },
-          { type:'interactive', interactionType:'morse', title:'📐 퍼즐 3: 칠판 뒤의 신호',
-            story:'"진짜 비밀은 칠판 뒤에 있다."\n칠판을 밀자 벽에 모스부호가 적혀 있다.',
-            config:{ code:'··—·  ··  ·—·  ·', answer:'FIRE' },
-            hint:'F=··—·, I=··, R=·—·, E=· → FIRE (화재)',
-            validate:function(i){return i.toUpperCase().trim() === 'FIRE'} },
-          { type:'interactive', interactionType:'flashlight', title:'📰 퍼즐 4: 비밀 자료실',
-            story:'칠판이 움직인다. 뒤편 자료실은 깜깜하다.\n손전등으로 벽에 흩어진 글자를 찾아라.',
-            config:{ items:[
-              {x:15, y:20, text:'방'},
-              {x:55, y:55, text:'화'},
-              {x:80, y:30, text:'범'},
-              {x:35, y:75, text:'인'},
-              {x:50, y:15, text:'→ 네 글자를 조합'}
-            ]},
-            hint:'방, 화, 범, 인 → "방화범인"',
-            validate:function(i){return i.replace(/\s/g,'') === '방화범인'} },
+          { type:'interactive', interactionType:'mastermind', title:'🔢 퍼즐 1: 사물함 잠금장치',
+            story:'김동현의 사물함. 3자리 숫자 조합 잠금장치.\n스트라이크/볼 피드백으로 비밀번호를 알아내라.',
+            config:{ answer:[3,1,5], digits:3, maxAttempts:8, maxNum:6, answerStr:'사물함열림' },
+            hint:'3자리 숫자(1~6). 🟢=위치+숫자 맞음, 🟡=숫자만 맞음. 추론하세요!',
+            validate:function(i){return i.trim()==='사물함열림'} },
+          { type:'interactive', interactionType:'logic', title:'📝 퍼즐 2: 학생 증언',
+            story:'사물함에서 30년 전 학생 3명의 진술서가 나왔다.',
+            config:{ scenario:'<b>학생 甲</b>: "화재 당일, 나는 도서관에 있었다."<br><b>학생 乙</b>: "甲은 거짓말이다. 甲을 지하실에서 봤다."<br><b>학생 丙</b>: "乙의 말이 사실이다. 나도 甲을 지하실에서 봤다."<br><br>甲, 乙, 丙 중 거짓말쟁이는 누구인가?',
+              choices:['甲','乙','丙'] },
+            hint:'乙과 丙이 같은 증언을 한다. 甲만 부정. 甲이 거짓말쟁이.',
+            validate:function(i){return i.trim()==='甲'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔧 퍼즐 3: 보일러실 배관',
+            story:'지하 보일러실. 가스관이 어지럽게 꼬여있다.\n파이프를 올바르게 연결해야 지하실 문이 열린다.',
+            config:{ size:4, answer:'배관연결',
+              start:{r:0,c:0}, end:{r:3,c:3},
+              pipes:[
+                {r:0,c:0,type:'corner',initial:2,correct:1},
+                {r:1,c:0,type:'straight',initial:0,correct:1},
+                {r:2,c:0,type:'corner',initial:3,correct:0},
+                {r:2,c:1,type:'straight',initial:1,correct:0},
+                {r:2,c:2,type:'corner',initial:0,correct:1},
+                {r:3,c:2,type:'straight',initial:1,correct:0},
+                {r:3,c:3,type:'corner',initial:1,correct:3}
+              ] },
+            hint:'입구(좌상)→출구(우하). 파이프를 클릭하여 연결하세요.',
+            validate:function(i){return i.trim()==='배관연결'} },
+          { type:'interactive', interactionType:'memory-card', title:'📸 퍼즐 4: 졸업앨범 사진',
+            story:'교무실에서 찢어진 졸업앨범 사진들. 같은 사람의 사진 짝을 맞춰라.',
+            config:{ pairs:['👤','📚','🏫','🔬','🎓'], answer:'방화범인' },
+            hint:'같은 이모지 짝을 찾으세요. 5쌍 모두 매칭하면 단서가!',
+            validate:function(i){return i.replace(/\s/g,'')==='방화범인'} },
           { type:'cpq', cpqIndex:0,
-            story:'자료실 벽에 붙은 지도. 화재 원인 조사 보고서.\n"화재는 사고가 아니었다." 결정적 장소가 표시되어 있다.',
+            story:'자료실 벽에 붙은 지도. 화재 원인 조사 보고서.\n"화재는 사고가 아니었다."',
             storyAfter:'보고서의 마지막 페이지가 펼쳐졌다.' }
         ],
-        cliffhanger:'화재 조사 보고서. 기밀 스탬프가 찍혀있다.\n\n"1994년 12월 24일. 세종고 지하 보일러실에서 발화."\n"화재는 사고가 아니라 의도적 방화."\n"목적: 지하실의 증거 인멸."\n\n증거가 뭐였을까?\n\n보고서에 첨부된 생존자 명단. 세 번째 이름.\n직업란: "그란데 오페라 하우스 단원"\n\n졸업앨범에서 지워졌던 세 번째 사람.\n그가 오페라 극장에 있다.'
+        cliffhanger:'화재 조사 보고서. 기밀 스탬프가 찍혀있다.\n\n"1994년 12월 24일. 세종고 지하 보일러실에서 발화."\n"화재는 사고가 아니라 의도적 방화."\n"목적: 지하실의 증거 인멸."\n\n보고서에 첨부된 생존자 명단. 세 번째 이름.\n직업란: "그란데 오페라 하우스 단원"\n\n졸업앨범에서 지워졌던 세 번째 사람.\n그가 오페라 극장에 있다.'
       },
       {
         id:'ch3_opera', title:'Ch.3 — 오페라 극장', desc:'100년 된 극장. 무대 아래에 숨겨진 비밀.', time:'15분',
         intro:'그란데 오페라 하우스. 100년 역사의 극장.\n공연은 끝났지만 조명이 켜져 있다. 무대 위에 한 사람이 서 있다.\n당신을 기다리고 있었다는 듯이.\n"잘 왔어. 교수도, 현우도 여기까지 왔었지."\n그가 뒤돌아서는 순간, 무대가 꺼지고 기계장치가 작동한다.',
         puzzles:[
-          { type:'interactive', interactionType:'trivia', title:'🎼 퍼즐 1: 분장실의 잠금장치',
-            story:'분장실. 화장대 위 잠금장치에 질문이 적혀 있다.\n"극장의 유령을 아는 자만 열 수 있다."',
-            config:{ question:'"오페라의 유령"을 작곡한 뮤지컬 작곡가는 누구인가?', options:['앤드루 로이드 웨버','스티븐 손드하임','클로드 미셸 쇤베르크','레너드 번스타인'] },
-            hint:'The Phantom of the Opera (1986). Andrew Lloyd Webber 작곡.',
-            validate:function(i){var v=i.replace(/\s/g,'');return v.indexOf('웨버')!==-1||v.indexOf('Weber')!==-1||v.indexOf('앤드루')!==-1} },
-          { type:'interactive', interactionType:'acrostic', title:'📔 퍼즐 2: 위협 편지',
-            story:'분장대 서랍. 위협 편지 네 통.\n"첫 글자를 읽어라" — 편지 봉투에 연필로 적혀있다.',
-            config:{ lines:[
-              '무대에서 내려와라.',
-              '대가를 치르게 될 것이다.',
-              '아무도 너를 보호하지 못한다.',
-              '래일 공연이 마지막이 될 것이다.',
-              '지금이라도 늦지 않았다.'
-            ] },
-            hint:'각 줄의 첫 글자: 무, 대, 아, 래, 지 → "무대아래지" → 무대 아래',
-            validate:function(i){var v=i.replace(/\s/g,'');return v.indexOf('무대아래')!==-1} },
-          { type:'interactive', interactionType:'caesar', title:'🎻 퍼즐 3: 악기 보관소의 암호',
-            story:'지하 악기 보관소. 철문에 알파벳 암호가 새겨져 있다.\n메모: "7칸 뒤로."',
-            config:{ cipherText:'VWLYH', shift:7, shiftHint:'A→T, H→A, O→H' },
-            hint:'V→O, W→P, L→E, Y→R, H→A → OPERA',
-            validate:function(i){return i.toUpperCase().trim() === 'OPERA'} },
-          { type:'interactive', interactionType:'jigsaw', title:'🚪 퍼즐 4: 무대 기계실',
-            story:'기계실. 100년 된 장치들 사이에 찢어진 메모 조각이 흩어져 있다.\n올바른 순서로 맞추면 숨겨진 단어가 드러난다.',
-            config:{ pieces:['진실은','무대','아래','숨겨져 있다'], cols:2,
-              correctOrder:[0,1,2,3], revealText:'키워드: "지하실"' },
-            hint:'조각을 올바른 순서로 맞추세요. 핵심 단어는 "지하실".',
-            validate:function(i){return i.replace(/\s/g,'') === '지하실'} },
+          { type:'interactive', interactionType:'timing', title:'🎭 퍼즐 1: 무대 조명 타이밍',
+            story:'무대 기계장치가 폭주한다! 조명이 깜빡이는 사이에 정확히 스위치를 눌러야 한다.',
+            config:{ zoneStart:0.3, zoneEnd:0.5, required:4, speed:0.012, revealText:'기계실' },
+            hint:'초록 구간에 타이밍 맞춰 4번 연속 성공하세요. 점점 빨라집니다!',
+            validate:function(i){return i.replace(/\s/g,'')==='기계실'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔌 퍼즐 2: 음향 배선',
+            story:'기계실. 음향 장비 배선이 엉켜있다.\n배선을 올바르게 연결해야 숨겨진 녹음이 재생된다.',
+            config:{ size:4, answer:'무대아래',
+              start:{r:0,c:0}, end:{r:3,c:3},
+              pipes:[
+                {r:0,c:0,type:'straight',initial:1,correct:0},
+                {r:0,c:1,type:'corner',initial:3,correct:2},
+                {r:1,c:1,type:'corner',initial:0,correct:0},
+                {r:1,c:2,type:'straight',initial:0,correct:0},
+                {r:1,c:3,type:'corner',initial:1,correct:2},
+                {r:2,c:3,type:'straight',initial:0,correct:1},
+                {r:3,c:3,type:'corner',initial:3,correct:0}
+              ] },
+            hint:'파이프를 클릭→회전. 입구→출구 연결!',
+            validate:function(i){return i.replace(/\s/g,'')==='무대아래'} },
+          { type:'interactive', interactionType:'mastermind', title:'🎻 퍼즐 3: 악기 보관소 잠금',
+            story:'지하 악기 보관소. 3자리 숫자 조합 잠금장치.\n추론으로 비밀번호를 알아내라.',
+            config:{ answer:[2,4,6], digits:3, maxAttempts:8, maxNum:6, answerStr:'지하실' },
+            hint:'3자리 숫자(1~6). 스트라이크/볼 피드백으로 추론!',
+            validate:function(i){return i.replace(/\s/g,'')==='지하실'} },
+          { type:'interactive', interactionType:'logic', title:'🚪 퍼즐 4: 세 사람의 증언',
+            story:'지하실에서 녹음기가 발견됐다. 세 사람의 녹취록.',
+            config:{ scenario:'<b>배우 X</b>: "극장 지하에는 아무도 가지 않는다."<br><b>연출가 Y</b>: "X는 거짓말이다. 매주 누군가 지하에서 소리가 들린다."<br><b>스태프 Z</b>: "Y의 말이 맞다. 나도 소리를 들었다."<br><br>거짓말쟁이는 누구인가?',
+              choices:['X','Y','Z'] },
+            hint:'Y와 Z가 같은 증언. X만 부정 → X가 거짓말쟁이.',
+            validate:function(i){return i.toUpperCase().trim()==='X'} },
           { type:'cpq', cpqIndex:0,
             story:'무대 아래 비밀 기록보관소.\n"유령의 정체를 알아냈다. 증거가 이 장소에 있다."',
             storyAfter:'기록보관소의 마지막 서류가 드러났다.' }
         ],
-        cliffhanger:'기록보관소에서 나온 서류뭉치.\n\n세 번째 남자의 고백.\n"우리 셋은 1994년 크리스마스 이브, 학교 지하실에서 그것을 봤다."\n"인체 실험 기록. 아이들을 대상으로 한."\n"화재는 증거를 태우기 위한 것이었다."\n\n마지막 페이지.\n"최현우는 이걸 세상에 알리려다 사라졌다."\n"김동현 교수는 증거를 모으다 감금당했다."\n"나는... 마지막 트릭을 준비했다."\n\n서류 뒷면에 도장.\n"성모의료재단"\n\n폐쇄된 성모병원. 304호.\n모든 것은 거기서 시작됐다.'
+        cliffhanger:'기록보관소에서 나온 서류뭉치.\n\n세 번째 남자의 고백.\n"우리 셋은 1994년 크리스마스 이브, 학교 지하실에서 그것을 봤다."\n"인체 실험 기록. 아이들을 대상으로 한."\n"화재는 증거를 태우기 위한 것이었다."\n\n마지막 페이지.\n"최현우는 이걸 세상에 알리려다 사라졌다."\n"김동현 교수는 증거를 모으다 감금당했다."\n\n서류 뒷면에 도장.\n"성모의료재단"\n\n폐쇄된 성모병원. 304호.\n모든 것은 거기서 시작됐다.'
       }
     ]
   },
@@ -1284,36 +1041,30 @@ var SERIES = [
         id:'ch1_hospital', title:'Ch.1 — 폐병원 304호', desc:'밤마다 불이 켜지는 폐병원. 10년 전 그날 밤의 진실.', time:'14분',
         intro:'성모병원. 10년 전 의료사고로 폐쇄됐다.\n하지만 "의료사고"는 공식 발표일 뿐이다.\n304호에서 밤마다 불빛이 켜진다는 제보.\n당신이 들어선 순간, 복도 끝에서 발자국 소리.\n10년간 아무도 들어오지 않았을 이 병원에서.',
         puzzles:[
-          { type:'interactive', interactionType:'trivia', title:'💊 퍼즐 1: 간호사실의 잠금장치',
-            story:'304호 옆 간호사실. 약품 보관함의 잠금장치에 질문이 적혀 있다.\n"의료인만 열 수 있다."',
-            config:{ question:'응급 환자의 중증도에 따라 치료 우선순위를 분류하는 체계를 무엇이라 하는가?', options:['트리아지','바이탈','프로토콜','패스웨이'] },
-            hint:'Triage. 프랑스어 trier(분류하다)에서 유래. 응급실의 환자 분류 체계.',
-            validate:function(i){return i.replace(/\s/g,'').indexOf('트리아지')!==-1||i.toLowerCase().indexOf('triage')!==-1} },
-          { type:'interactive', interactionType:'morse', title:'📋 퍼즐 2: 비상 방송 시스템',
-            story:'침대 아래 금고에서 비상 방송 장치가 나왔다. 녹음된 모스부호 신호가 반복된다.',
-            config:{ code:'····  ·  ·—··  ·——·', answer:'HELP' },
-            hint:'H=····, E=·, L=·—··, P=·——· → HELP',
-            validate:function(i){return i.toUpperCase().trim() === 'HELP'} },
-          { type:'interactive', interactionType:'flashlight', title:'🔬 퍼즐 3: 실험실의 화학 공식',
-            story:'정전된 실험실. 손전등으로 벽면의 화학 공식을 찾아야 한다.\n원소 기호의 첫 글자를 모아라.',
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 1: 보안 장치 해제',
+            story:'304호 입구 보안 장치. 4개의 색깔 전선이 연결되어 있다.\n올바른 순서로 절단해야 한다.\n벽에 적힌 힌트를 참고하라.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'}],
+              correctOrder:[2,0,3,1], hintText:'💡 "초록을 먼저, 그 다음 빨강, 노랑, 마지막에 파랑"', answer:'보안해제' },
+            hint:'순서: 초록→빨강→노랑→파랑',
+            validate:function(i){return i.replace(/\s/g,'')==='보안해제'} },
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 2: 약품 보관함',
+            story:'간호사실의 약품 보관함. 4×4 숫자 퍼즐을 완성해야 잠금이 해제된다.',
+            config:{ grid:[[1,0,3,4],[3,4,0,2],[0,1,4,3],[4,3,2,0]], solution:[[1,2,3,4],[3,4,1,2],[2,1,4,3],[4,3,2,1]], answer:'약품확보' },
+            hint:'각 행, 열, 2×2 블록에 1~4가 한 번씩. 빈 칸을 채우세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='약품확보'} },
+          { type:'interactive', interactionType:'simon', title:'🏥 퍼즐 3: 의료 장비 순서',
+            story:'실험실 의료 장비의 가동 순서를 기억하고 따라해야 한다.\n장비 패널의 색깔 순서를 기억하라.',
+            config:{ rounds:6, answer:'실험기록' },
+            hint:'색깔 버튼이 빛나는 순서를 기억하고 같은 순서로 누르세요!',
+            validate:function(i){return i.replace(/\s/g,'')==='실험기록'} },
+          { type:'interactive', interactionType:'flashlight', title:'🔬 퍼즐 4: 실험실',
+            story:'정전된 실험실. 손전등으로 벽면의 단서를 찾아야 한다.',
             config:{ items:[
-              {x:10, y:20, text:'H₂O'},
-              {x:50, y:40, text:'NaCl'},
-              {x:30, y:65, text:'C₆H₁₂O₆'},
-              {x:75, y:30, text:'원소 첫글자:'},
-              {x:70, y:55, text:'H,O,Na,Cl,C'},
-              {x:45, y:85, text:'→ HONCC'},
-              {x:88, y:10, text:'Fe₂O₃(함정)'},
-              {x:15, y:90, text:'KMnO₄(함정)'}
+              {x:10, y:20, text:'인'},{x:50, y:40, text:'체'},{x:30, y:65, text:'실'},{x:75, y:30, text:'험'},
+              {x:70, y:70, text:'→ 네 글자를 조합'}
             ]},
-            hint:'원소 첫 글자: H,O,N,C,C → HONCC',
-            validate:function(i){return i.toUpperCase().replace(/\s/g,'') === 'HONCC'} },
-          { type:'interactive', interactionType:'logic', title:'🗂️ 퍼즐 4: 환자들의 진술',
-            story:'비밀 서랍에서 304호 환자 4명의 진술서가 나왔다.\n누가 진실을 말하고 있는가?',
-            config:{ scenario:'<b>환자 A</b>: "나는 실험에 참여한 적 없다."<br><b>환자 B</b>: "A는 거짓말을 하고 있다."<br><b>환자 C</b>: "우리 모두 실험 대상이었다."<br><b>환자 D</b>: "C의 말이 사실이다."<br><br>B, C, D의 진술이 일치한다. 거짓말쟁이는 누구인가?',
-              choices:['A','B','C','D'] },
-            hint:'B, C, D 세 명이 같은 방향을 가리킨다. A만 부정한다. A가 거짓말쟁이.',
-            validate:function(i){return i.toUpperCase().trim() === 'A'} },
+            hint:'인, 체, 실, 험 → "인체실험"',
+            validate:function(i){return i.replace(/\s/g,'')==='인체실험'} },
           { type:'cpq', cpqIndex:0,
             story:'"304호의 진짜 비밀. 더 큰 음모가 있다."\n김 의사가 목숨 걸고 추적한 장소.',
             storyAfter:'보고서의 마지막 장이 해독됐다.' }
@@ -1324,36 +1075,24 @@ var SERIES = [
         id:'ch2_orphanage', title:'Ch.2 — 버려진 고아원', desc:'30년 전 불탄 고아원. 밤마다 아이들의 울음소리가 들린다.', time:'16분',
         intro:'구세주 고아원. 외벽은 그을음으로 까맣다.\n새 철조망. 새 자물쇠. 누군가 관리하고 있다.\n안으로 들어서자 소독약 냄새. 30년 전 건물에서?\n2층에서 희미한 불빛. 발자국 소리.\n이곳은 버려지지 않았다.',
         puzzles:[
-          { type:'interactive', interactionType:'flashlight', title:'👶 퍼즐 1: 재원생 명단',
-            story:'사무실이 깜깜하다. 손전등으로 30년 전 재원생 명단을 찾아야 한다.\n가나다순 다섯 번째 이름의 성(姓)을 입력하라.',
-            config:{ items:[
-              {x:15, y:20, text:'강혜진'},
-              {x:40, y:35, text:'김민수'},
-              {x:65, y:50, text:'박영희'},
-              {x:25, y:65, text:'오태식'},
-              {x:80, y:25, text:'윤서연'},
-              {x:50, y:80, text:'5번째=?'}
-            ]},
-            hint:'가나다순: 강,김,박,오,윤... 다섯 번째는 윤',
-            validate:function(i){return i.trim() === '윤'} },
-          { type:'interactive', interactionType:'acrostic', title:'📖 퍼즐 2: 원장 수녀의 일기',
-            story:'원장 수녀의 책상 서랍에 일기장.\n"첫 글자를 읽어라" — 일기장 표지 안쪽에 적혀있다.',
-            config:{ lines:[
-              '입양 서류가 또 사라졌다.',
-              '양심에 걸리는 일이 벌어지고 있다.',
-              '서쪽 건물 지하에서 이상한 소리가 들린다.',
-              '류 원장이 밤마다 아이들을 데려간다.',
-              '위험하다. 이 일기를 숨겨야 한다.'
-            ] },
-            hint:'각 줄의 첫 글자: 입, 양, 서, 류, 위 → "입양서류위"→ 입양서류',
-            validate:function(i){return i.replace(/\s/g,'').indexOf('입양서류')!==-1} },
-          { type:'interactive', interactionType:'caesar', title:'🧸 퍼즐 3: 아이들의 비밀 암호',
-            story:'2층 놀이방. 칠판에 아이들이 적어둔 알파벳 암호.\n옆에 "2칸 뒤로"라고 적혀있다.',
-            config:{ cipherText:'UCHG', shift:2, shiftHint:'A→Y, C→A, U→S' },
-            hint:'U→S, C→A, H→F, G→E → SAFE',
-            validate:function(i){return i.toUpperCase().trim() === 'SAFE'} },
+          { type:'interactive', interactionType:'simon', title:'🎵 퍼즐 1: 놀이방 오르골',
+            story:'2층 놀이방. 깨진 오르골이 멜로디를 재생한다.\n멜로디의 패턴을 기억하고 따라하라.',
+            config:{ rounds:6, answer:'입양서류' },
+            hint:'색깔 버튼 순서를 기억하고 따라하세요. 6라운드!',
+            validate:function(i){return i.replace(/\s/g,'')==='입양서류'} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 2: 전기 울타리',
+            story:'지하실 입구. 전기 울타리가 설치되어 있다.\n5개의 전선을 올바른 순서로 절단해야 통과할 수 있다.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'},{color:'#9b59b6',label:'보라'}],
+              correctOrder:[4,2,0,3,1], hintText:'💡 "보라부터 시작, 초록, 빨강, 노랑 순. 파랑이 마지막"', answer:'울타리해제' },
+            hint:'순서: 보라→초록→빨강→노랑→파랑',
+            validate:function(i){return i.replace(/\s/g,'')==='울타리해제'} },
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 3: 원장실 서랍',
+            story:'원장실 서랍의 숫자 퍼즐. 완성하면 서랍이 열린다.',
+            config:{ grid:[[0,4,0,3],[1,0,4,0],[3,0,2,4],[0,2,3,1]], solution:[[2,4,1,3],[1,3,4,2],[3,1,2,4],[4,2,3,1]], answer:'비밀문서' },
+            hint:'4×4 스도쿠. 각 행/열/블록에 1~4 한 번씩.',
+            validate:function(i){return i.replace(/\s/g,'')==='비밀문서'} },
           { type:'interactive', interactionType:'trivia', title:'🚪 퍼즐 4: 지하실 입구',
-            story:'지하실 문의 잠금장치에 질문이 적혀있다.\n"이 고아원의 진실을 아는 자만 열 수 있다."',
+            story:'지하실 문의 잠금장치에 질문이 적혀있다.',
             config:{ question:'한국 전쟁 이후 고아원에서 해외로 보내진 아이들의 제도를 무엇이라 하는가?', options:['해외입양','소년원','위탁보호','그룹홈'] },
             hint:'한국 전쟁 후 수만 명의 아이들이 해외입양으로 보내졌다.',
             validate:function(i){return i.replace(/\s/g,'').indexOf('해외입양')!==-1} },
@@ -1367,79 +1106,61 @@ var SERIES = [
         id:'ch3_subway', title:'Ch.3 — 지하철 폐역', desc:'봉인된 군사 폐역. 아이들이 보내진 곳.', time:'16분',
         intro:'7호선 마지막 열차가 떠난 뒤.\n유지보수 통로를 통해 봉인된 B-7 폐역으로 진입했다.\n플랫폼은 깨끗하다. 너무 깨끗하다. 관리되고 있다.\n형광등이 깜빡이고, 어딘가에서 기계음이 들린다.\n이곳은 역이 아니다. 위장된 시설이다.',
         puzzles:[
-          { type:'interactive', interactionType:'morse', title:'🗺️ 퍼즐 1: 관제실의 통신',
-            story:'관제실 무전기에서 모스부호가 반복된다.\n해독해야 한다.',
-            config:{ code:'—··  ·  ·  ·——·', answer:'DEEP' },
-            hint:'D=—··, E=·, E=·, P=·——· → DEEP (깊은 곳)',
-            validate:function(i){return i.toUpperCase().trim() === 'DEEP'} },
-          { type:'interactive', interactionType:'acrostic', title:'📋 퍼즐 2: 실종자 보고서',
-            story:'서랍에서 실종자 보고서가 나왔다.\n보고서 각 문단의 첫 글자에 메시지가 숨겨져 있다.',
-            config:{ lines:[
-              '봉인된 구역에서 인원 이동이 확인됨.',
-              '인가되지 않은 실험이 진행 중인 것으로 추정.',
-              '구조대 파견이 필요하나 상부에서 기각됨.',
-              '역무원 3명이 추가로 행방불명.',
-              '비상 대피로는 서쪽 터널에 위치.'
-            ] },
-            hint:'각 줄의 첫 글자: 봉, 인, 구, 역, 비 → "봉인구역비" → 봉인구역',
-            validate:function(i){return i.replace(/\s/g,'').indexOf('봉인구역')!==-1} },
-          { type:'interactive', interactionType:'logic', title:'⏰ 퍼즐 3: 증언 분석',
-            story:'녹음기에 증인 3명의 증언이 담겨 있다.\n모순을 찾아 진실을 밝혀라.',
-            config:{ scenario:'<b>증인 X</b>: "폐역에 사람이 있었다. 흰 가운을 입고 있었다."<br><b>증인 Y</b>: "X는 거짓말쟁이다. 폐역은 완전히 비어있었다."<br><b>증인 Z</b>: "나도 흰 가운을 입은 사람을 봤다."<br><br>X와 Z의 증언이 일치한다. 거짓말쟁이는?',
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 1: 관제실 잠금장치',
+            story:'관제실 문의 숫자 패드. 4×4 스도쿠를 완성해야 문이 열린다.',
+            config:{ grid:[[0,2,0,0],[3,0,4,0],[0,4,0,3],[2,0,1,0]], solution:[[4,2,3,1],[3,1,4,2],[1,4,2,3],[2,3,1,4]], answer:'관제실열림' },
+            hint:'빈 칸에 1~4를 채우세요. 행/열/블록 중복 없이!',
+            validate:function(i){return i.replace(/\s/g,'')==='관제실열림'} },
+          { type:'interactive', interactionType:'simon', title:'🎵 퍼즐 2: 관제 시스템',
+            story:'관제 컴퓨터의 인증 시스템. 색깔 순서를 기억하고 따라해야 접근 가능.',
+            config:{ rounds:6, answer:'봉인구역' },
+            hint:'6라운드. 색깔 패턴을 잘 기억하세요!',
+            validate:function(i){return i.replace(/\s/g,'')==='봉인구역'} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 3: 봉인 장치 해제',
+            story:'봉인 구역 입구. 5개의 전선이 봉인을 유지하고 있다.\n올바른 순서로 절단하라.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'},{color:'#e67e22',label:'주황'}],
+              correctOrder:[3,0,4,2,1], hintText:'💡 "노랑이 첫 번째. 빨강, 주황, 초록 순. 파랑이 마지막"', answer:'봉인해제' },
+            hint:'순서: 노랑→빨강→주황→초록→파랑',
+            validate:function(i){return i.replace(/\s/g,'')==='봉인해제'} },
+          { type:'interactive', interactionType:'logic', title:'⏰ 퍼즐 4: 증언 분석',
+            story:'녹음기에 증인 3명의 증언.',
+            config:{ scenario:'<b>증인 X</b>: "폐역에 사람이 있었다. 흰 가운을 입고 있었다."<br><b>증인 Y</b>: "X는 거짓말이다. 폐역은 완전히 비어있었다."<br><b>증인 Z</b>: "나도 흰 가운을 입은 사람을 봤다."<br><br>X와 Z의 증언이 일치한다. 거짓말쟁이는?',
               choices:['X','Y','Z'] },
-            hint:'X와 Z가 같은 증언을 한다. Y만 부정한다. Y가 거짓말쟁이.',
-            validate:function(i){return i.toUpperCase().trim() === 'Y'} },
-          { type:'interactive', interactionType:'flashlight', title:'🚪 퍼즐 4: 터널 속 단서',
-            story:'봉인 구역 너머 터널이 깜깜하다.\n손전등으로 벽에 흩어진 글자를 찾아라.',
-            config:{ items:[
-              {x:10, y:25, text:'실'},
-              {x:45, y:50, text:'험'},
-              {x:75, y:30, text:'중'},
-              {x:30, y:75, text:'단'},
-              {x:85, y:70, text:'→ 네 글자를 조합'}
-            ]},
-            hint:'실, 험, 중, 단 → "실험중단"',
-            validate:function(i){return i.replace(/\s/g,'') === '실험중단'} },
+            hint:'X와 Z가 같은 증언. Y만 부정 → Y가 거짓말쟁이.',
+            validate:function(i){return i.toUpperCase().trim()==='Y'} },
           { type:'cpq', cpqIndex:0,
-            story:'시설 최심부. 실험실 문 앞.\n마지막 인증이 필요하다. 결정적 장소의 거리를 확인하라.',
+            story:'시설 최심부. 실험실 문 앞.\n마지막 인증이 필요하다.',
             storyAfter:'실험실 문이 열렸다.' }
         ],
         cliffhanger:'실험실.\n\n벽면 가득 사진과 서류. 30년간의 기록.\n아이들의 성장 사진. 같은 아이들이 어른이 되어가는 과정.\n304호 환자들이다.\n\n그리고 서류 맨 위, 재단 로고.\n"국립 고고학 박물관 산하 특수연구재단"\n\n박물관.\n김동현 교수가 소속된 바로 그 박물관.\n\n교수는 이 사실을 알고 있었다.\n아니, 교수는 이 재단의 일원이었다.\n\n벽에 붙은 조직도. 최상위에 적힌 이름.\n"재단 이사장: □□□"\n이름이 검게 칠해져 있다.\n\n하지만 아래 메모가 있다.\n"지하 전시실 B관. 모든 답이 거기 있다."'
       },
       {
-        id:'ch4_museum', title:'Ch.4 — 박물관의 지하', desc:'국립 박물관 전시관 아래 숨겨진 연구소. 10년 전 사건의 전모.', time:'15분',
+        id:'ch4_museum', title:'Ch.4 — 박물관의 지하', desc:'국립 박물관 전시관 아래 숨겨진 연구소.', time:'15분',
         intro:'국립 고고학 박물관. 폐관 후 야간.\n지하 B관 입구. 일반인 출입 금지 구역.\n카드키가 작동한다. 교수의 것이니까.\n엘리베이터가 지하 3층까지 내려간다.\n문이 열리자 서늘한 공기와 함께 기계음.\n여기는 박물관이 아니다.',
         puzzles:[
-          { type:'interactive', interactionType:'trivia', title:'🏺 퍼즐 1: 전시실의 잠금장치',
-            story:'전시 구역을 위장한 통로. 잠금장치에 질문이 적혀 있다.\n"고고학자만 열 수 있다."',
-            config:{ question:'유물의 나이를 측정하는 데 사용되는 방사성 탄소 연대 측정법에서 사용하는 동위원소는?', options:['탄소-14','탄소-12','우라늄-238','칼륨-40'] },
-            hint:'C-14 (Carbon-14). 반감기 약 5,730년으로 유기물의 연대를 측정.',
-            validate:function(i){var v=i.replace(/[\s-]/g,'');return v.indexOf('탄소14')!==-1||v.indexOf('C14')!==-1||v==='탄소14'} },
-          { type:'interactive', interactionType:'caesar', title:'📓 퍼즐 2: 경비원 순찰 기록',
-            story:'경비원 순찰 일지. 마지막 페이지에 암호가 적혀있다.\n"6칸 뒤로." 라고 옆에 메모.',
-            config:{ cipherText:'YKIXKZ', shift:6, shiftHint:'A→U, G→A, Y→S' },
-            hint:'Y→S, K→E, I→C, X→R, K→E, Z→T → SECRET',
-            validate:function(i){return i.toUpperCase().trim() === 'SECRET'} },
-          { type:'interactive', interactionType:'flashlight', title:'🏛️ 퍼즐 3: 정전된 그리스관',
-            story:'그리스관이 정전됐다. 아폴로 조각상 주변에 흩어진 글자를 손전등으로 찾아라.',
-            config:{ items:[
-              {x:20, y:30, text:'재'},
-              {x:55, y:50, text:'단'},
-              {x:35, y:75, text:'이'},
-              {x:80, y:35, text:'사'},
-              {x:60, y:80, text:'장'},
-              {x:10, y:60, text:'→ 다섯 글자'}
-            ]},
-            hint:'재, 단, 이, 사, 장 → "재단이사장"',
-            validate:function(i){return i.replace(/\s/g,'') === '재단이사장'} },
-          { type:'interactive', interactionType:'jigsaw', title:'🚪 퍼즐 4: 수장고의 메모 조각',
-            story:'수장고 문 앞에 찢어진 메모 조각이 흩어져 있다.\n올바른 순서로 맞추면 비밀번호가 드러난다.',
-            config:{ pieces:['모든 증거는','수장고','깊은 곳에','봉인되어 있다'], cols:2,
-              correctOrder:[0,1,2,3], revealText:'비밀번호: "봉인해제"' },
-            hint:'조각을 맞추세요. 핵심 단어는 "봉인해제"',
-            validate:function(i){return i.replace(/\s/g,'') === '봉인해제'} },
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 1: 전시실 금고',
+            story:'전시실을 위장한 통로의 금고. 정밀한 조작이 필요하다.\n게이지의 초록 구간에 맞춰 클릭!',
+            config:{ total:10, required:7, speed:3.5, targetSize:15, answer:'금고해제' },
+            hint:'10번 중 7번 성공 필요. 바늘이 초록 구간에 있을 때 클릭!',
+            validate:function(i){return i.trim()==='금고해제'} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 2: 전시실 보안',
+            story:'수장고 입구 보안 시스템. 5개의 전선.\n전시 설명문에 힌트가 숨겨져 있다.',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'},{color:'#9b59b6',label:'보라'}],
+              correctOrder:[1,3,0,4,2], hintText:'💡 "파란 하늘 아래 노란 들판, 붉은 석양이 보라빛으로 물들고, 초록 잎이 마지막으로 떨어진다"', answer:'보안통과' },
+            hint:'색깔 순서: 파랑→노랑→빨강→보라→초록',
+            validate:function(i){return i.replace(/\s/g,'')==='보안통과'} },
+          { type:'interactive', interactionType:'simon', title:'🏛️ 퍼즐 3: 유물 보관함',
+            story:'유물 보관함의 인증 시스템. 색깔 패턴을 기억하고 따라해야 한다.',
+            config:{ rounds:6, answer:'재단이사장' },
+            hint:'6라운드 패턴을 기억하세요!',
+            validate:function(i){return i.replace(/\s/g,'')==='재단이사장'} },
+          { type:'interactive', interactionType:'mini-sudoku', title:'🧩 퍼즐 4: 수장고 잠금장치',
+            story:'수장고 최종 잠금장치. 숫자 퍼즐을 완성하라.',
+            config:{ grid:[[0,0,4,0],[2,0,0,1],[0,2,0,0],[1,0,2,0]], solution:[[3,1,4,2],[2,4,3,1],[4,2,1,3],[1,3,2,4]], answer:'봉인해제' },
+            hint:'4×4 스도쿠. 빈 칸 8개. 신중하게!',
+            validate:function(i){return i.replace(/\s/g,'')==='봉인해제'} },
           { type:'cpq', cpqIndex:0,
-            story:'최심부 비밀 수장고.\n"모든 증거가 여기 있다." 마지막 장소의 거리를 확인하라.',
+            story:'최심부 비밀 수장고.\n"모든 증거가 여기 있다."',
             storyAfter:'수장고의 최종 문서가 드러났다.' }
         ],
         cliffhanger:'수장고 중앙. 대형 스크린.\n\n재생 버튼을 누르자 영상이 흘러나온다.\n재단 이사장의 얼굴.\n\n"304호 환자들은 사라진 게 아닙니다."\n"그들은 성공한 겁니다."\n"30년간의 실험이 드디어 결실을 맺었습니다."\n"이제 2단계를 시작합니다."\n\n영상이 끊긴다.\n\n스크린 아래 서류. 2단계 계획서.\n목표: "심해 연구소 가동"\n위치: "북태평양 해저 1000m"\n\n교수는 이걸 막으려다 감금당한 것이다.\n최현우는 이걸 알리려다 사라진 것이다.\n\n서류 마지막 줄.\n"카운트다운 시작. 시계탑에서 신호를 보내라."\n\n도시 중심의 시계탑.\n3시 33분에 멈춘 시계.\n\n카운트다운은 이미 시작됐다.'
@@ -1454,34 +1175,40 @@ var SERIES = [
         id:'ch1_clock', title:'Ch.1 — 시계탑', desc:'도시 중심의 시계탑. 갑자기 멈춘 시계와 함께 시작되는 카운트다운.', time:'14분',
         intro:'고딕 시계탑. 50년간 한 번도 멈추지 않았다.\n지금은 3시 33분에 멈춰 있다.\n종지기 박시계가 사라졌다.\n탑 꼭대기에 올라서자 계단이 무너졌다.\n기어 돌아가는 소리 사이로 빨간 LED 숫자가 깜빡인다.\n카운트다운. 72:00:00.',
         puzzles:[
-          { type:'interactive', interactionType:'caesar', title:'⏰ 퍼즐 1: 시계 기어의 암호',
-            story:'거대한 시계 기계장치. 기어 사이에 알파벳 암호가 새겨져 있다.\n옆에 "8칸 뒤로"라고 적혀있다.',
-            config:{ cipherText:'BQUM', shift:8, shiftHint:'A→S, I→A, Q→I' },
-            hint:'B→T, Q→I, U→M, M→E → TIME (시간)',
-            validate:function(i){return i.toUpperCase().trim() === 'TIME'} },
-          { type:'interactive', interactionType:'mirror', title:'📒 퍼즐 2: 종지기의 메모',
-            story:'작업 일지가 거울에 반사되어 보인다. 좌우 반전된 글자를 읽어라.',
-            config:{ text:'운 다 트 운 카', direction:'horizontal' },
-            hint:'좌우 반전: "카운트다운"',
-            validate:function(i){return i.replace(/\s/g,'') === '카운트다운'} },
-          { type:'interactive', interactionType:'trivia', title:'🔔 퍼즐 3: 종루의 잠금장치',
-            story:'종루 문의 잠금장치에 질문이 적혀있다.\n"시간의 비밀을 아는 자만 열 수 있다."',
-            config:{ question:'기계식 시계에서 에너지를 저장하고 서서히 방출하여 기어를 움직이게 하는 부품의 이름은?', options:['태엽','진자','이스케이프먼트','밸런스휠'] },
-            hint:'태엽(Mainspring). 감긴 금속 스프링이 풀리면서 시계를 구동.',
-            validate:function(i){return i.trim()==='태엽'||i.toLowerCase().trim()==='mainspring'} },
-          { type:'interactive', interactionType:'acrostic', title:'🚪 퍼즐 4: 종지기의 유서',
-            story:'기계 내부 숨겨진 방에서 종지기의 편지가 나왔다.',
-            config:{ lines:[
-              '해저에 답이 있다.',
-              '저마다의 비밀을 안고 살아왔다.',
-              '연구소를 찾아야 한다.',
-              '구원은 진실을 밝히는 데 있다.',
-              '소망은 이 카운트다운을 멈추는 것이다.'
-            ] },
-            hint:'각 줄의 첫 글자: 해, 저, 연, 구, 소 → "해저연구소"',
-            validate:function(i){return i.replace(/\s/g,'') === '해저연구소'} },
+          { type:'interactive', interactionType:'mastermind', title:'⏰ 퍼즐 1: 시계 기어 코드',
+            story:'시계 기어 장치의 잠금 코드. 4자리 숫자를 추론하라.',
+            config:{ answer:[3,7,1,5], digits:4, maxAttempts:8, maxNum:8, answerStr:'기어해제' },
+            hint:'4자리 숫자(1~8). 스트라이크/볼로 추론! 8회 이내에 맞추세요.',
+            validate:function(i){return i.trim()==='기어해제'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'⚙️ 퍼즐 2: 시계 기어 연결',
+            story:'시계 내부 기어가 빠져있다. 기어 연결관을 올바르게 배치해야 시계가 다시 작동한다.',
+            config:{ size:5, answer:'시계작동',
+              start:{r:0,c:0}, end:{r:4,c:4},
+              pipes:[
+                {r:0,c:0,type:'corner',initial:3,correct:1},
+                {r:1,c:0,type:'straight',initial:0,correct:1},
+                {r:2,c:0,type:'corner',initial:1,correct:0},
+                {r:2,c:1,type:'straight',initial:1,correct:0},
+                {r:2,c:2,type:'corner',initial:3,correct:1},
+                {r:3,c:2,type:'straight',initial:0,correct:1},
+                {r:4,c:2,type:'corner',initial:2,correct:0},
+                {r:4,c:3,type:'straight',initial:1,correct:0},
+                {r:4,c:4,type:'corner',initial:1,correct:3}
+              ] },
+            hint:'5×5 격자. 입구→출구까지 파이프를 연결!',
+            validate:function(i){return i.replace(/\s/g,'')==='시계작동'} },
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 3: 종루 잠금장치',
+            story:'종루 문의 정밀 잠금장치. 매우 높은 정밀도가 필요하다.',
+            config:{ total:10, required:8, speed:4, targetSize:12, answer:'종루열림' },
+            hint:'10번 중 8번 성공 필요! 속도가 빠르니 집중하세요.',
+            validate:function(i){return i.trim()==='종루열림'} },
+          { type:'interactive', interactionType:'simon', title:'🔔 퍼즐 4: 종소리 순서',
+            story:'종루의 4개 종이 특정 순서로 울려야 비밀 방이 열린다.\n종의 패턴을 기억하고 따라하라.',
+            config:{ rounds:7, answer:'해저연구소' },
+            hint:'7라운드! 종소리(색깔) 패턴을 정확히 기억하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='해저연구소'} },
           { type:'cpq', cpqIndex:0,
-            story:'시계 내부 숨겨진 방. 좌표가 새겨진 금속판.\n"이 좌표가 가리키는 곳." 마지막 장소의 거리를 확인하라.',
+            story:'시계 내부 숨겨진 방. 좌표가 새겨진 금속판.',
             storyAfter:'금속판 뒷면의 메시지가 해독됐다.' }
         ],
         cliffhanger:'금속판 뒷면.\n해저 좌표: N 35°12\'48" E 129°45\'36"\n\n그리고 한 줄의 메시지.\n"모든 답은 바다 아래에 있다."\n\n카운트다운이 멈췄다.\n시계가 다시 움직이기 시작한다.\n\n하지만 방향이 반대다.\n시계가 거꾸로 가고 있다.\n\n종지기의 마지막 메모.\n"이 사건을 20년간 추적해온 사람이 있다."\n"탐정 장혜린. 그녀의 사무소에 모든 연결고리가 있다."'
@@ -1490,28 +1217,29 @@ var SERIES = [
         id:'ch2_detective', title:'Ch.2 — 탐정 사무소', desc:'20년간 이 사건을 추적해온 탐정. 모든 연결고리를 정리한다.', time:'13분',
         intro:'사립탐정 장혜린. 20년 경력.\n"결정적 단서를 찾았다"는 전화를 마지막으로 3일째 연락 두절.\n사무소에 들어서자 음성이 흘러나온다.\n"여기까지 왔다면, 당신도 진실에 가까워진 거야."\n"내가 정리한 걸 봐. 모든 건 연결되어 있어."',
         puzzles:[
-          { type:'interactive', interactionType:'jigsaw', title:'🔍 퍼즐 1: 알리바이 분석',
-            story:'사건 수첩의 알리바이 조각이 찢어져 있다. 맞추면 용의자가 드러난다.',
+          { type:'interactive', interactionType:'jigsaw', title:'🔍 퍼즐 1: 사건 수첩 조각',
+            story:'장혜린의 사건 수첩이 찢어져 있다. 조각을 맞추면 용의자가 드러난다.',
             config:{ pieces:['김대표: 9시 회의 중','박차장: 9시 영화관','최부장: 9시 이동 중','이비서: 9시 사우나'], cols:2,
-              correctOrder:[0,1,2,3], revealText:'자유로이 이동 가능한 사람 = 최부장 → 답: 최' },
-            hint:'9시에 자유시간이 있어 범행이 가능한 사람 = 이동 중인 최부장',
-            validate:function(i){return i.trim() === '최'} },
-          { type:'interactive', interactionType:'trivia', title:'🕵️ 퍼즐 2: 수사 기법 질문',
-            story:'장혜린의 수사 노트에 잠금장치.\n"탐정만 열 수 있다."',
-            config:{ question:'범죄 현장에서 지문, 혈흔, 모발 등 물적 증거를 수집·분석하는 수사 분야를 무엇이라 하는가?', options:['포렌식','프로파일링','인터폴','빅데이터'] },
-            hint:'Forensic Science (포렌식). 법의학적 과학 수사.',
-            validate:function(i){return i.replace(/\s/g,'').indexOf('포렌식')!==-1||i.toLowerCase().indexOf('forensic')!==-1} },
-          { type:'interactive', interactionType:'morse', title:'💰 퍼즐 3: 녹음기의 모스부호',
-            story:'장혜린의 금고에서 녹음기가 나왔다. 모스부호가 녹음되어 있다.',
-            config:{ code:'——  ———  ·—··  ·', answer:'MOLE' },
-            hint:'M=——, O=———, L=·—··, E=· → MOLE (내부 첩자)',
-            validate:function(i){return i.toUpperCase().trim() === 'MOLE'} },
-          { type:'interactive', interactionType:'logic', title:'📋 퍼즐 4: 용의자 추론',
-            story:'수사 노트의 마지막 페이지. 용의자 3명의 진술을 분석해야 한다.',
-            config:{ scenario:'<b>용의자 甲</b>: "나는 재단과 무관하다."<br><b>용의자 乙</b>: "甲은 재단 소속이다."<br><b>용의자 丙</b>: "乙의 말이 사실이다."<br><br>甲, 乙, 丙 중 재단의 내부 첩자는 누구인가?<br><i>힌트: 乙과 丙이 같은 주장을 하고, 甲만 부정한다.</i>',
+              correctOrder:[0,1,2,3], revealText:'이동 중인 사람 = 최부장. 답: 최' },
+            hint:'9시에 자유롭게 이동 가능한 사람 = 최부장',
+            validate:function(i){return i.trim()==='최'} },
+          { type:'interactive', interactionType:'wire-cutting', title:'🔌 퍼즐 2: 녹음기 해제',
+            story:'장혜린의 금고 안 녹음기. 6개의 전선이 부비트랩으로 연결되어 있다.\n잘못 자르면 녹음이 지워진다!',
+            config:{ wires:[{color:'#e74c3c',label:'빨강'},{color:'#3498db',label:'파랑'},{color:'#2ecc71',label:'초록'},{color:'#f1c40f',label:'노랑'},{color:'#9b59b6',label:'보라'},{color:'#e67e22',label:'주황'}],
+              correctOrder:[5,2,3,0,4,1], hintText:'💡 장혜린 메모: "주황색 노을, 초록 잎, 노란 들판, 빨간 석양, 보라빛 황혼, 파란 밤"', answer:'녹음재생' },
+            hint:'순서: 주황→초록→노랑→빨강→보라→파랑',
+            validate:function(i){return i.replace(/\s/g,'')==='녹음재생'} },
+          { type:'interactive', interactionType:'memory-card', title:'📸 퍼즐 3: 용의자 사진',
+            story:'수사판에 붙은 용의자 사진들. 같은 인물의 사진 짝을 맞춰라.',
+            config:{ pairs:['👤','🕵️','👨‍⚕️','👨‍🔬','🧑‍💼','🎭'], answer:'내부첩자' },
+            hint:'6쌍의 카드를 모두 매칭하세요.',
+            validate:function(i){return i.replace(/\s/g,'')==='내부첩자'} },
+          { type:'interactive', interactionType:'logic', title:'📋 퍼즐 4: 최종 용의자',
+            story:'수사 노트의 마지막 페이지. 용의자 3명의 진술을 분석하라.',
+            config:{ scenario:'<b>용의자 甲</b>: "나는 재단과 무관하다."<br><b>용의자 乙</b>: "甲은 재단 소속이다."<br><b>용의자 丙</b>: "乙의 말이 사실이다."<br><br>甲, 乙, 丙 중 재단의 내부 첩자는?',
               choices:['甲','乙','丙'] },
             hint:'乙과 丙의 진술이 일치. 甲만 부정 → 甲이 거짓말 → 甲이 재단 소속.',
-            validate:function(i){return i.trim() === '甲'} },
+            validate:function(i){return i.trim()==='甲'} },
           { type:'cpq', cpqIndex:0,
             story:'"진범을 찾았다. 감시당하고 있다."\n장혜린이 마지막으로 향하려던 장소.',
             storyAfter:'장혜린의 마지막 녹음이 재생됐다.' }
@@ -1522,40 +1250,42 @@ var SERIES = [
         id:'ch3_abyss', title:'Ch.3 — 해저 연구소', desc:'수심 1000m. 모든 떡밥이 회수되는 최종 스테이지.', time:'20분',
         intro:'잠수정이 하강한다. 수심 100m... 500m... 1000m.\n해저 연구소 "딥 블루". 창밖으로 푸른 빛이 흐른다.\n도킹 완료. 에어록이 열린다.\n장혜린이 있다. 살아 있다.\n"드디어 왔구나. 이제 끝낼 때야."\n산소 잔량: 3시간. 시간이 없다.',
         puzzles:[
-          { type:'interactive', interactionType:'flashlight', title:'🧬 퍼즐 1: 중앙 제어실',
-            story:'중앙 제어실이 침수 직전이다. 비상등만 깜빡이는 어둠 속에서 흩어진 글자를 찾아라.',
-            config:{ items:[
-              {x:15, y:25, text:'프'},
-              {x:50, y:40, text:'로'},
-              {x:30, y:65, text:'젝'},
-              {x:75, y:55, text:'트'},
-              {x:80, y:80, text:'큐'},
-              {x:20, y:85, text:'브'},
-              {x:60, y:15, text:'→ 여섯 글자'}
-            ]},
-            hint:'프, 로, 젝, 트, 큐, 브 → "프로젝트큐브"',
-            validate:function(i){return i.replace(/\s/g,'') === '프로젝트큐브'} },
+          { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 1: 에어록 잠금장치',
+            story:'중앙 제어실 에어록. 극도로 정밀한 조작이 필요하다.\n실패하면 침수된다.',
+            config:{ total:10, required:8, speed:4.5, targetSize:10, answer:'에어록해제' },
+            hint:'10번 중 8번! 속도가 매우 빠릅니다. 집중!',
+            validate:function(i){return i.replace(/\s/g,'')==='에어록해제'} },
           { type:'interactive', interactionType:'trivia', title:'📊 퍼즐 2: 연구실 잠금장치',
             story:'관측 기록실의 잠금장치에 질문이 적혀 있다.\n"심해를 아는 자만 열 수 있다."',
             config:{ question:'해저에서 뜨거운 물이 분출되며 독특한 생태계를 형성하는 지형을 무엇이라 하는가?', options:['열수구','해구','해저산','대륙붕'] },
             hint:'열수구(Hydrothermal vent). 심해 바닥에서 뜨거운 광물수가 분출되는 곳.',
             validate:function(i){return i.replace(/\s/g,'').indexOf('열수구')!==-1} },
-          { type:'interactive', interactionType:'acrostic', title:'🔬 퍼즐 3: 수석연구원의 일지',
-            story:'실험실 책상에 수석연구원의 최종 일지.\n각 문단의 첫 글자에 메시지가 숨겨져 있다.',
-            config:{ lines:[
-              '자정이 넘었다. 산소가 줄어들고 있다.',
-              '폭발 장치를 가동했다.',
-              '장치가 작동하면 증거는 영원히 사라진다.',
-              '치명적인 실수였다. 이 실험 전체가.',
-              '— 이것이 마지막 기록이다.'
-            ] },
-            hint:'각 줄의 첫 글자: 자, 폭, 장, 치, — → "자폭장치"',
-            validate:function(i){return i.replace(/[\s—-]/g,'').indexOf('자폭장치')!==-1} },
-          { type:'interactive', interactionType:'caesar', title:'🚪 퍼즐 4: 비상 탈출 코드',
-            story:'비상 탈출 시스템의 잠금장치. 알파벳 암호가 깜빡인다.\n"10칸 뒤로." 라고 적혀있다.',
-            config:{ cipherText:'OCMKZO', shift:10, shiftHint:'A→Q, K→A, O→E' },
-            hint:'O→E, C→S, M→C, K→A, Z→P, O→E → ESCAPE',
-            validate:function(i){return i.toUpperCase().trim() === 'ESCAPE'} },
+          { type:'interactive', interactionType:'pipe-connect', title:'🔧 퍼즐 3: 산소 배관',
+            story:'산소 공급 배관이 끊어졌다! 배관을 올바르게 연결해야 산소가 공급된다.',
+            config:{ size:5, answer:'산소공급',
+              start:{r:0,c:0}, end:{r:4,c:4},
+              pipes:[
+                {r:0,c:0,type:'straight',initial:1,correct:0},
+                {r:0,c:1,type:'straight',initial:1,correct:0},
+                {r:0,c:2,type:'corner',initial:0,correct:1},
+                {r:1,c:2,type:'corner',initial:3,correct:0},
+                {r:1,c:3,type:'corner',initial:0,correct:1},
+                {r:2,c:3,type:'straight',initial:0,correct:1},
+                {r:3,c:3,type:'corner',initial:1,correct:2},
+                {r:3,c:2,type:'corner',initial:2,correct:0},
+                {r:3,c:1,type:'corner',initial:0,correct:1},
+                {r:4,c:1,type:'corner',initial:3,correct:0},
+                {r:4,c:2,type:'straight',initial:1,correct:0},
+                {r:4,c:3,type:'straight',initial:1,correct:0},
+                {r:4,c:4,type:'corner',initial:0,correct:3}
+              ] },
+            hint:'5×5 격자. 산소 입구→출구 연결! 시간이 없다!',
+            validate:function(i){return i.replace(/\s/g,'')==='산소공급'} },
+          { type:'interactive', interactionType:'mastermind', title:'💣 퍼즐 4: 자폭 코드 해제',
+            story:'자폭 장치가 가동됐다! 4자리 해제 코드를 추론하라.\n실패하면 연구소가 폭발한다.',
+            config:{ answer:[6,2,8,4], digits:4, maxAttempts:8, maxNum:8, answerStr:'자폭해제' },
+            hint:'4자리 숫자(1~8). 최대 8회. 스트라이크/볼로 빠르게 추론!',
+            validate:function(i){return i.trim()==='자폭해제'} },
           { type:'cpq', cpqIndex:0,
             story:'"이 생명체들은 지구 생명체가 아니다."\n최종 좌표. 마지막 장소의 거리를 측정하라.',
             storyAfter:'비상 탈출 시스템이 가동됐다.' }
@@ -1566,19 +1296,18 @@ var SERIES = [
   }
 ];
 
+/* ═══════════════════════════════════════
+   Game Engine
+   ═══════════════════════════════════════ */
 var state = { currentSeries:null, currentChapter:null, currentPuzzle:0, cpqCampaigns:[], startTime:null, attempts:0, hintCount:0, hintPenalty:0 };
 
 function getProgress() { try{return JSON.parse(localStorage.getItem('qube_progress')||'{}');}catch(e){return {};} }
 function saveProgressData(p) { localStorage.setItem('qube_progress', JSON.stringify(p)); }
 function isChapterCleared(sid,cid) { var p=getProgress(); return !!(p[sid]&&p[sid][cid]); }
-function isChapterUnlocked(si,ci) {
-  if(ci===0) return true;
-  var s=SERIES[si];
-  return isChapterCleared(s.id,s.chapters[ci-1].id);
-}
+function isChapterUnlocked(si,ci) { if(ci===0) return true; var s=SERIES[si]; return isChapterCleared(s.id,s.chapters[ci-1].id); }
 function isSeriesUnlocked(si){return true;}
 function isSeriesCleared(si){var s=SERIES[si];for(var i=0;i<s.chapters.length;i++)if(!isChapterCleared(s.id,s.chapters[i].id))return false;return true;}
-function getTotalCleared(){var c=0;SERIES.forEach(function(s,si){s.chapters.forEach(function(ch){if(isChapterCleared(s.id,ch.id))c++;});});return c;}
+function getTotalCleared(){var c=0;SERIES.forEach(function(s){s.chapters.forEach(function(ch){if(isChapterCleared(s.id,ch.id))c++;});});return c;}
 function getSeriesCleared(){var c=0;SERIES.forEach(function(_,si){if(isSeriesCleared(si))c++;});return c;}
 function getGrade(c){return c>=10?'🕵️ 셜록':c>=7?'🔍 명탐정':c>=4?'🧐 탐정':c>=2?'📋 수습탐정':'🔰 초보탐정';}
 function formatTime(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
@@ -1659,8 +1388,7 @@ function renderPuzzle(idx){
   state.currentPuzzle=idx;renderProgressBar();
   var puzzle=state.currentChapter.puzzles[idx];
   if(puzzle.type==='cpq') renderCpqPuzzle(idx,puzzle);
-  else if(puzzle.type==='interactive') renderInteractivePuzzle(idx,puzzle);
-  else renderGeneralPuzzle(idx,puzzle);
+  else renderInteractivePuzzle(idx,puzzle);
 }
 
 function renderInteractivePuzzle(idx,puzzle){
@@ -1673,42 +1401,21 @@ function renderInteractivePuzzle(idx,puzzle){
   html+='<div id="feedback"></div></div>';
   document.getElementById('gameContent').innerHTML=html;
 
-  // Set piano answer for auto-fill
-  if(puzzle.interactionType==='piano') window._pianoAnswer = '';
-
   switch(puzzle.interactionType){
     case 'flashlight': initFlashlight(puzzle.config); break;
     case 'jigsaw': initJigsaw(puzzle.config); break;
     case 'dial': initDial(puzzle.config); break;
-    case 'piano': initPiano(puzzle.config); break;
-    case 'hidden-text': initHiddenText(puzzle.config); break;
     case 'timing': initTiming(puzzle.config); break;
-    case 'connect-dots': initConnectDots(puzzle.config); break;
-    case 'color-code': initColorCode(puzzle.config); break;
-    case 'mirror': initMirror(puzzle.config); break;
-    case 'shake': initShake(puzzle.config); break;
     case 'trivia': initTrivia(puzzle.config); break;
-    case 'caesar': initCaesar(puzzle.config); break;
-    case 'morse': initMorse(puzzle.config); break;
-    case 'konami': initKonami(puzzle.config); break;
-    case 'acrostic': initAcrostic(puzzle.config); break;
     case 'logic': initLogic(puzzle.config); break;
-    case 'book-cipher': initBookCipher(puzzle.config); break;
-    case 'hidden-interaction': initHiddenInteraction(puzzle.config); break;
+    case 'skill-check': initSkillCheck(puzzle.config); break;
+    case 'mini-sudoku': initSudoku(puzzle.config); break;
+    case 'pipe-connect': initPipe(puzzle.config); break;
+    case 'wire-cutting': initWire(puzzle.config); break;
+    case 'mastermind': initMastermind(puzzle.config); break;
+    case 'memory-card': initMemory(puzzle.config); break;
+    case 'simon': initSimon(puzzle.config); break;
   }
-  setTimeout(function(){document.getElementById('gameContent').scrollIntoView({behavior:'smooth'});},100);
-}
-
-function renderGeneralPuzzle(idx,puzzle){
-  document.getElementById('gameContent').innerHTML=
-    '<div class="story-box"><div class="label">📖 상황</div><p>'+puzzle.story.replace(/\n/g,'<br>')+'</p></div>'+
-    '<div class="puzzle-box"><div class="puzzle-label">'+puzzle.title+'</div>'+
-    '<div class="puzzle-question">'+puzzle.question.replace(/\n/g,'<br>')+'</div>'+
-    '<div class="hint-box hidden" id="hintBox">💡 '+puzzle.hint+'</div>'+
-    '<button class="hint-btn" onclick="useHint(this)">💡 힌트 보기 (+30초)</button>'+
-    '<div class="answer-area"><input type="text" id="answerInput" placeholder="정답을 입력하세요" onkeydown="handleEnter(event,'+idx+')">'+
-    '<button class="btn-submit" onclick="checkGeneral('+idx+')">확인</button></div>'+
-    '<div id="feedback"></div></div>';
   setTimeout(function(){document.getElementById('gameContent').scrollIntoView({behavior:'smooth'});},100);
 }
 
