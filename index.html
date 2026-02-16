@@ -1305,14 +1305,11 @@ function getProgress() { try{return JSON.parse(localStorage.getItem('qube_progre
 function saveProgressData(p) { localStorage.setItem('qube_progress', JSON.stringify(p)); }
 function isChapterCleared(sid,cid) { var p=getProgress(); return !!(p[sid]&&p[sid][cid]); }
 function isChapterUnlocked(si,ci) {
-  if(si===0&&ci===0) return true;
+  if(ci===0) return true;
   var s=SERIES[si];
-  if(ci>0) return isChapterCleared(s.id,s.chapters[ci-1].id);
-  var ps=SERIES[si-1]; if(!ps) return false;
-  for(var i=0;i<ps.chapters.length;i++) if(!isChapterCleared(ps.id,ps.chapters[i].id)) return false;
-  return true;
+  return isChapterCleared(s.id,s.chapters[ci-1].id);
 }
-function isSeriesUnlocked(si){return isChapterUnlocked(si,0);}
+function isSeriesUnlocked(si){return true;}
 function isSeriesCleared(si){var s=SERIES[si];for(var i=0;i<s.chapters.length;i++)if(!isChapterCleared(s.id,s.chapters[i].id))return false;return true;}
 function getTotalCleared(){var c=0;SERIES.forEach(function(s,si){s.chapters.forEach(function(ch){if(isChapterCleared(s.id,ch.id))c++;});});return c;}
 function getSeriesCleared(){var c=0;SERIES.forEach(function(_,si){if(isSeriesCleared(si))c++;});return c;}
