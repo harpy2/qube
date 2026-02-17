@@ -546,13 +546,12 @@ function skillCheckHit(){
   s.tries++;
   var a=s.angle,ts=s.tgtStart%360,te=s.tgtEnd%360;
   var inZone=te>ts?(a>=ts&&a<=te):(a>=ts||a<=te);
-  if(inZone)s.hits++;
+  if(inZone){s.hits++;s.speed+=0.15;}
   document.getElementById('scHits').textContent=s.hits;
   document.getElementById('scTries').textContent=s.tries;
   if(s.hits>=s.required){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--success)">✅ 성공!</span>';setTimeout(function(){showFeedback(true,state.currentPuzzle);},800);}
   else if(s.tries>=s.total){s.running=false;document.getElementById('scBtn').disabled=true;document.getElementById('scStatus').innerHTML='<span style="color:var(--danger)">❌ 실패...<br><button class="btn-submit" style="margin-top:12px" onclick="initSkillCheck({total:'+s.total+',required:'+s.required+',speed:'+s.baseSpeed+',targetSize:'+s.baseTgtSize+',answer:\''+s.answer+'\'})">🔄 재시도</button></span>';}
   else{
-    s.speed+=0.15;
     var arcDeg=s.baseTgtSize/100*360;
     var newStart=Math.floor(Math.random()*360);s.tgtStart=newStart;s.tgtEnd=newStart+arcDeg;
     var gauge=document.getElementById('scGauge');if(gauge){var svg=gauge.querySelector('svg');var oldPath=svg.querySelectorAll('path');oldPath.forEach(function(p){p.remove();});var np=document.createElementNS('http://www.w3.org/2000/svg','path');np.setAttribute('d',describeArc(100,100,85,newStart,newStart+arcDeg));np.setAttribute('fill','none');np.setAttribute('stroke','rgba(0,255,136,.4)');np.setAttribute('stroke-width','14');np.setAttribute('stroke-linecap','round');svg.insertBefore(np,svg.querySelector('line'));}
