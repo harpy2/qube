@@ -544,7 +544,7 @@ function describeArc(cx,cy,r,startAngle,endAngle){
 function skillCheckHit(){
   var s=window._scState;if(!s||!s.running)return;
   s.tries++;
-  var a=s.angle,ts=s.tgtStart%360,te=s.tgtEnd%360;
+  var a=s.angle,margin=5,ts=(s.tgtStart-margin+360)%360,te=(s.tgtEnd+margin)%360;
   var inZone=te>ts?(a>=ts&&a<=te):(a>=ts||a<=te);
   if(inZone){s.hits++;s.speed+=0.15;}
   document.getElementById('scHits').textContent=s.hits;
@@ -1250,7 +1250,7 @@ var SERIES = [
             validate:function(i){return i.replace(/\s/g,'')==='시계작동'} },
           { type:'interactive', interactionType:'skill-check', title:'🔐 퍼즐 3: 종루 잠금장치',
             story:'종루 문의 정밀 잠금장치. 매우 높은 정밀도가 필요하다.',
-            config:{ total:10, required:8, speed:4, targetSize:12, answer:'종루열림' },
+            config:{ total:10, required:7, speed:3.5, targetSize:15, answer:'종루열림' },
             hint:'10번 중 8번 성공 필요! 속도가 빠르니 집중하세요.',
             validate:function(i){return i.trim()==='종루열림'} },
           { type:'interactive', interactionType:'simon', title:'🔔 퍼즐 4: 종소리 순서',
