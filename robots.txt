@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://qube.salmonholic.com/sitemap.xml
